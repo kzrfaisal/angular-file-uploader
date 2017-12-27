@@ -1,0 +1,40 @@
+{
+	"name": "angular-file-uploader",
+	"version": "1.0.16",
+	"description": "Angular 2+ file uploader with real time progress bar and angular universal compatibility",
+	"main": "bundles/npm-module-file-upload.umd.min.js",
+	"module": "index.js",
+	"typings": "index.d.ts",
+	"keywords": [
+		"angular 2",
+		"file",
+		"upload",
+		"uploader",
+		"angular",
+		"2",
+		"4",
+		"5",
+		"image",
+		"universal",
+		"img",
+		"formdata"
+	],
+	"author": {
+		"name": "Mohd Faisal Ansari",
+		"email": "kzrfaisal@gmail.com"
+	},
+	"license": "",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/kzrfaisal/angular-file-uploader"
+	},
+	"homepage": "",
+	"bugs": {
+		"url": "https://github.com/kzrfaisal/angular-file-uploader/issues"
+	},
+	"peerDependencies": {
+		"@angular/core": "^2.4.0",
+		"reflect-metadata": "^0.1.8",
+		"zone.js": "^0.7.2"
+	}
+}

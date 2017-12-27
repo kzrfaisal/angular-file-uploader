@@ -1,0 +1,33 @@
+import { OnInit, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+export declare class FileUploadComponent implements OnInit, OnChanges {
+    multiple: boolean;
+    formatsAllowed: string;
+    uploadAPI: string;
+    maxSize: number;
+    ApiResponse: EventEmitter<{}>;
+    resetUpload: boolean;
+    theme: string;
+    idDate: number;
+    id: number;
+    reg: RegExp;
+    selectedFiles: Array<any>;
+    notAllowedList: Array<Object>;
+    Caption: Array<string>;
+    singleFile: boolean;
+    progressBarShow: boolean;
+    uploadBtn: boolean;
+    uploadMsg: boolean;
+    afterUpload: boolean;
+    uploadClick: boolean;
+    uploadMsgText: string;
+    uploadMsgClass: string;
+    percentComplete: number;
+    constructor();
+    ngOnChanges(rst: SimpleChanges): void;
+    ngOnInit(): void;
+    onChange(event: any): void;
+    uploadFiles(): void;
+    removeFile(i: any, sf_na: any): void;
+    convertSize(fileSize: number): string;
+    attachpinOnclick(): void;
+}
