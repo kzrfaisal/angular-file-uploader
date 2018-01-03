@@ -7,6 +7,7 @@ export declare class FileUploadComponent implements OnInit, OnChanges {
     ApiResponse: EventEmitter<{}>;
     resetUpload: boolean;
     theme: string;
+    hideProgressBar: boolean;
     idDate: number;
     id: number;
     reg: RegExp;

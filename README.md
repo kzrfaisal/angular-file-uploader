@@ -38,18 +38,20 @@ npm install angular-file-uploader
     [maxSize]="5" 
     [uploadAPI]="'https://example-file-upload-api'"
     [resetUpload]=resetUpload
-    (ApiResponse)="DocUpload($event)">
+    (ApiResponse)="DocUpload($event)"
+    [hideProgressBar]="false">
 </angular-file-uploader>
 ```  
 
 | **Properties**             | **Description**                                                                                                                                                                       | **Default Value**                          |
 |----------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------|
-| multiple : boolean         | true- multiple file upload. false- single file upload                                                                                                                                 | false                                  |
-| formatsAllowed : string    | specify the formats of file you want to upload.                                                                                                                                       | '.jpg,.png,.pdf,.docx, .txt,.gif,.jpeg' |
-| uploadAPI : string         | complete api url to which you want to upload.                                                                                                                                         | undefined                              |
-| maxSize : number           | maximum size limit for files in MB.                                                                                                                                                   | 20                                     |
-| ApiResponse : EventEmitter | assign one custom function ,for example " DocUpload($event) " here where " $event " will contain the response from the api.                                                           |                                        |
-| resetUpload : boolean      | give it's value as " true " whenever you want to clear the list of  uploads being displayed. It's better to assign one boolean variable (resetUpload here)to it and then  change that variable's value. | false                                  |
+| multiple : boolean         | Set it as " true " for uploading multiple files at a time and as " false " for single file at a time.                                                                                                                                 | false                                  |
+| formatsAllowed : string    | Specify the formats of file you want to upload.                                                                                                                                       | '.jpg,.png,.pdf,.docx, .txt,.gif,.jpeg' |
+| uploadAPI : string         | Complete api url to which you want to upload.                                                                                                                                         | undefined                              |
+| maxSize : number           | Maximum size limit for files in MB.                                                                                                                                                   | 20                                     |
+| ApiResponse:EventEmitter | Assign one custom function ,for example " DocUpload($event) " here where " $event " will contain the response from the api.                                                           |                                        |
+| resetUpload : boolean      | Give it's value as " true " whenever you want to clear the list of  uploads being displayed. It's better to assign one boolean variable (resetUpload here)to it and then  change that variable's value. | false                                  |
+| hideProgressBar : boolean | Set it as " true " to hide the Progress bar. | false |
 
 #####Points to note:
 - Set resetUpload as true to reset the module instantly.
