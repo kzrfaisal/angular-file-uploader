@@ -4,12 +4,12 @@ export declare class FileUploadComponent implements OnInit, OnChanges {
     formatsAllowed: string;
     uploadAPI: string;
     maxSize: number;
+    idDate: number;
+    id: number;
     ApiResponse: EventEmitter<{}>;
     resetUpload: boolean;
     theme: string;
     hideProgressBar: boolean;
-    idDate: number;
-    id: number;
     reg: RegExp;
     selectedFiles: Array<any>;
     notAllowedList: Array<Object>;
@@ -25,6 +25,7 @@ export declare class FileUploadComponent implements OnInit, OnChanges {
     percentComplete: number;
     constructor();
     ngOnChanges(rst: SimpleChanges): void;
+    resetFileUpload(): void;
     ngOnInit(): void;
     onChange(event: any): void;
     uploadFiles(): void;

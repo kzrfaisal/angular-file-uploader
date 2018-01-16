@@ -25,23 +25,23 @@ npm install angular-file-uploader
   })
   ```
 #####Example-1
-```html
-<angular-file-uploader
-    [uploadAPI]="'https://example-file-upload-api'">
-</angular-file-uploader>
-```  
+  ```html
+  <angular-file-uploader
+      [uploadAPI]="'https://example-file-upload-api'">
+  </angular-file-uploader>
+  ```  
 #####Example-2
-```html
-<angular-file-uploader
-    [multiple]="true" 
-    [formatsAllowed]="'.jpg,.png'" 
-    [maxSize]="5" 
-    [uploadAPI]="'https://example-file-upload-api'"
-    [resetUpload]=resetUpload
-    (ApiResponse)="DocUpload($event)"
-    [hideProgressBar]="false">
-</angular-file-uploader>
-```  
+  ```html
+  <angular-file-uploader 
+      [multiple]="true" 
+      [formatsAllowed]="'.jpg,.png'" 
+      [maxSize]="5" 
+      [uploadAPI]="'https://example-file-upload-api'"
+      [resetUpload]=resetUpload
+      (ApiResponse)="DocUpload($event)"
+      [hideProgressBar]="false">
+  </angular-file-uploader>
+  ```  
 
 | **Properties**             | **Description**                                                                                                                                                                       | **Default Value**                          |
 |----------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------|
@@ -49,14 +49,42 @@ npm install angular-file-uploader
 | formatsAllowed : string    | Specify the formats of file you want to upload.                                                                                                                                       | '.jpg,.png,.pdf,.docx, .txt,.gif,.jpeg' |
 | uploadAPI : string         | Complete api url to which you want to upload.                                                                                                                                         | undefined                              |
 | maxSize : number           | Maximum size limit for files in MB.                                                                                                                                                   | 20                                     |
-| ApiResponse:EventEmitter | Assign one custom function ,for example " DocUpload($event) " here where " $event " will contain the response from the api.                                                           |                                        |
-| resetUpload : boolean      | Give it's value as " true " whenever you want to clear the list of  uploads being displayed. It's better to assign one boolean variable (resetUpload here)to it and then  change that variable's value. | false                                  |
-| hideProgressBar : boolean | Set it as " true " to hide the Progress bar. | false |
+| ApiResponse:EventEmitter   | It will return the response it gets back from the uploadAPI. Assign one custom function ,for example " DocUpload($event) " here, where " $event " will contain the response from the api.                                                           |                                        |
+| resetUpload : boolean      | Give it's value as " true " whenever you want to clear the list of  uploads being displayed. It's better to assign one boolean variable (resetUpload here)to it and then  change that variable's value. Remember to change resetUpload value 'true' to 'false' after every reset. | false                                  |
+| hideProgressBar : boolean  | Set it as " true " to hide the Progress bar. | false |
+
+You have seen that by using 'resetUpload' property, you can reset the module easily, however if you need to reset more than one time, there's a better way of doing that( bcoz in 'resetUpload' property, you have to make it as false in order to use it again):-
+
+#####Example-3
+  ```html
+  <angular-file-uploader #fileUpload1
+      [multiple]="true" 
+      [formatsAllowed]="'.jpg,.png'" 
+      [maxSize]="5" 
+      [uploadAPI]="'https://example-file-upload-api'"
+      [resetUpload]=resetUpload
+      (ApiResponse)="DocUpload($event)"
+      [hideProgressBar]="false">
+  </angular-file-uploader>
+  ```
+  - Assign one local reference variable (here 'fileUpload1') to the component.
+  - Now use this local reference variable in your xyz.component.ts file.
+    ```javascript
+        @ViewChild('fileUpload1')
+        private fileUpload1:  FileUploadComponent;
+    ```
+    - Remember to import ViewChild and FileUploadComponent properly in your component.
+      ```javascript
+        import { ViewChild } from '@angular/core';
+        import { FileUploadComponent } from "angular-file-uploader";
+      ```
+  - That's it.....all done, now just use
+    ```javascript
+        this.fileUpload1.resetFileUpload();
+    ```
+    to reset the module hassle-free anytime.
 
 #####Points to note:
-- Set resetUpload as true to reset the module instantly.
-    Remember to change resetUpload value 'true' to 'false' after every reset.
-- ApiResponse will return the response it gets back from the uploadAPI. 
 - Files are uploaded in FormData format.
 
 ###Coming Soon:

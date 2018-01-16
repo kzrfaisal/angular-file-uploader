@@ -3,9 +3,9 @@ export var FileUploadComponent = (function () {
     function FileUploadComponent() {
         this.formatsAllowed = ".jpg,.png,.pdf,.docx,.txt,.gif,.jpeg";
         this.maxSize = 20;
-        this.ApiResponse = new EventEmitter();
         this.idDate = +(new Date());
         this.id = parseInt(((this.idDate / 10000).toString()).split('.')[1]) + (Math.floor(Math.random() * 20) * 10000);
+        this.ApiResponse = new EventEmitter();
         this.reg = /(?:\.([^.]+))?$/;
         this.selectedFiles = [];
         this.notAllowedList = [];
@@ -16,21 +16,25 @@ export var FileUploadComponent = (function () {
         this.uploadMsg = false;
         this.afterUpload = false;
         this.uploadClick = true;
-        //console.log(this.id);
-        //console.log(this.idDate);
+        //console.log("id: ",this.id);
+        //console.log("idDate: ",this.idDate);
         //console.log(Math.random());
     }
     FileUploadComponent.prototype.ngOnChanges = function (rst) {
         if (rst['resetUpload']) {
             if (rst['resetUpload'].currentValue === true) {
-                this.selectedFiles = [];
-                this.Caption = [];
-                this.notAllowedList = [];
-                this.uploadMsg = false;
+                this.resetFileUpload();
             }
         }
     };
+    FileUploadComponent.prototype.resetFileUpload = function () {
+        this.selectedFiles = [];
+        this.Caption = [];
+        this.notAllowedList = [];
+        this.uploadMsg = false;
+    };
     FileUploadComponent.prototype.ngOnInit = function () {
+        console.log("id: ", this.id);
         this.resetUpload = false;
     };
     FileUploadComponent.prototype.onChange = function (event) {
@@ -205,7 +209,7 @@ export var FileUploadComponent = (function () {
     FileUploadComponent.prototype.attachpinOnclick = function () {
         //console.log("ID: ", this.id);
         //document.getElementById("sel" + this.id).click();
-        //  $("#"+"sel"+this.id).click();
+        //$("#"+"sel"+this.id).click();
     };
     FileUploadComponent.decorators = [
         { type: Component, args: [{
@@ -221,6 +225,7 @@ export var FileUploadComponent = (function () {
         'formatsAllowed': [{ type: Input },],
         'uploadAPI': [{ type: Input },],
         'maxSize': [{ type: Input },],
+        'id': [{ type: Input },],
         'ApiResponse': [{ type: Output },],
         'resetUpload': [{ type: Input },],
         'theme': [{ type: Input },],
