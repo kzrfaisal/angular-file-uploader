@@ -1,4 +1,4 @@
-Angular file uploader is an Angular 2+ file uploader module with real-time progress bar and Angular Universal Compatibility.
+Angular file uploader is an Angular 2+ file uploader module with Real-Time Progress Bar and Angular Universal Compatibility.
 
 ###Install
 ```
@@ -37,7 +37,7 @@ npm install angular-file-uploader
       [formatsAllowed]="'.jpg,.png'" 
       [maxSize]="5" 
       [uploadAPI]="'https://example-file-upload-api'"
-      [resetUpload]=resetUpload
+      [resetUpload]=resetVar
       (ApiResponse)="DocUpload($event)"
       [hideProgressBar]="false">
   </angular-file-uploader>
@@ -47,10 +47,10 @@ npm install angular-file-uploader
 |----------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------|
 | multiple : boolean         | Set it as " true " for uploading multiple files at a time and as " false " for single file at a time.                                                                                                                                 | false                                  |
 | formatsAllowed : string    | Specify the formats of file you want to upload.                                                                                                                                       | '.jpg,.png,.pdf,.docx, .txt,.gif,.jpeg' |
+| maxSize : number           | Maximum size limit for files in MB.                                                                                                                                                   | 20 MB                                    |
 | uploadAPI : string         | Complete api url to which you want to upload.                                                                                                                                         | undefined                              |
-| maxSize : number           | Maximum size limit for files in MB.                                                                                                                                                   | 20                                     |
 | ApiResponse:EventEmitter   | It will return the response it gets back from the uploadAPI. Assign one custom function ,for example " DocUpload($event) " here, where " $event " will contain the response from the api.                                                           |                                        |
-| resetUpload : boolean      | Give it's value as " true " whenever you want to clear the list of  uploads being displayed. It's better to assign one boolean variable (resetUpload here)to it and then  change that variable's value. Remember to change resetUpload value 'true' to 'false' after every reset. | false                                  |
+| resetUpload : boolean      | Give it's value as " true " whenever you want to clear the list of  uploads being displayed. It's better to assign one boolean variable ('resetVar' here)to it and then  change that variable's value. Remember to change 'resetVar' value 'true' to 'false' after every reset. | false                                  |
 | hideProgressBar : boolean  | Set it as " true " to hide the Progress bar. | false |
 
 You have seen that by using 'resetUpload' property, you can reset the module easily, however if you need to reset more than one time, there's a better way of doing that( bcoz in 'resetUpload' property, you have to make it as false in order to use it again):-
