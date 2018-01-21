@@ -62,7 +62,7 @@ You have seen that by using 'resetUpload' property, you can reset the module eas
       [formatsAllowed]="'.jpg,.png'" 
       [maxSize]="5" 
       [uploadAPI]="'https://example-file-upload-api'"
-      [resetUpload]=resetUpload
+      [resetUpload]=resetVar
       (ApiResponse)="DocUpload($event)"
       [hideProgressBar]="false">
   </angular-file-uploader>
