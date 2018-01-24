@@ -1,15 +1,16 @@
 import { OnInit, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 export declare class FileUploadComponent implements OnInit, OnChanges {
-    multiple: boolean;
-    formatsAllowed: string;
-    uploadAPI: string;
-    maxSize: number;
-    idDate: number;
-    id: number;
-    ApiResponse: EventEmitter<{}>;
+    config: any;
     resetUpload: boolean;
+    ApiResponse: EventEmitter<{}>;
     theme: string;
+    id: number;
     hideProgressBar: boolean;
+    maxSize: number;
+    uploadAPI: string;
+    formatsAllowed: string;
+    multiple: boolean;
+    idDate: number;
     reg: RegExp;
     selectedFiles: Array<any>;
     notAllowedList: Array<Object>;
@@ -25,8 +26,8 @@ export declare class FileUploadComponent implements OnInit, OnChanges {
     percentComplete: number;
     constructor();
     ngOnChanges(rst: SimpleChanges): void;
-    resetFileUpload(): void;
     ngOnInit(): void;
+    resetFileUpload(): void;
     onChange(event: any): void;
     uploadFiles(): void;
     removeFile(i: any, sf_na: any): void;

@@ -1,11 +1,10 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 export var FileUploadComponent = (function () {
     function FileUploadComponent() {
-        this.formatsAllowed = ".jpg,.png,.pdf,.docx,.txt,.gif,.jpeg";
-        this.maxSize = 20;
-        this.idDate = +(new Date());
-        this.id = parseInt(((this.idDate / 10000).toString()).split('.')[1]) + (Math.floor(Math.random() * 20) * 10000);
+        this.config = {};
+        this.resetUpload = this.config["resetUpload"];
         this.ApiResponse = new EventEmitter();
+        this.idDate = +new Date();
         this.reg = /(?:\.([^.]+))?$/;
         this.selectedFiles = [];
         this.notAllowedList = [];
@@ -21,21 +20,38 @@ export var FileUploadComponent = (function () {
         //console.log(Math.random());
     }
     FileUploadComponent.prototype.ngOnChanges = function (rst) {
-        if (rst['resetUpload']) {
-            if (rst['resetUpload'].currentValue === true) {
+        if (rst["resetUpload"]) {
+            this.theme = this.config["theme"] || "";
+            this.id =
+                this.config["id"] ||
+                    parseInt((this.idDate / 10000).toString().split(".")[1]) +
+                        Math.floor(Math.random() * 20) * 10000;
+            this.hideProgressBar = this.config["hideProgressBar"] || false;
+            this.maxSize = this.config["maxSize"] || 20;
+            this.uploadAPI = this.config["uploadAPI"];
+            this.formatsAllowed =
+                this.config["formatsAllowed"] || ".jpg,.png,.pdf,.docx,.txt,.gif,.jpeg";
+            this.multiple = this.config["multiple"] || false;
+            console.log("config: ", this.config);
+            //console.log(this.config["maxSize"]);
+            //console.log(this.maxSize);
+            console.log("rst: ", rst);
+        }
+        else if (rst["resetUpload"]) {
+            if (rst["resetUpload"].currentValue === true) {
                 this.resetFileUpload();
             }
         }
+    };
+    FileUploadComponent.prototype.ngOnInit = function () {
+        console.log("Id: ", this.id);
+        this.resetUpload = false;
     };
     FileUploadComponent.prototype.resetFileUpload = function () {
         this.selectedFiles = [];
         this.Caption = [];
         this.notAllowedList = [];
         this.uploadMsg = false;
-    };
-    FileUploadComponent.prototype.ngOnInit = function () {
-        console.log("id: ", this.id);
-        this.resetUpload = false;
     };
     FileUploadComponent.prototype.onChange = function (event) {
         //console.log(this.maxSize + this.formatsAllowed + this.multiple);
@@ -80,35 +96,33 @@ export var FileUploadComponent = (function () {
             if (frmtAllowed) {
                 //console.log("FORMAT ALLOWED");
                 //CHECK SIZE
-                if (file[i].size > (this.maxSize * 1024000)) {
+                if (file[i].size > this.maxSize * 1024000) {
                     //console.log("SIZE NOT ALLOWED ("+file[i].size+")");
-                    this.notAllowedList
-                        .push({
-                        "fileName": file[i].name,
-                        "fileSize": this.convertSize(file[i].size),
-                        "errorMsg": "Invalid size"
+                    this.notAllowedList.push({
+                        fileName: file[i].name,
+                        fileSize: this.convertSize(file[i].size),
+                        errorMsg: "Invalid size"
                     });
                     continue;
                 }
                 else {
-                    //format allowed and size allowed then add file to selectedFile array 
+                    //format allowed and size allowed then add file to selectedFile array
                     this.selectedFiles.push(file[i]);
                 }
             }
             else {
                 //console.log("FORMAT NOT ALLOWED");
-                this.notAllowedList
-                    .push({
-                    "fileName": file[i].name,
-                    "fileSize": this.convertSize(file[i].size),
-                    "errorMsg": "Invalid format"
+                this.notAllowedList.push({
+                    fileName: file[i].name,
+                    fileSize: this.convertSize(file[i].size),
+                    errorMsg: "Invalid format"
                 });
                 continue;
             }
         }
         if (this.selectedFiles.length !== 0) {
             this.uploadBtn = true;
-            if (this.theme == 'attachPin')
+            if (this.theme == "attachPin")
                 this.uploadFiles();
         }
         else {
@@ -132,7 +146,7 @@ export var FileUploadComponent = (function () {
         for (i = 0; i < this.selectedFiles.length; i++) {
             if (this.Caption[i] == undefined)
                 this.Caption[i] = "file";
-            //Add DATA TO BE SENT  
+            //Add DATA TO BE SENT
             formData.append(this.Caption[i], this.selectedFiles[i] /*, this.selectedFiles[i].name*/);
         }
         if (i > 1) {
@@ -163,7 +177,7 @@ export var FileUploadComponent = (function () {
         };
         xhr.upload.onprogress = function (evnt) {
             if (evnt.lengthComputable) {
-                _this.percentComplete = Math.round((evnt.loaded / evnt.total) * 100);
+                _this.percentComplete = Math.round(evnt.loaded / evnt.total * 100);
             }
             //console.log("Progress..."/*+this.percentComplete+" %"*/);
         };
@@ -183,7 +197,7 @@ export var FileUploadComponent = (function () {
             //console.log("onerror");
             //console.log(evnt);
         };
-        var token = sessionStorage.getItem('token');
+        var token = sessionStorage.getItem("token");
         xhr.open("POST", this.uploadAPI, true);
         //xhr.setRequestHeader("Content-Type", "text/plain;charset=UTF-8");
         //xhr.setRequestHeader('Authorization', `Bearer ${token}`);
@@ -204,32 +218,28 @@ export var FileUploadComponent = (function () {
     };
     FileUploadComponent.prototype.convertSize = function (fileSize) {
         //console.log(fileSize + " - "+ str);
-        return fileSize < 1024000 ? (fileSize / 1024).toFixed(2) + "KB" : (fileSize / 1024000).toFixed(2) + "MB";
+        return fileSize < 1024000
+            ? (fileSize / 1024).toFixed(2) + "KB"
+            : (fileSize / 1024000).toFixed(2) + "MB";
     };
     FileUploadComponent.prototype.attachpinOnclick = function () {
-        //console.log("ID: ", this.id);
+        console.log("ID: ", this.id);
         //document.getElementById("sel" + this.id).click();
         //$("#"+"sel"+this.id).click();
     };
     FileUploadComponent.decorators = [
         { type: Component, args: [{
                     selector: 'angular-file-uploader',
-                    template: "<div class=\"container\" *ngIf=\"!theme\" id=\"default\">\n    <label for=\"sel{{id}}\" class=\"btn btn-primary btn-sm\">Select File</label>\n    <input type=\"file\" id=\"sel{{id}}\" style=\"display: none\" (change)=\"onChange($event)\" title=\"Select file\" name=\"files[]\" [accept]=formatsAllowed\n        [attr.multiple]=\"multiple ? '' : null\" />\n    <br>\n    <p class=\"constraints-info\">({{formatsAllowed}}) Size limit- {{(convertSize(maxSize *1024000))}}</p>\n    <!--Selected file list-->\n    <div class=\"row\" *ngFor=\"let sf of selectedFiles;let i=index\">\n        <p class=\"col-xs-3 textOverflow\">\n            <span class=\"text-primary\">{{sf.name}}</span>\n        </p>\n        <p class=\"col-xs-3 padMarg sizeC\">\n            <strong>({{convertSize(sf.size)}})</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>\n        <!--  <input class=\"col-xs-3 progress caption\"  type=\"text\"  placeholder=\"Caption..\"  [(ngModel)]=\"Caption[i]\"  *ngIf=\"uploadClick\"/> -->\n        <div class=\"progress col-xs-3 padMarg\" *ngIf=\"singleFile && progressBarShow && !hideProgressBar\">\n            <span class=\"progress-bar progress-bar-success\" role=\"progressbar\" [ngStyle]=\"{'width':percentComplete+'%'}\">{{percentComplete}}%</span>\n        </div>\n        <a class=\"col-xs-1\" role=\"button\" (click)=\"removeFile(i,'sf')\" *ngIf=\"uploadClick\">x</a>\n    </div>\n    <!--Invalid file list-->\n    <div class=\"row text-danger\" *ngFor=\"let na of notAllowedList;let j=index\">\n        <p class=\"col-xs-3 textOverflow\">\n            <span>{{na.fileName}}</span>\n        </p>\n        <p class=\"col-xs-3 padMarg sizeC\">\n            <strong>({{na.fileSize}})</strong>\n        </p>\n        <p class=\"col-xs-3 \">{{na.errorMsg}}</p>\n        <a class=\"col-xs-1\" role=\"button\" (click)=\"removeFile(j,'na')\" *ngIf=\"uploadClick\">&nbsp;x</a>\n    </div>\n\n    <p *ngIf=\"uploadMsg\" class=\"{{uploadMsgClass}}\">{{uploadMsgText}}\n        <p>\n\n            <div *ngIf=\"!singleFile && progressBarShow && !hideProgressBar\">\n                <div class=\"progress col-xs-4 padMarg\">\n                    <span class=\"progress-bar progress-bar-success\" role=\"progressbar\" [ngStyle]=\"{'width':percentComplete+'%'}\">{{percentComplete}}%</span>\n                </div>\n                <br>\n                <br>\n            </div>\n            <button class=\"btn btn-success\" type=\"button\" (click)=\"uploadFiles()\" [disabled]=!uploadBtn>Upload</button>\n            <br>\n</div>\n\n<!--/////////////////////////// ATTACH PIN THEME  //////////////////////////////////////////////////////////-->\n<div *ngIf=\"theme == 'attachPin'\" id=\"attachPin\">\n    <div style=\"position:relative;padding-left:6px\">\n        <a class='btn btn-primary up_btn'>\n            Attach supporting documents..\n            <i class=\"fa fa-paperclip\" aria-hidden=\"true\" (click)=\"attachpinOnclick()\"></i>\n            <!-- <p style=\"margin-top:10px\">({{formatsAllowed}}) Size limit- {{(convertSize(maxSize * 1024000))}}</p> -->\n            <input type=\"file\" id=\"sel{{id}}\" (change)=\"onChange($event)\" style=\"display: none\" title=\"Select file\" name=\"files[]\" [accept]=formatsAllowed\n                [attr.multiple]=\"multiple ? '' : null\" />\n            <br>\n        </a>\n        &nbsp;\n        <span class='label label-info' id=\"upload-file-info{{id}}\">{{selectedFiles[0]?.name}}</span>\n    </div>\n</div>",
+                    template: "<div class=\"container\" *ngIf=\"theme !== 'attachPin'\" id=\"default\">\n    <label for=\"sel{{id}}\" class=\"btn btn-primary btn-sm\">Select File</label>\n    <input type=\"file\" id=\"sel{{id}}\" style=\"display: none\" (change)=\"onChange($event)\" title=\"Select file\" name=\"files[]\" [accept]=formatsAllowed\n        [attr.multiple]=\"multiple ? '' : null\" />\n    <br>\n    <p class=\"constraints-info\">({{formatsAllowed}}) Size limit- {{(convertSize(maxSize *1024000))}}</p>\n    <!--Selected file list-->\n    <div class=\"row\" *ngFor=\"let sf of selectedFiles;let i=index\">\n        <p class=\"col-xs-3 textOverflow\">\n            <span class=\"text-primary\">{{sf.name}}</span>\n        </p>\n        <p class=\"col-xs-3 padMarg sizeC\">\n            <strong>({{convertSize(sf.size)}})</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>\n        <!--  <input class=\"col-xs-3 progress caption\"  type=\"text\"  placeholder=\"Caption..\"  [(ngModel)]=\"Caption[i]\"  *ngIf=\"uploadClick\"/> -->\n        <div class=\"progress col-xs-3 padMarg\" *ngIf=\"singleFile && progressBarShow && !hideProgressBar\">\n            <span class=\"progress-bar progress-bar-success\" role=\"progressbar\" [ngStyle]=\"{'width':percentComplete+'%'}\">{{percentComplete}}%</span>\n        </div>\n        <a class=\"col-xs-1\" role=\"button\" (click)=\"removeFile(i,'sf')\" *ngIf=\"uploadClick\">x</a>\n    </div>\n    <!--Invalid file list-->\n    <div class=\"row text-danger\" *ngFor=\"let na of notAllowedList;let j=index\">\n        <p class=\"col-xs-3 textOverflow\">\n            <span>{{na['fileName']}}</span>\n        </p>\n        <p class=\"col-xs-3 padMarg sizeC\">\n            <strong>({{na['fileSize']}})</strong>\n        </p>\n        <p class=\"col-xs-3 \">{{na['errorMsg']}}</p>\n        <a class=\"col-xs-1\" role=\"button\" (click)=\"removeFile(j,'na')\" *ngIf=\"uploadClick\">&nbsp;x</a>\n    </div>\n\n    <p *ngIf=\"uploadMsg\" class=\"{{uploadMsgClass}}\">{{uploadMsgText}}<p>\n    <div *ngIf=\"!singleFile && progressBarShow && !hideProgressBar\">\n        <div class=\"progress col-xs-4 padMarg\">\n            <span class=\"progress-bar progress-bar-success\" role=\"progressbar\" [ngStyle]=\"{'width':percentComplete+'%'}\">{{percentComplete}}%</span>\n        </div>\n        <br>\n        <br>\n    </div>\n    <button class=\"btn btn-success\" type=\"button\" (click)=\"uploadFiles()\" [disabled]=!uploadBtn>Upload</button>\n    <br>\n</div>\n\n<!--/////////////////////////// ATTACH PIN THEME  //////////////////////////////////////////////////////////-->\n<div *ngIf=\"theme == 'attachPin'\" id=\"attachPin\">\n    <div style=\"position:relative;padding-left:6px\">\n        <a class='btn up_btn'>\n            Attach supporting documents..\n            <i class=\"fa fa-paperclip\" aria-hidden=\"true\" (click)=\"attachpinOnclick()\"></i>\n            <!-- <p style=\"margin-top:10px\">({{formatsAllowed}}) Size limit- {{(convertSize(maxSize * 1024000))}}</p> -->\n            <input type=\"file\" id=\"sel{{id}}\" (change)=\"onChange($event)\" style=\"display: none\" title=\"Select file\" name=\"files[]\" [accept]=formatsAllowed\n                [attr.multiple]=\"multiple ? '' : null\" />\n            <br>\n        </a>\n        &nbsp;\n        <span class='label label-info' id=\"upload-file-info{{id}}\">{{selectedFiles[0]?.name}}</span>\n    </div>\n</div>",
                     styles: [".constraints-info{\n    margin-top:10px;\n    font-style: italic;\n}\n.padMarg{\n    padding: 0px;\n    margin-bottom:0px;\n}\n.caption{\n    margin-right:5px;\n}\n.textOverflow{\n    white-space: nowrap; \n    padding-right: 0;\n    overflow: hidden;\n    text-overflow: ellipsis; \n}\n@media screen and (max-width: 620px){\n    .caption{\n        padding: 0;\n    }\n}\n@media screen and (max-width: 510px){\n    .sizeC{\n        width:25%;\n    }\n}\n@media screen and (max-width: 260px){\n    .sizeC{\n        font-size:10px; \n    }\n    .caption{\n        font-size:10px; \n    }\n}"],
                 },] },
     ];
     /** @nocollapse */
     FileUploadComponent.ctorParameters = function () { return []; };
     FileUploadComponent.propDecorators = {
-        'multiple': [{ type: Input },],
-        'formatsAllowed': [{ type: Input },],
-        'uploadAPI': [{ type: Input },],
-        'maxSize': [{ type: Input },],
-        'id': [{ type: Input },],
-        'ApiResponse': [{ type: Output },],
+        'config': [{ type: Input },],
         'resetUpload': [{ type: Input },],
-        'theme': [{ type: Input },],
-        'hideProgressBar': [{ type: Input },],
+        'ApiResponse': [{ type: Output },],
     };
     return FileUploadComponent;
 }());
