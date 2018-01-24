@@ -20,7 +20,7 @@ export var FileUploadComponent = (function () {
         //console.log(Math.random());
     }
     FileUploadComponent.prototype.ngOnChanges = function (rst) {
-        if (rst["resetUpload"]) {
+        if (rst["config"]) {
             this.theme = this.config["theme"] || "";
             this.id =
                 this.config["id"] ||
@@ -32,19 +32,15 @@ export var FileUploadComponent = (function () {
             this.formatsAllowed =
                 this.config["formatsAllowed"] || ".jpg,.png,.pdf,.docx,.txt,.gif,.jpeg";
             this.multiple = this.config["multiple"] || false;
-            console.log("config: ", this.config);
-            //console.log(this.config["maxSize"]);
-            //console.log(this.maxSize);
-            console.log("rst: ", rst);
         }
-        else if (rst["resetUpload"]) {
+        if (rst["resetUpload"]) {
             if (rst["resetUpload"].currentValue === true) {
                 this.resetFileUpload();
             }
         }
     };
     FileUploadComponent.prototype.ngOnInit = function () {
-        console.log("Id: ", this.id);
+        //console.log("Id: ", this.id);
         this.resetUpload = false;
     };
     FileUploadComponent.prototype.resetFileUpload = function () {

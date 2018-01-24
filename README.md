@@ -66,8 +66,6 @@ npm install angular-file-uploader
 | formatsAllowed : string    | Specify the formats of file you want to upload.                                                                                                                                       | '.jpg,.png,.pdf,.docx, .txt,.gif,.jpeg' |
 | maxSize : number           | Maximum size limit for files in MB.                                                                                                                                                   | 20 MB                                    |
 | uploadAPI : string         | Complete api url to which you want to upload.                                                                                                                                         | undefined                              |
-| ApiResponse:EventEmitter   | It will return the response it gets back from the uploadAPI. Assign one custom function ,for example " DocUpload($event) " here, where " $event " will contain the response from the api.                                                           |                                        |
-| resetUpload : boolean      | Give it's value as " true " whenever you want to clear the list of  uploads being displayed. It's better to assign one boolean variable ('resetVar' here)to it and then  change that variable's value. Remember to change 'resetVar' value 'true' to 'false' after every reset. | false                                  |
 | hideProgressBar : boolean  | Set it as " true " to hide the Progress bar. | false |
 
 ---
