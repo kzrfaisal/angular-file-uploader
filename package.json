@@ -28,7 +28,7 @@
 		"type": "git",
 		"url": "https://github.com/kzrfaisal/angular-file-uploader"
 	},
-	"homepage": "http://angular-file-uploader.s3-website-us-east-1.amazonaws.com/",
+	"homepage": "http://angular-file-uploader.s3-website-us-east-1.amazonaws.com",
 	"bugs": {
 		"url": "https://github.com/kzrfaisal/angular-file-uploader/issues"
 	},
