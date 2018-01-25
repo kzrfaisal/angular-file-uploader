@@ -1,6 +1,6 @@
 {
 	"name": "angular-file-uploader",
-	"version": "2.0.1-0",
+	"version": "2.0.0-1",
 	"description": "Angular 2+ file uploader with Real-Time Progress Bar and Angular Universal Compatibility",
 	"main": "bundles/npm-module-file-upload.umd.min.js",
 	"module": "index.js",
@@ -28,7 +28,7 @@
 		"type": "git",
 		"url": "https://github.com/kzrfaisal/angular-file-uploader"
 	},
-	"homepage": "",
+	"homepage": "http://angular-file-uploader.s3-website-us-east-1.amazonaws.com/",
 	"bugs": {
 		"url": "https://github.com/kzrfaisal/angular-file-uploader/issues"
 	},

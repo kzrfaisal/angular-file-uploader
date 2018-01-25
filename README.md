@@ -66,7 +66,7 @@ npm install angular-file-uploader
 | formatsAllowed : string    | Specify the formats of file you want to upload.                                                                                                                                       | '.jpg,.png,.pdf,.docx, .txt,.gif,.jpeg' |
 | maxSize : number           | Maximum size limit for files in MB.                                                                                                                                                   | 20 MB                                    |
 | uploadAPI : string         | Complete api url to which you want to upload.                                                                                                                                         | undefined                              |
-| hideProgressBar : boolean  | Set it as " true " to hide the Progress bar. | false |
+| hideProgressBar:boolean    | Set it as " true " to hide the Progress bar. | false |
 
 ---
 ##### A Better Way to reset the module
