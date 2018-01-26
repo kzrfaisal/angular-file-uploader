@@ -22,16 +22,13 @@ export var FileUploadComponent = (function () {
     FileUploadComponent.prototype.ngOnChanges = function (rst) {
         if (rst["config"]) {
             this.theme = this.config["theme"] || "";
-            this.id =
-                this.config["id"] ||
-                    parseInt((this.idDate / 10000).toString().split(".")[1]) +
-                        Math.floor(Math.random() * 20) * 10000;
+            this.id = this.config["id"] || parseInt((this.idDate / 10000).toString().split(".")[1]) + Math.floor(Math.random() * 20) * 10000;
             this.hideProgressBar = this.config["hideProgressBar"] || false;
             this.maxSize = this.config["maxSize"] || 20;
-            this.uploadAPI = this.config["uploadAPI"];
-            this.formatsAllowed =
-                this.config["formatsAllowed"] || ".jpg,.png,.pdf,.docx,.txt,.gif,.jpeg";
+            this.uploadAPI = this.config["uploadAPI"]["url"];
+            this.formatsAllowed = this.config["formatsAllowed"] || ".jpg,.png,.pdf,.docx,.txt,.gif,.jpeg";
             this.multiple = this.config["multiple"] || false;
+            this.headers = this.config["uploadAPI"]["headers"] || {};
         }
         if (rst["resetUpload"]) {
             if (rst["resetUpload"].currentValue === true) {
@@ -193,8 +190,12 @@ export var FileUploadComponent = (function () {
             //console.log("onerror");
             //console.log(evnt);
         };
-        var token = sessionStorage.getItem("token");
         xhr.open("POST", this.uploadAPI, true);
+        for (var _i = 0, _a = Object.keys(this.headers); _i < _a.length; _i++) {
+            var key = _a[_i];
+            xhr.setRequestHeader(key, this.headers[key]);
+        }
+        //let token = sessionStorage.getItem("token");
         //xhr.setRequestHeader("Content-Type", "text/plain;charset=UTF-8");
         //xhr.setRequestHeader('Authorization', `Bearer ${token}`);
         xhr.send(formData);
@@ -219,7 +220,7 @@ export var FileUploadComponent = (function () {
             : (fileSize / 1024000).toFixed(2) + "MB";
     };
     FileUploadComponent.prototype.attachpinOnclick = function () {
-        console.log("ID: ", this.id);
+        //console.log("ID: ", this.id);
         //document.getElementById("sel" + this.id).click();
         //$("#"+"sel"+this.id).click();
     };

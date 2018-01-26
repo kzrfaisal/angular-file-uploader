@@ -10,6 +10,7 @@ export declare class FileUploadComponent implements OnInit, OnChanges {
     uploadAPI: string;
     formatsAllowed: string;
     multiple: boolean;
+    headers: any;
     idDate: number;
     reg: RegExp;
     selectedFiles: Array<any>;

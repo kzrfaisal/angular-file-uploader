@@ -34,7 +34,9 @@ npm install angular-file-uploader
   ```  
   ```javascript
   afuConfig = {
-      uploadAPI: "https://example-file-upload-api"
+      uploadAPI: {
+        url:"https://example-file-upload-api"
+      }
   };
   ```
 ##### Example-2 ( with all available configuration )
@@ -47,11 +49,17 @@ npm install angular-file-uploader
   ``` 
   ```javascript
   afuConfig = {
-      hideProgressBar: "true",
-      maxSize: "1",
-      uploadAPI: "https://example-file-upload-api",
+      multiple: "false",
       formatsAllowed: ".jpg,.png",
-      multiple: "false"
+      maxSize: "1",
+      uploadAPI:  {
+        url:"https://example-file-upload-api",
+        headers: {
+       "Content-Type" : "text/plain;charset=UTF-8",
+       "Authorization" : `Bearer ${token}`
+        }
+      },
+      hideProgressBar: "true"
   };
   ``` 
 
@@ -67,7 +75,8 @@ npm install angular-file-uploader
 | multiple : boolean         | Set it as " true " for uploading multiple files at a time and as " false " for single file at a time.                                                                                                                                 | false                                  |
 | formatsAllowed : string    | Specify the formats of file you want to upload.                                                                                                                                       | '.jpg,.png,.pdf,.docx, .txt,.gif,.jpeg' |
 | maxSize : number           | Maximum size limit for files in MB.                                                                                                                                                   | 20 MB                                    |
-| uploadAPI : string         | Complete api url to which you want to upload.                                                                                                                                         | undefined                              |
+| uploadAPI.url : string     | Complete api url to which you want to upload.                                                                                                                                         | undefined                              |
+| uploadAPI.headers : {}     | Provide headers you need here.                                                                                                                                                        | {}                              |
 | hideProgressBar:boolean    | Set it as " true " to hide the Progress bar. | false |
 
 ---
