@@ -108,22 +108,22 @@ You have seen that by using 'resetUpload' property, you can reset the module eas
     ```
     to reset the module hassle-free anytime.
 
-#####Points to note:
+##### Points to note:
 - Files are uploaded in FormData format.
 
-###Coming Soon:
+### Coming Soon:
 - Multiple themes.
 - Drag n Drop.
 - More customization options.
 
 #### For Versions < 2.x :
-#####Example-1
+##### Example-1
   ```html
   <angular-file-uploader
       [uploadAPI]="'https://example-file-upload-api'">
   </angular-file-uploader>
   ```  
-#####Example-2
+##### Example-2
   ```html
   <angular-file-uploader 
       [multiple]="true" 
@@ -148,7 +148,7 @@ You have seen that by using 'resetUpload' property, you can reset the module eas
 
 You have seen that by using 'resetUpload' property, you can reset the module easily, however if you need to reset more than one time, there's a better way of doing that( bcoz in 'resetUpload' property, you have to make it as false in order to use it again):-
 
-#####Example-3
+##### Example-3
   ```html
   <angular-file-uploader #fileUpload1
       [multiple]="true" 
@@ -177,5 +177,5 @@ You have seen that by using 'resetUpload' property, you can reset the module eas
     ```
     to reset the module hassle-free anytime.
 
-#####Points to note:
+##### Points to note:
 - Files are uploaded in FormData format.
