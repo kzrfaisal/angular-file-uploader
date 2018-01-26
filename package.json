@@ -5,6 +5,7 @@
 	"main": "bundles/npm-module-file-upload.umd.min.js",
 	"module": "index.js",
 	"typings": "index.d.ts",
+	"readme": "README.md",
 	"keywords": [
 		"angular",
 		"file",
