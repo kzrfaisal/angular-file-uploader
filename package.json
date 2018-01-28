@@ -1,6 +1,6 @@
 {
 	"name": "angular-file-uploader",
-	"version": "3.0.2",
+	"version": "3.0.3",
 	"description": "Angular 2+ file uploader with Real-Time Progress Bar and Angular Universal Compatibility",
 	"main": "bundles/npm-module-file-upload.umd.min.js",
 	"module": "index.js",
