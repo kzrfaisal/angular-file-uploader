@@ -11,6 +11,7 @@ export declare class FileUploadComponent implements OnInit, OnChanges {
     formatsAllowed: string;
     multiple: boolean;
     headers: any;
+    hideResetBtn: boolean;
     idDate: number;
     reg: RegExp;
     selectedFiles: Array<any>;

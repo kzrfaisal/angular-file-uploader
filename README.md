@@ -59,7 +59,8 @@ npm i angular-file-uploader
        "Authorization" : `Bearer ${token}`
         }
       },
-      hideProgressBar: "true"
+      hideProgressBar: "true",
+      hideResetBtn: "true",
   };
   ``` 
 
@@ -78,6 +79,7 @@ npm i angular-file-uploader
 | uploadAPI.url : string     | Complete api url to which you want to upload.                                                                                                                                         | undefined                              |
 | uploadAPI.headers : {}     | Provide headers you need here.                                                                                                                                                        | {}                              |
 | hideProgressBar:boolean    | Set it as " true " to hide the Progress bar. | false |
+| hideResetBtn:boolean       | Set it as " true " to hide the Reset Button. | false |
 
 ---
 ##### A Better Way to reset the module
