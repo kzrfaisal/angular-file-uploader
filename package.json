@@ -1,41 +1,41 @@
 {
-	"name": "angular-file-uploader",
-	"version": "3.1.0",
-	"description": "Angular 2+ file uploader with Real-Time Progress Bar and Angular Universal Compatibility",
-	"main": "bundles/npm-module-file-upload.umd.min.js",
-	"module": "index.js",
-	"typings": "index.d.ts",
-	"readme": "README.md",
-	"keywords": [
-		"angular",
-		"file",
-		"upload",
-		"uploader",
-		"ng",
-		"2",
-		"4",
-		"5",
-		"image",
-		"universal",
-		"img",
-		"formdata"
-	],
-	"author": {
-		"name": "Mohd Faisal Ansari",
-		"email": "kzrfaisal@gmail.com"
-	},
-	"license": "",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/kzrfaisal/angular-file-uploader"
-	},
-	"homepage": "http://angular-file-uploader.s3-website-us-east-1.amazonaws.com",
-	"bugs": {
-		"url": "https://github.com/kzrfaisal/angular-file-uploader/issues"
-	},
-	"peerDependencies": {
-		"@angular/core": "^2.4.0",
-		"reflect-metadata": "^0.1.8",
-		"zone.js": "^0.7.2"
-	}
+  "name": "angular-file-uploader",
+  "version": "3.2.0",
+  "description": "Angular 2+ file uploader with Real-Time Progress Bar and Angular Universal Compatibility",
+  "main": "bundles/npm-module-file-upload.umd.min.js",
+  "module": "index.js",
+  "typings": "index.d.ts",
+  "readme": "README.md",
+  "keywords": [
+    "angular",
+    "file",
+    "upload",
+    "uploader",
+    "ng",
+    "2",
+    "4",
+    "5",
+    "image",
+    "universal",
+    "img",
+    "formdata"
+  ],
+  "author": {
+    "name": "Mohd Faisal Ansari",
+    "email": "kzrfaisal@gmail.com"
+  },
+  "license": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kzrfaisal/angular-file-uploader"
+  },
+  "homepage": "http://angular-file-uploader.s3-website-us-east-1.amazonaws.com",
+  "bugs": {
+    "url": "https://github.com/kzrfaisal/angular-file-uploader/issues"
+  },
+  "peerDependencies": {
+    "@angular/core": "^2.4.0",
+    "reflect-metadata": "^0.1.8",
+    "zone.js": "^0.7.2"
+  }
 }
