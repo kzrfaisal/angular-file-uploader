@@ -118,6 +118,8 @@ You have seen that by using 'resetUpload' property, you can reset the module eas
 - Drag n Drop.
 - More customization options.
 
+---
+---
 #### For Versions < 2.x :
 ##### Example-1
   ```html
