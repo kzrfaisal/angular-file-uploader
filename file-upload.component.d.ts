@@ -12,6 +12,7 @@ export declare class FileUploadComponent implements OnInit, OnChanges {
     multiple: boolean;
     headers: any;
     hideResetBtn: boolean;
+    hideSelectBtn: boolean;
     idDate: number;
     reg: RegExp;
     selectedFiles: Array<any>;
@@ -35,4 +36,6 @@ export declare class FileUploadComponent implements OnInit, OnChanges {
     removeFile(i: any, sf_na: any): void;
     convertSize(fileSize: number): string;
     attachpinOnclick(): void;
+    drop(event: any): void;
+    allowDrop(event: any): void;
 }

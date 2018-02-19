@@ -33,6 +33,7 @@ var FileUploadComponent = (function () {
                         Math.floor(Math.random() * 20) * 10000;
             this.hideProgressBar = this.config["hideProgressBar"] || false;
             this.hideResetBtn = this.config["hideResetBtn"] || false;
+            this.hideSelectBtn = this.config["hideSelectBtn"] || false;
             this.maxSize = this.config["maxSize"] || 20;
             this.uploadAPI = this.config["uploadAPI"]["url"];
             this.formatsAllowed =
@@ -75,7 +76,16 @@ var FileUploadComponent = (function () {
         //console.log("NO OF FORMATS ALLOWED= "+formatsCount);
         //console.log("-------------------------------");
         //ITERATE SELECTED FILES
-        var file = event.target.files || event.srcElement.files;
+        var file;
+        if (event.type == "drop") {
+            file = event.dataTransfer.files;
+            console.log("type: drop");
+        }
+        else {
+            file = event.target.files || event.srcElement.files;
+            console.log("type: change");
+        }
+        console.log(file);
         var currentFileExt;
         var ext;
         var frmtAllowed;
@@ -228,20 +238,33 @@ var FileUploadComponent = (function () {
     FileUploadComponent.prototype.convertSize = function (fileSize) {
         //console.log(fileSize + " - "+ str);
         return fileSize < 1024000
-            ? (fileSize / 1024).toFixed(2) + "KB"
-            : (fileSize / 1024000).toFixed(2) + "MB";
+            ? (fileSize / 1024).toFixed(2) + " KB"
+            : (fileSize / 1024000).toFixed(2) + " MB";
     };
     FileUploadComponent.prototype.attachpinOnclick = function () {
         //console.log("ID: ", this.id);
         //document.getElementById("sel" + this.id).click();
         //$("#"+"sel"+this.id).click();
     };
+    FileUploadComponent.prototype.drop = function (event) {
+        event.stopPropagation();
+        event.preventDefault();
+        console.log("drop: ", event);
+        console.log("drop: ", event.dataTransfer.files);
+        this.onChange(event);
+    };
+    FileUploadComponent.prototype.allowDrop = function (event) {
+        event.stopPropagation();
+        event.preventDefault();
+        event.dataTransfer.dropEffect = "copy";
+        //console.log("allowDrop: ",event)
+    };
     FileUploadComponent.decorators = [
         { type: _angular_core.Component, args: [{
                     selector: "angular-file-uploader",
-                    template: "<div class=\"container\" *ngIf=\"theme !== 'attachPin'\" id=\"default\">\n    <label for=\"sel{{id}}\" class=\"btn btn-primary btn-sm\">Select File<span *ngIf=\"multiple\">s</span></label>\n    <input type=\"file\" id=\"sel{{id}}\" style=\"display: none\" (change)=\"onChange($event)\" title=\"Select file\" name=\"files[]\" [accept]=formatsAllowed\n        [attr.multiple]=\"multiple ? '' : null\" />\n        <button class=\"btn btn-info btn-sm\" (click)=\"resetFileUpload()\" *ngIf=\"!hideResetBtn\">Reset</button>\n    <br>\n    <p class=\"constraints-info\">({{formatsAllowed}}) Size limit- {{(convertSize(maxSize *1024000))}}</p>\n    <!--Selected file list-->\n    <div class=\"row\" *ngFor=\"let sf of selectedFiles;let i=index\">\n        <p class=\"col-xs-3 textOverflow\">\n            <span class=\"text-primary\">{{sf.name}}</span>\n        </p>\n        <p class=\"col-xs-3 padMarg sizeC\">\n            <strong>({{convertSize(sf.size)}})</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>\n        <!--  <input class=\"col-xs-3 progress caption\"  type=\"text\"  placeholder=\"Caption..\"  [(ngModel)]=\"Caption[i]\"  *ngIf=\"uploadClick\"/> -->\n        <div class=\"progress col-xs-3 padMarg\" *ngIf=\"singleFile && progressBarShow && !hideProgressBar\">\n            <span class=\"progress-bar progress-bar-success\" role=\"progressbar\" [ngStyle]=\"{'width':percentComplete+'%'}\">{{percentComplete}}%</span>\n        </div>\n        <a class=\"col-xs-1 delFileIcon\" role=\"button\" (click)=\"removeFile(i,'sf')\" *ngIf=\"uploadClick\"><i class=\"fa fa-times\"></i></a>\n    </div>\n    <!--Invalid file list-->\n    <div class=\"row text-danger\" *ngFor=\"let na of notAllowedList;let j=index\">\n        <p class=\"col-xs-3 textOverflow\">\n            <span>{{na['fileName']}}</span>\n        </p>\n        <p class=\"col-xs-3 padMarg sizeC\">\n            <strong>({{na['fileSize']}})</strong>\n        </p>\n        <p class=\"col-xs-3 \">{{na['errorMsg']}}</p>\n        <a class=\"col-xs-1\" role=\"button\" (click)=\"removeFile(j,'na')\" *ngIf=\"uploadClick\">&nbsp;x</a>\n    </div>\n\n    <p *ngIf=\"uploadMsg\" class=\"{{uploadMsgClass}}\">{{uploadMsgText}}<p>\n    <div *ngIf=\"!singleFile && progressBarShow && !hideProgressBar\">\n        <div class=\"progress col-xs-4 padMarg\">\n            <span class=\"progress-bar progress-bar-success\" role=\"progressbar\" [ngStyle]=\"{'width':percentComplete+'%'}\">{{percentComplete}}%</span>\n        </div>\n        <br>\n        <br>\n    </div>\n    <button class=\"btn btn-success\" type=\"button\" (click)=\"uploadFiles()\" [disabled]=!uploadBtn>Upload</button>\n    <br>\n</div>\n\n<!--/////////////////////////// ATTACH PIN THEME  //////////////////////////////////////////////////////////-->\n<div *ngIf=\"theme == 'attachPin'\" id=\"attachPin\">\n    <div style=\"position:relative;padding-left:6px\">\n        <a class='btn up_btn'>\n            Attach supporting documents..\n            <i class=\"fa fa-paperclip\" aria-hidden=\"true\" (click)=\"attachpinOnclick()\"></i>\n            <!-- <p style=\"margin-top:10px\">({{formatsAllowed}}) Size limit- {{(convertSize(maxSize * 1024000))}}</p> -->\n            <input type=\"file\" id=\"sel{{id}}\" (change)=\"onChange($event)\" style=\"display: none\" title=\"Select file\" name=\"files[]\" [accept]=formatsAllowed\n                [attr.multiple]=\"multiple ? '' : null\" />\n            <br>\n        </a>\n        &nbsp;\n        <span class='label label-info' id=\"upload-file-info{{id}}\">{{selectedFiles[0]?.name}}</span>\n    </div>\n</div>",
+                    template: "<div class=\"container\" *ngIf=\"(theme !== 'attachPin')\" id=\"default\">\n  <div *ngIf=\"theme == 'dragNDrop'\" id=\"dragNDrop\" [ngClass]=\"(hideSelectBtn && hideResetBtn) ? null : 'dragNDropBtmPad'\">\n    <div style=\"position:relative;\">\n      <div id=\"div1\" (drop)=\"drop($event)\" (dragover)=\"allowDrop($event)\">\n        <p>Drag N Drop</p>\n      </div>\n      <!-- <span class='label label-info' id=\"upload-file-info{{id}}\">{{selectedFiles[0]?.name}}</span> -->\n    </div>\n  </div>\n    <label for=\"sel{{id}}\" class=\"btn btn-primary btn-sm\" *ngIf=\"!hideSelectBtn\">Select File<span *ngIf=\"multiple\">s</span></label>\n    <input type=\"file\" id=\"sel{{id}}\" style=\"display: none\" *ngIf=\"!hideSelectBtn\" (change)=\"onChange($event)\" title=\"Select file\" name=\"files[]\" [accept]=formatsAllowed\n        [attr.multiple]=\"multiple ? '' : null\" />\n    <button class=\"btn btn-info btn-sm\" (click)=\"resetFileUpload()\" *ngIf=\"!hideResetBtn\">Reset</button>\n    <br *ngIf=\"!hideSelectBtn\">\n    <p class=\"constraints-info\">({{formatsAllowed}}) Size limit- {{(convertSize(maxSize *1024000))}}</p>\n    <!--Selected file list-->\n    <div class=\"row\" *ngFor=\"let sf of selectedFiles;let i=index\">\n        <p class=\"col-xs-3 textOverflow\">\n            <span class=\"text-primary\">{{sf.name}}</span>\n        </p>\n        <p class=\"col-xs-3 padMarg sizeC\">\n            <strong>({{convertSize(sf.size)}})</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>\n        <!--  <input class=\"col-xs-3 progress caption\"  type=\"text\"  placeholder=\"Caption..\"  [(ngModel)]=\"Caption[i]\"  *ngIf=\"uploadClick\"/> -->\n        <div class=\"progress col-xs-3 padMarg\" *ngIf=\"singleFile && progressBarShow && !hideProgressBar\">\n            <span class=\"progress-bar progress-bar-success\" role=\"progressbar\" [ngStyle]=\"{'width':percentComplete+'%'}\">{{percentComplete}}%</span>\n        </div>\n        <a class=\"col-xs-1\" role=\"button\" (click)=\"removeFile(i,'sf')\" *ngIf=\"uploadClick\"><i class=\"fa fa-times\"></i></a>\n    </div>\n    <!--Invalid file list-->\n    <div class=\"row text-danger\" *ngFor=\"let na of notAllowedList;let j=index\">\n        <p class=\"col-xs-3 textOverflow\">\n            <span>{{na['fileName']}}</span>\n        </p>\n        <p class=\"col-xs-3 padMarg sizeC\">\n            <strong>({{na['fileSize']}})</strong>\n        </p>\n        <p class=\"col-xs-3 \">{{na['errorMsg']}}</p>\n        <a class=\"col-xs-1 delFileIcon\" role=\"button\" (click)=\"removeFile(j,'na')\" *ngIf=\"uploadClick\">&nbsp;<i class=\"fa fa-times\"></i></a>\n    </div>\n\n    <p *ngIf=\"uploadMsg\" class=\"{{uploadMsgClass}}\">{{uploadMsgText}}<p>\n    <div *ngIf=\"!singleFile && progressBarShow && !hideProgressBar\">\n        <div class=\"progress col-xs-4 padMarg\">\n            <span class=\"progress-bar progress-bar-success\" role=\"progressbar\" [ngStyle]=\"{'width':percentComplete+'%'}\">{{percentComplete}}%</span>\n        </div>\n        <br>\n        <br>\n    </div>\n    <button class=\"btn btn-success\" type=\"button\" (click)=\"uploadFiles()\" [disabled]=!uploadBtn>Upload</button>\n    <br>\n</div>\n\n<!--/////////////////////////// ATTACH PIN THEME  //////////////////////////////////////////////////////////-->\n<div *ngIf=\"theme == 'attachPin'\" id=\"attachPin\">\n    <div style=\"position:relative;padding-left:6px\">\n        <a class='btn up_btn'>\n            Attach supporting documents..\n            <i class=\"fa fa-paperclip\" aria-hidden=\"true\" (click)=\"attachpinOnclick()\"></i>\n            <!-- <p style=\"margin-top:10px\">({{formatsAllowed}}) Size limit- {{(convertSize(maxSize * 1024000))}}</p> -->\n            <input type=\"file\" id=\"sel{{id}}\" (change)=\"onChange($event)\" style=\"display: none\" title=\"Select file\" name=\"files[]\" [accept]=formatsAllowed\n                [attr.multiple]=\"multiple ? '' : null\" />\n            <br>\n        </a>\n        &nbsp;\n        <span class='label label-info' id=\"upload-file-info{{id}}\">{{selectedFiles[0]?.name}}</span>\n    </div>\n</div>\n\n<!--/////////////////////////// DRAG N DROP THEME  //////////////////////////////////////////////////////////-->\n<!-- <div *ngIf=\"theme == 'dragNDrop'\" id=\"dragNDrop\">\n  <div style=\"position:relative;padding-left:6px\">\n    <div id=\"div1\" (drop)=\"drop($event)\" (dragover)=\"allowDrop($event)\">\n      <p>Drag N Drop</p>\n    </div>\n    <span class='label label-info' id=\"upload-file-info{{id}}\">{{selectedFiles[0]?.name}}</span>\n  </div>\n</div> -->\n",
                     styles: [
-                        ".constraints-info{\n    margin-top:10px;\n    font-style: italic;\n}\n.padMarg{\n    padding: 0px;\n    margin-bottom:0px;\n}\n.caption{\n    margin-right:5px;\n}\n.textOverflow{\n    white-space: nowrap; \n    padding-right: 0;\n    overflow: hidden;\n    text-overflow: ellipsis; \n}\n.delFileIcon{\n  text-decoration: none;\n  color:#ce0909;\n}\n@media screen and (max-width: 620px){\n    .caption{\n        padding: 0;\n    }\n}\n@media screen and (max-width: 510px){\n    .sizeC{\n        width:25%;\n    }\n}\n@media screen and (max-width: 260px){\n    .sizeC{\n        font-size:10px; \n    }\n    .caption{\n        font-size:10px; \n    }\n}"
+                        ".constraints-info{\n    margin-top:10px;\n    font-style: italic;\n}\n.padMarg{\n    padding: 0px;\n    margin-bottom:0px;\n}\n.caption{\n    margin-right:5px;\n}\n.textOverflow{\n    white-space: nowrap;\n    padding-right: 0;\n    overflow: hidden;\n    text-overflow: ellipsis;\n}\n.up_btn{\n    color: black;\n    background-color: transparent;\n    border: 2px solid rgb(92, 91, 91);\n    border-radius: 22px;\n}\n.delFileIcon{\n  text-decoration: none;\n  color:#ce0909;\n}\n/*--------------------- DRAG N DROP ----------------------*/\n#dragNDrop #div1{\n  display: border-box;\n  border: 2px dashed rgb(92, 91, 91);\n  height: 6rem;\n  width: 20rem;\n}\n#dragNDrop #div1>p{\n  text-align: center;\n  font-weight: bold;\n  color: rgb(92, 91, 91);\n  margin-top: 1.4em;\n}\n\n.dragNDropBtmPad {\n  padding-bottom: 2rem;\n}\n/*--------------------- X-X-X-X ----------------------*/\n@media screen and (max-width: 620px){\n    .caption{\n        padding: 0;\n    }\n}\n@media screen and (max-width: 510px){\n    .sizeC{\n        width:25%;\n    }\n}\n@media screen and (max-width: 260px){\n    .sizeC{\n        font-size:10px;\n    }\n    .caption{\n        font-size:10px;\n    }\n}\n"
                     ]
                 },] },
     ];
