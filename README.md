@@ -1,4 +1,4 @@
-Angular file uploader is an Angular 2/4/5 file uploader module with Real-Time Progress Bar and Angular Universal Compatibility.
+Angular file uploader is an Angular 2/4/5 file uploader module with Real-Time Progress Bar, Angular Universal Compatibility and multiple themes which includes Drag and Drop and much more.
 
 ### Demo
 <http://angular-file-uploader.s3-website-us-east-1.amazonaws.com>
@@ -118,8 +118,7 @@ You have seen that by using 'resetUpload' property, you can reset the module eas
 - Files are uploaded in FormData format.
 
 ### Coming Soon:
-- Multiple themes.
-- Drag n Drop.
+- More themes.
 - More customization options.
 
 ---
