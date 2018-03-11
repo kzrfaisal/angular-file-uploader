@@ -80,7 +80,7 @@ npm i angular-file-uploader
 | maxSize : number           | Maximum size limit for files in MB.                                                                                                                                                   | 20 MB                                  |
 | uploadAPI.url : string     | Complete api url to which you want to upload.                                                                                                                                         | undefined                              |
 | uploadAPI.headers : {}     | Provide headers you need here.                                                                                                                                                        | {}                                     |
-| theme : string             | Specify the theme name you want to apply. Available Themes: 'dragNDrop'.                                                                                                                | If no theme or wrong theme is specified, default theme will be used instead.|
+| theme : string             | Specify the theme name you want to apply. Available Themes: 'dragNDrop','attachPin'                                                                                                                | If no theme or wrong theme is specified, default theme will be used instead.|
 | hideProgressBar:boolean    | Set it as " true " to hide the Progress bar. | false |
 | hideResetBtn:boolean       | Set it as " true " to hide the 'Reset' Button. | false |
 | hideSelectBtn:boolean      | Set it as " true " to hide the 'Select File' Button. | false |
