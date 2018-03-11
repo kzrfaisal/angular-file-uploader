@@ -1,6 +1,6 @@
 {
   "name": "angular-file-uploader",
-  "version": "4.0.1",
+  "version": "4.0.2",
   "description": "Angular file uploader is an Angular 2/4/5 file uploader module with Real-Time Progress Bar, Angular Universal Compatibility and multiple themes which includes Drag and Drop and much more.",
   "main": "bundles/npm-module-file-upload.umd.min.js",
   "module": "index.js",
