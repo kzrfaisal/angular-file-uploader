@@ -27,7 +27,7 @@
     "name": "Mohd Faisal Ansari",
     "email": "kzrfaisal@gmail.com"
   },
-  "license": "",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/kzrfaisal/angular-file-uploader"
