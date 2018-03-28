@@ -8,20 +8,18 @@
   "readme": "README.md",
   "keywords": [
     "angular",
-    "file",
+    "file upload",
+    "drag and drop",
     "upload",
     "uploader",
     "ng",
-    "2",
-    "4",
-    "5",
+    "angular 2",
+    "angular 4",
+    "angular 5",
     "universal",
     "img",
-    "image",
-    "formdata",
-    "drag",
-    "and",
-    "drop"
+    "image upload",
+    "formdata"
   ],
   "author": {
     "name": "Mohd Faisal Ansari",
@@ -40,5 +38,17 @@
     "@angular/core": "^2.4.0",
     "reflect-metadata": "^0.1.8",
     "zone.js": "^0.7.2"
+  },
+  "devDependencies": {
+    "@angular/cli": "^1.6.1",
+    "@angular/compiler": "^2.4.4",
+    "@angular/compiler-cli": "^2.4.4",
+    "typescript": "~2.0.0"
+  },
+  "dependencies": {
+    "@angular/common": "^2.4.4",
+    "@angular/core": "^2.4.4",
+    "rxjs": "^5.0.3",
+    "zone.js": "^0.7.6"
   }
 }
