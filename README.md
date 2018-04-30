@@ -1,7 +1,7 @@
 Angular file uploader is an Angular 2/4/5 file uploader module with Real-Time Progress Bar, Angular Universal Compatibility and multiple themes which includes Drag and Drop and much more.
 
 ### Demo
-<http://angular-file-uploader.s3-website-us-east-1.amazonaws.com>
+<https://kzrfaisal.github.io/#/afu>
 ### Install
 ```
 npm i angular-file-uploader
