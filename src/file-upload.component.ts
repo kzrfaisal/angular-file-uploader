@@ -49,7 +49,7 @@ import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChange
         <br>
         <br>
     </div>
-    <button class="btn btn-success" type="button" (click)="uploadFiles()" [disabled]=!uploadBtn>Upload</button>
+    <button class="btn btn-success" type="button" (click)="uploadFiles()" [disabled]=!uploadBtn>{{uploadBtnText}}</button>
     <br>
 </div>
 
@@ -161,6 +161,7 @@ export class FileUploadComponent implements OnInit, OnChanges {
   headers: any;
   hideResetBtn: boolean;
   hideSelectBtn: boolean;
+  uploadBtnText: string;
 
   idDate: number = +new Date();
   reg: RegExp = /(?:\.([^.]+))?$/;
@@ -193,6 +194,7 @@ export class FileUploadComponent implements OnInit, OnChanges {
       this.hideProgressBar = this.config["hideProgressBar"] || false;
       this.hideResetBtn = this.config["hideResetBtn"] || false;
       this.hideSelectBtn = this.config["hideSelectBtn"] || false;
+      this.uploadBtnText = this.config["uploadBtnText"] || "Upload";
       this.maxSize = this.config["maxSize"] || 20;
       this.uploadAPI = this.config["uploadAPI"]["url"];
       this.formatsAllowed =
@@ -247,12 +249,12 @@ export class FileUploadComponent implements OnInit, OnChanges {
     let file : FileList;
     if (event.type == "drop") {
       file = event.dataTransfer.files;
-      console.log("type: drop");
+      // console.log("type: drop");
     } else {
       file = event.target.files || event.srcElement.files;
-      console.log("type: change");
+      // console.log("type: change");
     }
-    console.log(file);
+    // console.log(file);
     let currentFileExt: any;
     let ext: any;
     let frmtAllowed: boolean;
@@ -344,14 +346,7 @@ export class FileUploadComponent implements OnInit, OnChanges {
     xhr.onreadystatechange = evnt => {
       //console.log("onready");
       if (xhr.readyState === 4) {
-        if (xhr.status === 200) {
-          //this.ApiResponse.emit(JSON.parse(xhr.response));
-          this.ApiResponse.emit(xhr.response);
-          //console.log( " (From SERVER)");
-          //console.log(evnt);
-        } else {
-          //console.log("ERRRRRRor");
-          //console.log(xhr.statusText + " (From SERVER)");
+        if (xhr.status !== 200) {
           isError = true;
           this.progressBarShow = false;
           this.uploadBtn = false;
@@ -359,13 +354,13 @@ export class FileUploadComponent implements OnInit, OnChanges {
           this.afterUpload = true;
           this.uploadMsgText = "Upload Failed !";
           this.uploadMsgClass = "text-danger lead";
-          //console.log(this.uploadMsgText);
-          //console.log(evnt);
         }
+          this.ApiResponse.emit(xhr);
       }
     };
 
     xhr.upload.onprogress = evnt => {
+      this.uploadBtn = false; // button should be disabled by process uploading
       if (evnt.lengthComputable) {
         this.percentComplete = Math.round(evnt.loaded / evnt.total * 100);
       }
@@ -432,8 +427,8 @@ export class FileUploadComponent implements OnInit, OnChanges {
   drop(event: any) {
     event.stopPropagation();
     event.preventDefault();
-    console.log("drop: ", event);
-    console.log("drop: ", event.dataTransfer.files);
+    // console.log("drop: ", event);
+    // console.log("drop: ", event.dataTransfer.files);
     this.onChange(event);
   }
   allowDrop(event : any) {
