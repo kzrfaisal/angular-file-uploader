@@ -150,7 +150,6 @@ export class FileUploadComponent implements OnInit, OnChanges {
   @Input() config: any = {};
   @Input() resetUpload: boolean = this.config["resetUpload"];
   @Output() ApiResponse = new EventEmitter();
-  @Output() ApiResponseFailed = new EventEmitter();
 
   theme: string;
   id: number;
@@ -347,14 +346,7 @@ export class FileUploadComponent implements OnInit, OnChanges {
     xhr.onreadystatechange = evnt => {
       //console.log("onready");
       if (xhr.readyState === 4) {
-        if (xhr.status === 200) {
-          //this.ApiResponse.emit(JSON.parse(xhr.response));
-          this.ApiResponse.emit(xhr.response);
-          //console.log( " (From SERVER)");
-          //console.log(evnt);
-        } else {
-          //console.log("ERRRRRRor");
-          //console.log(xhr.statusText + " (From SERVER)");
+        if (xhr.status !== 200) {
           isError = true;
           this.progressBarShow = false;
           this.uploadBtn = false;
@@ -362,10 +354,8 @@ export class FileUploadComponent implements OnInit, OnChanges {
           this.afterUpload = true;
           this.uploadMsgText = "Upload Failed !";
           this.uploadMsgClass = "text-danger lead";
-          this.ApiResponseFailed.emit(xhr.response);
-          //console.log(this.uploadMsgText);
-          //console.log(evnt);
         }
+          this.ApiResponse.emit(xhr);
       }
     };
 
