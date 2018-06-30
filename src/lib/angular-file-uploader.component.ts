@@ -359,8 +359,6 @@ export class AngularFileUploaderComponent implements OnInit, OnChanges {
           this.afterUpload = true;
           this.uploadMsgText = "Upload Failed !";
           this.uploadMsgClass = "text-danger lead";
-          //console.log(this.uploadMsgText);
-          //console.log(evnt);
         }
         this.ApiResponse.emit(xhr);
       }
