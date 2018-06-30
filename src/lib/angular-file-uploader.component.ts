@@ -13,7 +13,7 @@ import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChange
     <label for="sel{{id}}" class="btn btn-primary btn-sm" *ngIf="!hideSelectBtn">Select File<span *ngIf="multiple">s</span></label>
     <input type="file" id="sel{{id}}" style="display: none" *ngIf="!hideSelectBtn" (change)="onChange($event)" title="Select file" name="files[]" [accept]=formatsAllowed
         [attr.multiple]="multiple ? '' : null" />
-    <button class="btn btn-info btn-sm" (click)="resetFileUpload()" *ngIf="!hideResetBtn">Reset</button>
+    <button class="btn btn-info btn-sm resetBtn" (click)="resetFileUpload()" *ngIf="!hideResetBtn">Reset</button>
     <br *ngIf="!hideSelectBtn">
     <p class="constraints-info">({{formatsAllowed}}) Size limit- {{(convertSize(maxSize *1024000))}}</p>
     <!--Selected file list-->
@@ -49,7 +49,7 @@ import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChange
         <br>
         <br>
     </div>
-    <button class="btn btn-success" type="button" (click)="uploadFiles()" [disabled]=!uploadBtn>Upload</button>
+    <button class="btn btn-success" type="button" (click)="uploadFiles()" [disabled]=!uploadBtn>{{uploadBtnText}}</button>
     <br>
 </div>
 
@@ -57,7 +57,7 @@ import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChange
 <div *ngIf="theme == 'attachPin'" id="attachPin">
     <div style="position:relative;padding-left:6px">
         <a class='btn up_btn' (click)="attachpinOnclick()">
-            Attach supporting documents..
+            {{attachPinText}}
             <i class="fa fa-paperclip" aria-hidden="true"></i>
             <!-- <p style="margin-top:10px">({{formatsAllowed}}) Size limit- {{(convertSize(maxSize * 1024000))}}</p> -->
             <input type="file" id="sel{{id}}" (change)="onChange($event)" style="display: none" title="Select file" name="files[]" [accept]=formatsAllowed
@@ -143,10 +143,13 @@ import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChange
         font-size:10px;
     }
 }
+.resetBtn{
+  margin-left: 3px;
+}
 `
   ]
 })
-export class FileUploadComponent implements OnInit, OnChanges {
+export class AngularFileUploaderComponent implements OnInit, OnChanges {
   @Input() config: any = {};
   @Input() resetUpload: boolean = this.config["resetUpload"];
   @Output() ApiResponse = new EventEmitter();
@@ -161,6 +164,8 @@ export class FileUploadComponent implements OnInit, OnChanges {
   headers: any;
   hideResetBtn: boolean;
   hideSelectBtn: boolean;
+  attachPinText: string;
+  uploadBtnText: string;
 
   idDate: number = +new Date();
   reg: RegExp = /(?:\.([^.]+))?$/;
@@ -189,16 +194,18 @@ export class FileUploadComponent implements OnInit, OnChanges {
       this.id =
         this.config["id"] ||
         parseInt((this.idDate / 10000).toString().split(".")[1]) +
-          Math.floor(Math.random() * 20) * 10000;
+        Math.floor(Math.random() * 20) * 10000;
       this.hideProgressBar = this.config["hideProgressBar"] || false;
       this.hideResetBtn = this.config["hideResetBtn"] || false;
       this.hideSelectBtn = this.config["hideSelectBtn"] || false;
+      this.uploadBtnText = this.config["uploadBtnText"] || "Upload";
       this.maxSize = this.config["maxSize"] || 20;
       this.uploadAPI = this.config["uploadAPI"]["url"];
       this.formatsAllowed =
         this.config["formatsAllowed"] || ".jpg,.png,.pdf,.docx,.txt,.gif,.jpeg";
       this.multiple = this.config["multiple"] || false;
       this.headers = this.config["uploadAPI"]["headers"] || {};
+      this.attachPinText = this.config["attachPinText"] || "Attach supporting documents..";
       //console.log("config: ", this.config);
       //console.log(this.config["maxSize"]);
       //console.log(this.headers);
@@ -244,15 +251,15 @@ export class FileUploadComponent implements OnInit, OnChanges {
     //console.log("-------------------------------");
 
     //ITERATE SELECTED FILES
-    let file : FileList;
+    let file: FileList;
     if (event.type == "drop") {
       file = event.dataTransfer.files;
-      console.log("type: drop");
+      //console.log("type: drop");
     } else {
       file = event.target.files || event.srcElement.files;
-      console.log("type: change");
+      //console.log("type: change");
     }
-    console.log(file);
+    //console.log(file);
     let currentFileExt: any;
     let ext: any;
     let frmtAllowed: boolean;
@@ -344,14 +351,7 @@ export class FileUploadComponent implements OnInit, OnChanges {
     xhr.onreadystatechange = evnt => {
       //console.log("onready");
       if (xhr.readyState === 4) {
-        if (xhr.status === 200) {
-          //this.ApiResponse.emit(JSON.parse(xhr.response));
-          this.ApiResponse.emit(xhr.response);
-          //console.log( " (From SERVER)");
-          //console.log(evnt);
-        } else {
-          //console.log("ERRRRRRor");
-          //console.log(xhr.statusText + " (From SERVER)");
+        if (xhr.status !== 200) {
           isError = true;
           this.progressBarShow = false;
           this.uploadBtn = false;
@@ -362,10 +362,12 @@ export class FileUploadComponent implements OnInit, OnChanges {
           //console.log(this.uploadMsgText);
           //console.log(evnt);
         }
+        this.ApiResponse.emit(xhr);
       }
     };
 
     xhr.upload.onprogress = evnt => {
+      this.uploadBtn = false; // button should be disabled by process uploading
       if (evnt.lengthComputable) {
         this.percentComplete = Math.round(evnt.loaded / evnt.total * 100);
       }
@@ -432,11 +434,11 @@ export class FileUploadComponent implements OnInit, OnChanges {
   drop(event: any) {
     event.stopPropagation();
     event.preventDefault();
-    console.log("drop: ", event);
-    console.log("drop: ", event.dataTransfer.files);
+    //console.log("drop: ", event);
+    //console.log("drop: ", event.dataTransfer.files);
     this.onChange(event);
   }
-  allowDrop(event : any) {
+  allowDrop(event: any) {
     event.stopPropagation();
     event.preventDefault();
     event.dataTransfer.dropEffect = "copy";

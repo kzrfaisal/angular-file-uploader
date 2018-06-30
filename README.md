@@ -1,4 +1,4 @@
-Angular file uploader is an Angular 2/4/5 file uploader module with Real-Time Progress Bar, Angular Universal Compatibility and multiple themes which includes Drag and Drop and much more.
+Angular file uploader is an Angular 2/4/5/6 file uploader module with Real-Time Progress Bar, Angular Universal Compatibility and multiple themes which includes Drag and Drop and much more.
 
 ### Demo
 <https://kzrfaisal.github.io/#/afu>
@@ -13,15 +13,15 @@ npm i angular-file-uploader
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   ```
   in your index.html.
-- Import FileUploadModule inside your app.module.ts 
+- Import AngularFileUploaderModule inside your app.module.ts 
   ```javascript
-  import { FileUploadModule } from "angular-file-uploader";
+  import { AngularFileUploaderModule } from "angular-file-uploader";
   ```
   ```javascript
   @NgModule({
     imports: [
         ...,
-        FileUploadModule,
+        AngularFileUploaderModule,
         ...
     ]
   })
@@ -80,10 +80,11 @@ npm i angular-file-uploader
 | maxSize : number           | Maximum size limit for files in MB.                                                                                                                                                   | 20 MB                                  |
 | uploadAPI.url : string     | Complete api url to which you want to upload.                                                                                                                                         | undefined                              |
 | uploadAPI.headers : {}     | Provide headers you need here.                                                                                                                                                        | {}                                     |
-| theme : string             | Specify the theme name you want to apply. Available Themes: 'dragNDrop','attachPin'                                                                                                                | If no theme or wrong theme is specified, default theme will be used instead.|
+| theme : string             | Specify the theme name you want to apply. Available Themes: ' dragNDrop ', ' attachPin '                                                                                                                | If no theme or wrong theme is specified, default theme will be used instead.|
 | hideProgressBar:boolean    | Set it as " true " to hide the Progress bar. | false |
 | hideResetBtn:boolean       | Set it as " true " to hide the 'Reset' Button. | false |
 | hideSelectBtn:boolean      | Set it as " true " to hide the 'Select File' Button. | false |
+| attachPinText:string       | If you are 'attachPin' theme, then you can use it to set custom text. | 'Attach supporting documents..' |
 
 ---
 ##### A Better Way to reset the module
@@ -101,12 +102,12 @@ You have seen that by using 'resetUpload' property, you can reset the module eas
   - Now use this local reference variable in your xyz.component.ts file.
     ```javascript
         @ViewChild('fileUpload1')
-        private fileUpload1:  FileUploadComponent;
+        private fileUpload1:  AngularFileUploaderComponent;
     ```
-    - Remember to import ViewChild and FileUploadComponent properly in your component.
+    - Remember to import ViewChild and AngularFileUploaderComponent properly in your component.
       ```javascript
         import { ViewChild } from '@angular/core';
-        import { FileUploadComponent } from "angular-file-uploader";
+        import { AngularFileUploaderComponent } from "angular-file-uploader";
       ```
   - That's it.....all done, now just use
     ```javascript
@@ -121,6 +122,8 @@ You have seen that by using 'resetUpload' property, you can reset the module eas
 - More themes.
 - More customization options.
 
+---
+#### For Versions =< 4.0.12 : Replace AngularFileUploaderModule and AngularFileUploaderComponent with FileUploadModule and FileUploadComponent respectively.
 ---
 ---
 #### For Versions < 2.x :

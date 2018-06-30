@@ -1,10 +1,18 @@
 {
   "name": "angular-file-uploader",
-  "version": "4.0.6",
-  "description": "Angular file uploader is an Angular 2/4/5 file uploader module with Real-Time Progress Bar, Angular Universal Compatibility and multiple themes which includes Drag and Drop and much more.",
-  "main": "bundles/npm-module-file-upload.umd.min.js",
-  "module": "index.js",
-  "typings": "index.d.ts",
+  "version": "4.1.0",
+  "description": "Angular file uploader is an Angular 2/4/5/6 file uploader module with Real-Time Progress Bar, Angular Universal Compatibility and multiple themes which includes Drag and Drop and much more.",
+  "main": "bundles/angular-file-uploader.umd.js",
+  "module": "fesm5/angular-file-uploader.js",
+  "es2015": "fesm2015/angular-file-uploader.js",
+  "esm5": "esm5/angular-file-uploader.js",
+  "esm2015": "esm2015/angular-file-uploader.js",
+  "fesm5": "fesm5/angular-file-uploader.js",
+  "fesm2015": "fesm2015/angular-file-uploader.js",
+  "typings": "angular-file-uploader.d.ts",
+  "metadata": "angular-file-uploader.metadata.json",
+  "sideEffects": false,
+  "deprecated": false,
   "readme": "README.md",
   "keywords": [
     "angular",
@@ -16,6 +24,7 @@
     "angular 2",
     "angular 4",
     "angular 5",
+    "angular 6",
     "universal",
     "img",
     "image upload",
@@ -28,27 +37,24 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/kzrfaisal/angular-file-uploader"
+    "url": "https://github.com/kzrfaisal/angular-file-uploader.git"
   },
   "homepage": "https://kzrfaisal.github.io/#/afu",
   "bugs": {
     "url": "https://github.com/kzrfaisal/angular-file-uploader/issues"
   },
   "peerDependencies": {
-    "@angular/core": "^2.4.0",
-    "reflect-metadata": "^0.1.8",
-    "zone.js": "^0.7.2"
+    "@angular/common": "^6.0.0-rc.0 || ^6.0.0",
+    "@angular/core": "^6.0.0-rc.0 || ^6.0.0"
   },
   "devDependencies": {
     "@angular/cli": "^1.6.1",
     "@angular/compiler": "^2.4.4",
     "@angular/compiler-cli": "^2.4.4",
+    "rollup": "^0.41.4",
     "typescript": "~2.0.0"
   },
   "dependencies": {
-    "@angular/common": "^2.4.4",
-    "@angular/core": "^2.4.4",
-    "rxjs": "^5.0.3",
-    "zone.js": "^0.7.6"
+    "tslib": "^1.9.0"
   }
 }
