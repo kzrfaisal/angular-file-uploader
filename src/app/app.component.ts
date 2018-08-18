@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { AngularFileUploaderComponent } from "angular-file-uploader";
+//import { AngularFileUploaderComponent } from "angular-file-uploader";
 
 @Component({
   selector: 'ld-root',
@@ -60,9 +60,9 @@ export class AppComponent {
     multiple: "false"
   };
   */
-  @ViewChild("afu1") private afuref1: AngularFileUploaderComponent;
-  @ViewChild("afu2") private afuref2: AngularFileUploaderComponent;
-  @ViewChild("afu3") private afuref3: AngularFileUploaderComponent;
+ // @ViewChild("afu1") private afuref1: AngularFileUploaderComponent;
+ // @ViewChild("afu2") private afuref2: AngularFileUploaderComponent;
+ // @ViewChild("afu3") private afuref3: AngularFileUploaderComponent;
   constructor() { }
 
   ngOnInit() {

@@ -3,10 +3,12 @@ import { NgModule } from '@angular/core';
 import { AngularFileUploaderModule } from "angular-file-uploader";
 // To use angular-file-uploader from node-modules remove paths from tsconfig.json in root.
 import { AppComponent } from './app.component';
+import { AfuLabComponent } from './afu-lab/afu-lab.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    AfuLabComponent
   ],
   imports: [
     BrowserModule,

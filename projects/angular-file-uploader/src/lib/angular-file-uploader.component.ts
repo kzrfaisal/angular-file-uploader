@@ -1,7 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges, Inject } from '@angular/core';
 @Component({
   selector: "angular-file-uploader",
-  template: `<div class="container" *ngIf="(theme !== 'attachPin')" id="default">
+  template: 
+  `<div class="container" *ngIf="(theme !== 'attachPin')" id="default">
   <div *ngIf="theme == 'dragNDrop'" id="dragNDrop" [ngClass]="(hideSelectBtn && hideResetBtn) ? null : 'dragNDropBtmPad'">
     <div style="position:relative;">
       <div id="div1" (drop)="drop($event)" (dragover)="allowDrop($event)">
