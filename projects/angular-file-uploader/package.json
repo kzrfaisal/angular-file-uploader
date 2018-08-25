@@ -1,9 +1,41 @@
 {
   "name": "angular-file-uploader",
-  "version": "0.0.1",
+  "version": "4.1.2",
   "license": "MIT",
   "peerDependencies": {
     "@angular/common": "^6.0.0-rc.0 || ^6.0.0",
     "@angular/core": "^6.0.0-rc.0 || ^6.0.0"
+  },
+
+  "description": "Angular file uploader is an Angular 2/4/5/6 file uploader module with Real-Time Progress Bar, Angular Universal Compatibility and multiple themes which includes Drag and Drop and much more.",
+  "deprecated": false,
+  "readme": "README.md",
+  "keywords": [
+    "angular",
+    "file upload",
+    "drag and drop",
+    "upload",
+    "uploader",
+    "ng",
+    "angular 2",
+    "angular 4",
+    "angular 5",
+    "angular 6",
+    "universal",
+    "img",
+    "image upload",
+    "formdata"
+  ],
+  "author": {
+    "name": "Mohd Faisal Ansari",
+    "email": "kzrfaisal@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kzrfaisal/angular-file-uploader.git"
+  },
+  "homepage": "https://kzrfaisal.github.io/#/afu",
+  "bugs": {
+    "url": "https://github.com/kzrfaisal/angular-file-uploader/issues"
   }
 }

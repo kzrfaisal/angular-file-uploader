@@ -1,159 +1,16 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges, Inject } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges, Inject, ViewEncapsulation } from '@angular/core';
 @Component({
   selector: "angular-file-uploader",
-  template: 
-  `<div class="container" *ngIf="(theme !== 'attachPin')" id="default">
-  <div *ngIf="theme == 'dragNDrop'" id="dragNDrop" [ngClass]="(hideSelectBtn && hideResetBtn) ? null : 'dragNDropBtmPad'">
-    <div style="position:relative;">
-      <div id="div1" (drop)="drop($event)" (dragover)="allowDrop($event)">
-        <p>Drag N Drop</p>
-      </div>
-      <!-- <span class='label label-info' id="upload-file-info{{id}}">{{selectedFiles[0]?.name}}</span> -->
-    </div>
-  </div>
-    <label for="sel{{id}}" class="btn btn-primary btn-sm" *ngIf="!hideSelectBtn">Select File<span *ngIf="multiple">s</span></label>
-    <input type="file" id="sel{{id}}" style="display: none" *ngIf="!hideSelectBtn" (change)="onChange($event)" title="Select file" name="files[]" [accept]=formatsAllowed
-        [attr.multiple]="multiple ? '' : null" />
-    <button class="btn btn-info btn-sm resetBtn" (click)="resetFileUpload()" *ngIf="!hideResetBtn">Reset</button>
-    <br *ngIf="!hideSelectBtn">
-    <p class="constraints-info">({{formatsAllowed}}) Size limit- {{(convertSize(maxSize *1024000))}}</p>
-    <!--Selected file list-->
-    <div class="row" *ngFor="let sf of selectedFiles;let i=index">
-        <p class="col-xs-3 textOverflow">
-            <span class="text-primary">{{sf.name}}</span>
-        </p>
-        <p class="col-xs-3 padMarg sizeC">
-            <strong>({{convertSize(sf.size)}})</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
-        <!--  <input class="col-xs-3 progress caption"  type="text"  placeholder="Caption.."  [(ngModel)]="Caption[i]"  *ngIf="uploadClick"/> -->
-        <div class="progress col-xs-3 padMarg" *ngIf="singleFile && progressBarShow && !hideProgressBar">
-            <span class="progress-bar progress-bar-success" role="progressbar" [ngStyle]="{'width':percentComplete+'%'}">{{percentComplete}}%</span>
-        </div>
-        <a class="col-xs-1" role="button" (click)="removeFile(i,'sf')" *ngIf="uploadClick"><i class="fa fa-times"></i></a>
-    </div>
-    <!--Invalid file list-->
-    <div class="row text-danger" *ngFor="let na of notAllowedList;let j=index">
-        <p class="col-xs-3 textOverflow">
-            <span>{{na['fileName']}}</span>
-        </p>
-        <p class="col-xs-3 padMarg sizeC">
-            <strong>({{na['fileSize']}})</strong>
-        </p>
-        <p class="col-xs-3 ">{{na['errorMsg']}}</p>
-        <a class="col-xs-1 delFileIcon" role="button" (click)="removeFile(j,'na')" *ngIf="uploadClick">&nbsp;<i class="fa fa-times"></i></a>
-    </div>
-
-    <p *ngIf="uploadMsg" class="{{uploadMsgClass}}">{{uploadMsgText}}<p>
-    <div *ngIf="!singleFile && progressBarShow && !hideProgressBar">
-        <div class="progress col-xs-4 padMarg">
-            <span class="progress-bar progress-bar-success" role="progressbar" [ngStyle]="{'width':percentComplete+'%'}">{{percentComplete}}%</span>
-        </div>
-        <br>
-        <br>
-    </div>
-    <button class="btn btn-success" type="button" (click)="uploadFiles()" [disabled]=!uploadBtn>{{uploadBtnText}}</button>
-    <br>
-</div>
-
-<!--/////////////////////////// ATTACH PIN THEME  //////////////////////////////////////////////////////////-->
-<div *ngIf="theme == 'attachPin'" id="attachPin">
-    <div style="position:relative;padding-left:6px">
-        <a class='btn up_btn' (click)="attachpinOnclick()">
-            {{attachPinText}}
-            <i class="fa fa-paperclip" aria-hidden="true"></i>
-            <!-- <p style="margin-top:10px">({{formatsAllowed}}) Size limit- {{(convertSize(maxSize * 1024000))}}</p> -->
-            <input type="file" id="sel{{id}}" (change)="onChange($event)" style="display: none" title="Select file" name="files[]" [accept]=formatsAllowed
-                [attr.multiple]="multiple ? '' : null" />
-            <br>
-        </a>
-        &nbsp;
-        <span class='label label-info' id="upload-file-info{{id}}">{{selectedFiles[0]?.name}}</span>
-    </div>
-</div>
-
-<!--/////////////////////////// DRAG N DROP THEME  //////////////////////////////////////////////////////////-->
-<!-- <div *ngIf="theme == 'dragNDrop'" id="dragNDrop">
-  <div style="position:relative;padding-left:6px">
-    <div id="div1" (drop)="drop($event)" (dragover)="allowDrop($event)">
-      <p>Drag N Drop</p>
-    </div>
-    <span class='label label-info' id="upload-file-info{{id}}">{{selectedFiles[0]?.name}}</span>
-  </div>
-</div> -->
-`,
-  styles: [
-    `.constraints-info{
-    margin-top:10px;
-    font-style: italic;
-}
-.padMarg{
-    padding: 0px;
-    margin-bottom:0px;
-}
-.caption{
-    margin-right:5px;
-}
-.textOverflow{
-    white-space: nowrap;
-    padding-right: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-.up_btn{
-    color: black;
-    background-color: transparent;
-    border: 2px solid rgb(92, 91, 91);
-    border-radius: 22px;
-}
-.delFileIcon{
-  text-decoration: none;
-  color:#ce0909;
-}
-/*--------------------- DRAG N DROP ----------------------*/
-#dragNDrop #div1{
-  display: border-box;
-  border: 2px dashed rgb(92, 91, 91);
-  height: 6rem;
-  width: 20rem;
-}
-#dragNDrop #div1>p{
-  text-align: center;
-  font-weight: bold;
-  color: rgb(92, 91, 91);
-  margin-top: 1.4em;
-}
-
-.dragNDropBtmPad {
-  padding-bottom: 2rem;
-}
-/*--------------------- X-X-X-X ----------------------*/
-@media screen and (max-width: 620px){
-    .caption{
-        padding: 0;
-    }
-}
-@media screen and (max-width: 510px){
-    .sizeC{
-        width:25%;
-    }
-}
-@media screen and (max-width: 260px){
-    .sizeC{
-        font-size:10px;
-    }
-    .caption{
-        font-size:10px;
-    }
-}
-.resetBtn{
-  margin-left: 3px;
-}
-`
-  ]
+  templateUrl:"./angular-file-uploader.component.html" ,
+  styleUrls: ["./angular-file-uploader.component.css"]
 })
 export class AngularFileUploaderComponent implements OnInit, OnChanges {
-  @Input() config: any = {};
-  @Input() resetUpload: boolean = this.config["resetUpload"];
-  @Output() ApiResponse = new EventEmitter();
+  @Input()
+  config: any = {};
+  @Input()
+  resetUpload: boolean = this.config["resetUpload"];
+  @Output()
+  ApiResponse = new EventEmitter();
 
   theme: string;
   id: number;
@@ -195,7 +52,7 @@ export class AngularFileUploaderComponent implements OnInit, OnChanges {
       this.id =
         this.config["id"] ||
         parseInt((this.idDate / 10000).toString().split(".")[1]) +
-        Math.floor(Math.random() * 20) * 10000;
+          Math.floor(Math.random() * 20) * 10000;
       this.hideProgressBar = this.config["hideProgressBar"] || false;
       this.hideResetBtn = this.config["hideResetBtn"] || false;
       this.hideSelectBtn = this.config["hideSelectBtn"] || false;
@@ -206,7 +63,8 @@ export class AngularFileUploaderComponent implements OnInit, OnChanges {
         this.config["formatsAllowed"] || ".jpg,.png,.pdf,.docx,.txt,.gif,.jpeg";
       this.multiple = this.config["multiple"] || false;
       this.headers = this.config["uploadAPI"]["headers"] || {};
-      this.attachPinText = this.config["attachPinText"] || "Attach supporting documents..";
+      this.attachPinText =
+        this.config["attachPinText"] || "Attach supporting documents..";
       //console.log("config: ", this.config);
       //console.log(this.config["maxSize"]);
       //console.log(this.headers);
@@ -370,7 +228,7 @@ export class AngularFileUploaderComponent implements OnInit, OnChanges {
     xhr.upload.onprogress = evnt => {
       this.uploadBtn = false; // button should be disabled by process uploading
       if (evnt.lengthComputable) {
-        this.percentComplete = Math.round(evnt.loaded / evnt.total * 100);
+        this.percentComplete = Math.round((evnt.loaded / evnt.total) * 100);
       }
       //console.log("Progress..."/*+this.percentComplete+" %"*/);
     };

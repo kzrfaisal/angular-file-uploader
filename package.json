@@ -7,7 +7,8 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "build-afu":"ng build angular-fil-uploader"
   },
   "private": true,
   "license": "MIT",
