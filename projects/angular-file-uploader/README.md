@@ -115,6 +115,22 @@ You have seen that by using 'resetUpload' property, you can reset the module eas
     ```
     to reset the module hassle-free anytime.
 
+#### Styling: 
+###### Following classes are available for customisation :
+###### *Include them in your global css class (src/styles.css)*
+###### *Use '!important' if something doesn't works*
+- .afu-select-btn {}
+- .afu-reset-btn {}
+- .afu-upload-btn {}
+- .afu-dragndrop-box {}
+- .afu-dragndrop-text {}
+- .afu-constraints-info {}
+- .afu-valid-file {}
+- .afu-invalid-file {}
+- .afu-progress-bar {}
+- .afu-upload-status {}
+- .afu-attach-pin {}
+
 ##### Points to note:
 - Files are uploaded in FormData format.
 
@@ -123,7 +139,8 @@ You have seen that by using 'resetUpload' property, you can reset the module eas
 - More customization options.
 
 ---
-#### For Versions =< 4.0.12 : Replace AngularFileUploaderModule and AngularFileUploaderComponent with FileUploadModule and FileUploadComponent respectively.
+#### For Versions =< 4.0.12 :
+- Replace AngularFileUploaderModule and AngularFileUploaderComponent with   FileUploadModule and FileUploadComponent respectively.
 ---
 #### For Versions < 2.x : [Click Here !](https://github.com/kzrfaisal/angular-file-uploader#for-versions--2x-) 
 ---
