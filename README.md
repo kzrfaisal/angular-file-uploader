@@ -115,7 +115,7 @@ You have seen that by using 'resetUpload' property, you can reset the module eas
     ```
     to reset the module hassle-free anytime.
 
-#### Styling: 
+### Styling: 
 ###### Following classes are available for customisation :
 ###### *Include them in your global css class (src/styles.css)*
 ###### *Use '!important' if something doesn't works*
