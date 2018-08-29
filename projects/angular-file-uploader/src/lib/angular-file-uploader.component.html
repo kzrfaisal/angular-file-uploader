@@ -18,7 +18,7 @@
     <br *ngIf="!hideSelectBtn">
     <p class="constraints-info afu-constraints-info">({{formatsAllowed}}) Size limit- {{(convertSize(maxSize *1024000))}}</p>
     <!--Selected file list-->
-    <div class="row" *ngFor="let sf of selectedFiles;let i=index" class="afu-valid-file">
+    <div class="row afu-valid-file" *ngFor="let sf of selectedFiles;let i=index" >
         <p class="col-xs-3 textOverflow"><span class="text-primary">{{sf.name}}</span></p>
         <p class="col-xs-3 padMarg sizeC"><strong>({{convertSize(sf.size)}})</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
         <!--  <input class="col-xs-3 progress caption"  type="text"  placeholder="Caption.."  [(ngModel)]="Caption[i]"  *ngIf="uploadClick"/> -->
@@ -28,14 +28,14 @@
         <a class="col-xs-1" role="button" (click)="removeFile(i,'sf')" *ngIf="uploadClick"><i class="fa fa-times"></i></a>
     </div>
     <!--Invalid file list-->
-    <div class="row text-danger" *ngFor="let na of notAllowedList;let j=index" class="afu-invalid-file">
+    <div class="row text-danger afu-invalid-file" *ngFor="let na of notAllowedList;let j=index">
         <p class="col-xs-3 textOverflow"><span>{{na['fileName']}}</span></p>
         <p class="col-xs-3 padMarg sizeC"><strong>({{na['fileSize']}})</strong></p>
         <p class="col-xs-3 ">{{na['errorMsg']}}</p>
         <a class="col-xs-1 delFileIcon" role="button" (click)="removeFile(j,'na')" *ngIf="uploadClick">&nbsp;<i class="fa fa-times"></i></a>
     </div>
 
-    <div class="afu-upload-status"><p *ngIf="uploadMsg" class="{{uploadMsgClass}}">{{uploadMsgText}}<p></div>
+    <p *ngIf="uploadMsg" class="{{uploadMsgClass}} + afu-upload-status">{{uploadMsgText}}<p>
     <div *ngIf="!singleFile && progressBarShow && !hideProgressBar">
         <div class="progress col-xs-4 padMarg afu-progress-bar">
             <span class="progress-bar progress-bar-success" role="progressbar" [ngStyle]="{'width':percentComplete+'%'}">{{percentComplete}}%</span>
