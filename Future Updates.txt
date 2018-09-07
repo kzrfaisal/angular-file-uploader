@@ -1,0 +1,7 @@
+include bootstrap internally.
+provide option to pass additional data.
+Provide user custom class to edit
+check this out quality etc : https://npms.io/about
+when invalid and valid selected simultaneously, bring cross icon before error msg.
+round number for size limit 
+additional classes for buttons.
