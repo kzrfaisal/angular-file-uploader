@@ -192,7 +192,8 @@ export class AngularFileUploaderComponent implements OnInit, OnChanges {
     let formData = new FormData();
 
     for (i = 0; i < this.selectedFiles.length; i++) {
-      if (this.Caption[i] == undefined) this.Caption[i] = "file";
+      if (this.Caption[i] == undefined) 
+        this.Caption[i] = "file" + i;
       //Add DATA TO BE SENT
       formData.append(
         this.Caption[i],

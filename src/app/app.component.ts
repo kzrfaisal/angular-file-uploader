@@ -13,6 +13,7 @@ export class AppComponent {
   resetUpload3: boolean;
   token: string = "lkdjlfjld";
   afuConfig1 = {
+    multiple:true,
     uploadAPI: {
       url: "https://slack.com/api/files.upload"
     }
