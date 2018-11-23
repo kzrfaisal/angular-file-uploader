@@ -85,6 +85,9 @@ npm i angular-file-uploader
 | hideResetBtn:boolean       | Set it as " true " to hide the 'Reset' Button. | false |
 | hideSelectBtn:boolean      | Set it as " true " to hide the 'Select File' Button. | false |
 | attachPinText:string       | If you are 'attachPin' theme, then you can use it to set custom text. | 'Attach supporting documents..' |
+| uploadSuccessMsgText:string| Success Upload Message Text. | 'Successfully Uploaded!..' |
+| uploadFailMsgText:string   | Fail Upload Message Text. | 'Upload Failed..' |
+| uploadMsgEnable:boolean    | Show/Hide Upload Message. | true |
 
 ---
 ##### A Better Way to reset the module

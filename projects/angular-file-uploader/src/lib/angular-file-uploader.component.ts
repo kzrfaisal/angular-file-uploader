@@ -37,6 +37,9 @@ export class AngularFileUploaderComponent implements OnInit, OnChanges {
   afterUpload = false;
   uploadClick = true;
   uploadMsgText: string;
+  uploadMsgEnable = true;
+  uploadSuccessMsgText: string;
+  uploadFailMsgText: string;
   uploadMsgClass: string;
   percentComplete: number;
 
@@ -65,6 +68,9 @@ export class AngularFileUploaderComponent implements OnInit, OnChanges {
       this.headers = this.config["uploadAPI"]["headers"] || {};
       this.attachPinText =
         this.config["attachPinText"] || "Attach supporting documents..";
+      this.uploadMsgEnable = this.config["uploadMsgEnable"] !== undefined ? this.config["uploadMsgEnable"] : true;
+      this.uploadSuccessMsgText = this.config["uploadSuccessMsgText"] || "Successfully Uploaded !";
+      this.uploadFailMsgText = this.config["uploadFailMsgText"] ||  "Upload Failed !";
       //console.log("config: ", this.config);
       //console.log(this.config["maxSize"]);
       //console.log(this.headers);
@@ -192,7 +198,7 @@ export class AngularFileUploaderComponent implements OnInit, OnChanges {
     let formData = new FormData();
 
     for (i = 0; i < this.selectedFiles.length; i++) {
-      if (this.Caption[i] == undefined) 
+      if (this.Caption[i] == undefined)
         this.Caption[i] = "file" + i;
       //Add DATA TO BE SENT
       formData.append(
@@ -215,9 +221,9 @@ export class AngularFileUploaderComponent implements OnInit, OnChanges {
           isError = true;
           this.progressBarShow = false;
           this.uploadBtn = false;
-          this.uploadMsg = true;
+          this.uploadMsg = this.uploadMsgEnable;
           this.afterUpload = true;
-          this.uploadMsgText = "Upload Failed !";
+          this.uploadMsgText = this.uploadFailMsgText;
           this.uploadMsgClass = "text-danger lead";
           //console.log(this.uploadMsgText);
           //console.log(evnt);
@@ -239,10 +245,10 @@ export class AngularFileUploaderComponent implements OnInit, OnChanges {
       //console.log(evnt);
       this.progressBarShow = false;
       this.uploadBtn = false;
-      this.uploadMsg = true;
+      this.uploadMsg = this.uploadMsgEnable;
       this.afterUpload = true;
       if (!isError) {
-        this.uploadMsgText = "Successfully Uploaded !";
+        this.uploadMsgText = this.uploadSuccessMsgText;
         this.uploadMsgClass = "text-success lead";
         //console.log(this.uploadMsgText + " " + this.selectedFiles.length + " file");
       }
