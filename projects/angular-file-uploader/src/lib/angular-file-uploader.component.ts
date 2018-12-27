@@ -211,7 +211,7 @@ export class AngularFileUploaderComponent implements OnInit, OnChanges {
     xhr.onreadystatechange = evnt => {
       //console.log("onready");
       if (xhr.readyState === 4) {
-        if (xhr.status !== 200) {
+        if (xhr.status !== 200 && xhr.status !== 201) {
           isError = true;
           this.progressBarShow = false;
           this.uploadBtn = false;
