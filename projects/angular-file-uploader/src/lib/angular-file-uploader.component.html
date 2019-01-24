@@ -4,7 +4,7 @@
     <div *ngIf="theme == 'dragNDrop'" id="dragNDrop" [ngClass]="(hideSelectBtn && hideResetBtn) ? null : 'dragNDropBtmPad'" class="dragNDrop">
         <div style="position:relative;">
             <div id="div1" class="div1 afu-dragndrop-box" (drop)="drop($event)" (dragover)="allowDrop($event)">
-                <p class="afu-dragndrop-text">Drag N Drop</p>
+                <p class="afu-dragndrop-text">{{dragNDropText}}</p>
             </div>
             <!-- <span class='label label-info' id="upload-file-info{{id}}">{{selectedFiles[0]?.name}}</span> -->
         </div>

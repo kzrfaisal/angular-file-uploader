@@ -24,6 +24,7 @@ export class AngularFileUploaderComponent implements OnInit, OnChanges {
   hideSelectBtn: boolean;
   attachPinText: string;
   uploadBtnText: string;
+  dragNDropText: string;
 
   idDate: number = +new Date();
   reg: RegExp = /(?:\.([^.]+))?$/;
@@ -65,6 +66,8 @@ export class AngularFileUploaderComponent implements OnInit, OnChanges {
       this.headers = this.config["uploadAPI"]["headers"] || {};
       this.attachPinText =
         this.config["attachPinText"] || "Attach supporting documents..";
+      this.dragNDropText =
+        this.config["dragNDropText"] || "Drag N Drop";
       //console.log("config: ", this.config);
       //console.log(this.config["maxSize"]);
       //console.log(this.headers);
@@ -192,7 +195,7 @@ export class AngularFileUploaderComponent implements OnInit, OnChanges {
     let formData = new FormData();
 
     for (i = 0; i < this.selectedFiles.length; i++) {
-      if (this.Caption[i] == undefined) 
+      if (this.Caption[i] == undefined)
         this.Caption[i] = "file" + i;
       //Add DATA TO BE SENT
       formData.append(
