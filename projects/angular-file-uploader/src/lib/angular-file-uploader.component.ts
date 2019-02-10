@@ -22,8 +22,6 @@ export class AngularFileUploaderComponent implements OnInit, OnChanges {
   headers: any;
   hideResetBtn: boolean;
   hideSelectBtn: boolean;
-  attachPinText: string;
-  uploadBtnText: string;
 
   idDate: number = +new Date();
   reg: RegExp = /(?:\.([^.]+))?$/;
@@ -39,6 +37,7 @@ export class AngularFileUploaderComponent implements OnInit, OnChanges {
   uploadMsgText: string;
   uploadMsgClass: string;
   percentComplete: number;
+  replaceTexts;
 
   constructor() {
     //console.log("id: ",this.id);
@@ -56,15 +55,29 @@ export class AngularFileUploaderComponent implements OnInit, OnChanges {
       this.hideProgressBar = this.config["hideProgressBar"] || false;
       this.hideResetBtn = this.config["hideResetBtn"] || false;
       this.hideSelectBtn = this.config["hideSelectBtn"] || false;
-      this.uploadBtnText = this.config["uploadBtnText"] || "Upload";
       this.maxSize = this.config["maxSize"] || 20;
       this.uploadAPI = this.config["uploadAPI"]["url"];
       this.formatsAllowed =
         this.config["formatsAllowed"] || ".jpg,.png,.pdf,.docx,.txt,.gif,.jpeg";
       this.multiple = this.config["multiple"] || false;
       this.headers = this.config["uploadAPI"]["headers"] || {};
-      this.attachPinText =
-        this.config["attachPinText"] || "Attach supporting documents..";
+      let defaultReplaceTextsValues: ReplaceTexts =  {
+        selectFileBtn: this.multiple ? 'Select Files' : 'Select File',
+        resetBtn: 'Reset',
+        uploadBtn: 'Upload',
+        dragNDropBox: 'Drag N Drop',
+        attachPinBtn: this.multiple ? 'Attach Files...' : 'Attach File...',
+        afterUploadMsg_success: 'Successfully Uploaded !',
+        afterUploadMsg_error: 'Upload Failed !'
+      };
+      this.replaceTexts = {...defaultReplaceTextsValues};
+      if(this.config["replaceTexts"]) {
+        this.replaceTexts = {
+          ...defaultReplaceTextsValues,
+          ...this.config['replaceTexts']
+        }
+      }
+
       //console.log("config: ", this.config);
       //console.log(this.config["maxSize"]);
       //console.log(this.headers);
@@ -192,7 +205,7 @@ export class AngularFileUploaderComponent implements OnInit, OnChanges {
     let formData = new FormData();
 
     for (i = 0; i < this.selectedFiles.length; i++) {
-      if (this.Caption[i] == undefined) 
+      if (this.Caption[i] == undefined)
         this.Caption[i] = "file" + i;
       //Add DATA TO BE SENT
       formData.append(
@@ -217,7 +230,7 @@ export class AngularFileUploaderComponent implements OnInit, OnChanges {
           this.uploadBtn = false;
           this.uploadMsg = true;
           this.afterUpload = true;
-          this.uploadMsgText = "Upload Failed !";
+          this.uploadMsgText = this.replaceTexts.afterUploadMsg_error;
           this.uploadMsgClass = "text-danger lead";
           //console.log(this.uploadMsgText);
           //console.log(evnt);
@@ -242,7 +255,7 @@ export class AngularFileUploaderComponent implements OnInit, OnChanges {
       this.uploadMsg = true;
       this.afterUpload = true;
       if (!isError) {
-        this.uploadMsgText = "Successfully Uploaded !";
+        this.uploadMsgText = this.replaceTexts.afterUploadMsg_success;
         this.uploadMsgClass = "text-success lead";
         //console.log(this.uploadMsgText + " " + this.selectedFiles.length + " file");
       }
@@ -317,3 +330,13 @@ export class AngularFileUploaderComponent implements OnInit, OnChanges {
   hideProgressBar?: boolean;
  }
  */
+
+ interface ReplaceTexts {
+  selectFileBtn: string,
+  resetBtn: string,
+  uploadBtn: string,
+  dragNDropBox: string,
+  attachPinBtn: string,
+  afterUploadMsg_success: string,
+  afterUploadMsg_error: string,
+};

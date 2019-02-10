@@ -13,8 +13,6 @@ export declare class AngularFileUploaderComponent implements OnInit, OnChanges {
     headers: any;
     hideResetBtn: boolean;
     hideSelectBtn: boolean;
-    attachPinText: string;
-    uploadBtnText: string;
     idDate: number;
     reg: RegExp;
     selectedFiles: Array<any>;
@@ -29,6 +27,7 @@ export declare class AngularFileUploaderComponent implements OnInit, OnChanges {
     uploadMsgText: string;
     uploadMsgClass: string;
     percentComplete: number;
+    replaceTexts: any;
     constructor();
     ngOnChanges(rst: SimpleChanges): void;
     ngOnInit(): void;

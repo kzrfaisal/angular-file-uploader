@@ -62,7 +62,16 @@ npm i angular-file-uploader
       theme: "dragNDrop",
       hideProgressBar: true,
       hideResetBtn: true,
-      hideSelectBtn: true
+      hideSelectBtn: true,
+      replaceTexts: {
+        selectFileBtn: 'Select Files',
+        resetBtn: 'Reset',
+        uploadBtn: 'Upload',
+        dragNDropBox: 'Drag N Drop',
+        attachPinBtn: 'Attach Files...',
+        afterUploadMsg_success: 'Successfully Uploaded !',
+        afterUploadMsg_error: 'Upload Failed !'
+      };
   };
   ``` 
 
@@ -84,7 +93,7 @@ npm i angular-file-uploader
 | hideProgressBar:boolean    | Set it as " true " to hide the Progress bar. | false |
 | hideResetBtn:boolean       | Set it as " true " to hide the 'Reset' Button. | false |
 | hideSelectBtn:boolean      | Set it as " true " to hide the 'Select File' Button. | false |
-| attachPinText:string       | If you are 'attachPin' theme, then you can use it to set custom text. | 'Attach supporting documents..' |
+| replaceTexts:object       | Replace default texts with your own custom texts. | refer to example-2|
 
 ---
 ##### A Better Way to reset the module
