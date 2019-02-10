@@ -93,7 +93,7 @@ npm i angular-file-uploader
 | hideProgressBar:boolean    | Set it as " true " to hide the Progress bar. | false |
 | hideResetBtn:boolean       | Set it as " true " to hide the 'Reset' Button. | false |
 | hideSelectBtn:boolean      | Set it as " true " to hide the 'Select File' Button. | false |
-| replaceTexts:object       | Replace default texts with your own custom texts. |  { selectFileBtn: 'Select File(s), resetBtn: 'Reset', uploadBtn: 'Upload', dragNDropBox: 'Drag N Drop', attachPinBtn: 'Attach File(s)...', afterUploadMsg_success: 'Successfully Uploaded !', afterUploadMsg_error: 'Upload Failed !'}|
+| replaceTexts:object       | Replace default texts with your own custom texts. | refer to example-2|
 
 ---
 ##### A Better Way to reset the module
