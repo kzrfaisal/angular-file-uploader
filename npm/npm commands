@@ -1,2 +1,0 @@
-npm version patch/major/minor/premajor -m "message"
-npm publish
