@@ -43,7 +43,7 @@
         <br>
         <br>
     </div>
-    <button class="btn btn-success afu-upload-btn" type="button" (click)="uploadFiles()" [disabled]=!uploadBtn>{{replaceTexts?.uploadBtn}}</button>
+    <button *ngIf="hideUploadButton" class="btn btn-success afu-upload-btn" type="button" (click)="uploadFiles()" [disabled]=!uploadBtn>{{replaceTexts?.uploadBtn}}</button>
     <br>
 </div>
 
