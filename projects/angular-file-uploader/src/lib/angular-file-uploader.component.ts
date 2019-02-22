@@ -15,6 +15,7 @@ export class AngularFileUploaderComponent implements OnInit, OnChanges {
   theme: string;
   id: number;
   hideProgressBar: boolean;
+  hideUploadButton: boolean;
   maxSize: number;
   uploadAPI: string;
   formatsAllowed: string;
@@ -53,6 +54,7 @@ export class AngularFileUploaderComponent implements OnInit, OnChanges {
         parseInt((this.idDate / 10000).toString().split(".")[1]) +
           Math.floor(Math.random() * 20) * 10000;
       this.hideProgressBar = this.config["hideProgressBar"] || false;
+      this.hideUploadButton = this.config["hideUploadButton"] || false;
       this.hideResetBtn = this.config["hideResetBtn"] || false;
       this.hideSelectBtn = this.config["hideSelectBtn"] || false;
       this.maxSize = this.config["maxSize"] || 20;
