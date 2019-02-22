@@ -61,6 +61,7 @@ npm i angular-file-uploader
       },
       theme: "dragNDrop",
       hideProgressBar: true,
+      hideUploadButton: true,
       hideResetBtn: true,
       hideSelectBtn: true,
       replaceTexts: {
@@ -91,6 +92,7 @@ npm i angular-file-uploader
 | uploadAPI.headers : {}     | Provide headers you need here.                                                                                                                                                        | {}                                     |
 | theme : string             | Specify the theme name you want to apply. Available Themes: ' dragNDrop ', ' attachPin '                                                                                                                | If no theme or wrong theme is specified, default theme will be used instead.|
 | hideProgressBar:boolean    | Set it as " true " to hide the Progress bar. | false |
+| hideUploadButton:boolean    | Set it as " true " to hide the Upload button. | false |
 | hideResetBtn:boolean       | Set it as " true " to hide the 'Reset' Button. | false |
 | hideSelectBtn:boolean      | Set it as " true " to hide the 'Select File' Button. | false |
 | replaceTexts:object       | Replace default texts with your own custom texts. | refer to example-2|
@@ -241,6 +243,7 @@ npm i angular-file-uploader
 | uploadAPI.headers : {}     | Provide headers you need here.                                                                                                                                                        | {}                                     |
 | theme : string             | Specify the theme name you want to apply. Available Themes: ' dragNDrop ', ' attachPin '                                                                                                                | If no theme or wrong theme is specified, default theme will be used instead.|
 | hideProgressBar:boolean    | Set it as " true " to hide the Progress bar. | false |
+| hideUploadButton:boolean    | Set it as " true " to hide the Upload button. | false |
 | hideResetBtn:boolean       | Set it as " true " to hide the 'Reset' Button. | false |
 | hideSelectBtn:boolean      | Set it as " true " to hide the 'Select File' Button. | false |
 | attachPinText:string       | If you are 'attachPin' theme, then you can use it to set custom text. | 'Attach supporting documents..' |
@@ -328,6 +331,7 @@ You have seen that by using 'resetUpload' property, you can reset the module eas
 | ApiResponse:EventEmitter   | It will return the response it gets back from the uploadAPI. Assign one custom function ,for example " DocUpload($event) " here, where " $event " will contain the response from the api.                                                           |                                        |
 | resetUpload : boolean      | Give it's value as " true " whenever you want to clear the list of  uploads being displayed. It's better to assign one boolean variable ('resetVar' here)to it and then  change that variable's value. Remember to change 'resetVar' value 'true' to 'false' after every reset. | false                                  |
 | hideProgressBar : boolean  | Set it as " true " to hide the Progress bar. | false |
+| hideUploadButton : boolean    | Set it as " true " to hide the Upload button. | false |
 
 You have seen that by using 'resetUpload' property, you can reset the module easily, however if you need to reset more than one time, there's a better way of doing that( bcoz in 'resetUpload' property, you have to make it as false in order to use it again):-
 
