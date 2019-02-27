@@ -38,7 +38,6 @@ export class AngularFileUploaderComponent implements OnInit, OnChanges {
   uploadMsgClass: string;
   percentComplete: number;
   replaceTexts;
-
   constructor() {
     //console.log("id: ",this.id);
     //console.log("idDate: ",this.idDate);
@@ -203,7 +202,7 @@ export class AngularFileUploaderComponent implements OnInit, OnChanges {
 
     let xhr = new XMLHttpRequest();
     let formData = new FormData();
-
+    if(this.multiple){
     for (i = 0; i < this.selectedFiles.length; i++) {
       if (this.Caption[i] == undefined)
         this.Caption[i] = "file" + i;
@@ -213,6 +212,12 @@ export class AngularFileUploaderComponent implements OnInit, OnChanges {
         this.selectedFiles[i] /*, this.selectedFiles[i].name*/
       );
       //console.log(this.selectedFiles[i]+"{"+this.Caption[i]+" (Caption)}");
+    }   
+    }else{
+        formData.append(
+        'file',
+        this.selectedFiles[0] /*, this.selectedFiles[i].name*/
+      );
     }
 
     if (i > 1) {
