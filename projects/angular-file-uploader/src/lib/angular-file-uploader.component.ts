@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges, Inject, ViewEncapsulation } from '@angular/core';
 @Component({
   selector: "angular-file-uploader",
-  templateUrl:"./angular-file-uploader.component.html" ,
+  templateUrl: "./angular-file-uploader.component.html",
   styleUrls: ["./angular-file-uploader.component.css"]
 })
 export class AngularFileUploaderComponent implements OnInit, OnChanges {
@@ -50,27 +50,28 @@ export class AngularFileUploaderComponent implements OnInit, OnChanges {
       this.id =
         this.config["id"] ||
         parseInt((this.idDate / 10000).toString().split(".")[1]) +
-          Math.floor(Math.random() * 20) * 10000;
+        Math.floor(Math.random() * 20) * 10000;
       this.hideProgressBar = this.config["hideProgressBar"] || false;
       this.hideResetBtn = this.config["hideResetBtn"] || false;
       this.hideSelectBtn = this.config["hideSelectBtn"] || false;
-      this.maxSize = this.config["maxSize"] || 20;
+      this.maxSize = this.config["maxSize"] ? this.config["maxSize"] : 20;
       this.uploadAPI = this.config["uploadAPI"]["url"];
       this.formatsAllowed =
         this.config["formatsAllowed"] || ".jpg,.png,.pdf,.docx,.txt,.gif,.jpeg";
       this.multiple = this.config["multiple"] || false;
       this.headers = this.config["uploadAPI"]["headers"] || {};
-      let defaultReplaceTextsValues: ReplaceTexts =  {
+      let defaultReplaceTextsValues: ReplaceTexts = {
         selectFileBtn: this.multiple ? 'Select Files' : 'Select File',
         resetBtn: 'Reset',
         uploadBtn: 'Upload',
         dragNDropBox: 'Drag N Drop',
         attachPinBtn: this.multiple ? 'Attach Files...' : 'Attach File...',
         afterUploadMsg_success: 'Successfully Uploaded !',
-        afterUploadMsg_error: 'Upload Failed !'
+        afterUploadMsg_error: 'Upload Failed !',
+        sizeLimitMsg: 'Size Limit'
       };
-      this.replaceTexts = {...defaultReplaceTextsValues};
-      if(this.config["replaceTexts"]) {
+      this.replaceTexts = { ...defaultReplaceTextsValues };
+      if (this.config["replaceTexts"]) {
         this.replaceTexts = {
           ...defaultReplaceTextsValues,
           ...this.config['replaceTexts']
@@ -202,24 +203,23 @@ export class AngularFileUploaderComponent implements OnInit, OnChanges {
 
     let xhr = new XMLHttpRequest();
     let formData = new FormData();
-    if(this.multiple){
-    for (i = 0; i < this.selectedFiles.length; i++) {
-      if (this.Caption[i] == undefined)
-        this.Caption[i] = "file" + i;
-      //Add DATA TO BE SENT
-      formData.append(
-        this.Caption[i],
-        this.selectedFiles[i] /*, this.selectedFiles[i].name*/
-      );
-      //console.log(this.selectedFiles[i]+"{"+this.Caption[i]+" (Caption)}");
-    }   
-    }else{
+    if (this.multiple) {
+      for (i = 0; i < this.selectedFiles.length; i++) {
+        if (this.Caption[i] == undefined)
+          this.Caption[i] = "file" + i;
+        //Add DATA TO BE SENT
         formData.append(
+          this.Caption[i],
+          this.selectedFiles[i] /*, this.selectedFiles[i].name*/
+        );
+        //console.log(this.selectedFiles[i]+"{"+this.Caption[i]+" (Caption)}");
+      }
+    } else {
+      formData.append(
         'file',
         this.selectedFiles[0] /*, this.selectedFiles[i].name*/
       );
     }
-
     if (i > 1) {
       this.singleFile = false;
     } else {
@@ -336,7 +336,7 @@ export class AngularFileUploaderComponent implements OnInit, OnChanges {
  }
  */
 
- interface ReplaceTexts {
+interface ReplaceTexts {
   selectFileBtn: string,
   resetBtn: string,
   uploadBtn: string,
@@ -344,4 +344,5 @@ export class AngularFileUploaderComponent implements OnInit, OnChanges {
   attachPinBtn: string,
   afterUploadMsg_success: string,
   afterUploadMsg_error: string,
+  sizeLimitMsg: string;
 };
