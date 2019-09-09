@@ -54,6 +54,7 @@ npm i angular-file-uploader
       maxSize: "1",
       uploadAPI:  {
         url:"https://example-file-upload-api",
+        method:"POST",
         headers: {
        "Content-Type" : "text/plain;charset=UTF-8",
        "Authorization" : `Bearer ${token}`
@@ -88,6 +89,7 @@ npm i angular-file-uploader
 | formatsAllowed : string    | Specify the formats of file you want to upload.                                                                                                                                       | '.jpg,.png,.pdf,.docx, .txt,.gif,.jpeg'|
 | maxSize : number           | Maximum size limit for files in MB.                                                                                                                                                   | 20 MB                                  |
 | uploadAPI.url : string     | Complete api url to which you want to upload.                                                                                                                                         | undefined                              |
+| uploadAPI.method : string     | HTTP method to use for upload.                                                                                                                                         | POST                              |
 | uploadAPI.headers : {}     | Provide headers you need here.                                                                                                                                                        | {}                                     |
 | theme : string             | Specify the theme name you want to apply. Available Themes: ' dragNDrop ', ' attachPin '                                                                                                                | If no theme or wrong theme is specified, default theme will be used instead.|
 | hideProgressBar:boolean    | Set it as " true " to hide the Progress bar. | false |
@@ -213,6 +215,7 @@ npm i angular-file-uploader
       maxSize: "1",
       uploadAPI:  {
         url:"https://example-file-upload-api",
+        method:"POST",
         headers: {
        "Content-Type" : "text/plain;charset=UTF-8",
        "Authorization" : `Bearer ${token}`
@@ -238,6 +241,7 @@ npm i angular-file-uploader
 | formatsAllowed : string    | Specify the formats of file you want to upload.                                                                                                                                       | '.jpg,.png,.pdf,.docx, .txt,.gif,.jpeg'|
 | maxSize : number           | Maximum size limit for files in MB.                                                                                                                                                   | 20 MB                                  |
 | uploadAPI.url : string     | Complete api url to which you want to upload.                                                                                                                                         | undefined                              |
+| uploadAPI.method : string     | HTTP method to use for upload.                                                                                                                                         | POST                              |
 | uploadAPI.headers : {}     | Provide headers you need here.                                                                                                                                                        | {}                                     |
 | theme : string             | Specify the theme name you want to apply. Available Themes: ' dragNDrop ', ' attachPin '                                                                                                                | If no theme or wrong theme is specified, default theme will be used instead.|
 | hideProgressBar:boolean    | Set it as " true " to hide the Progress bar. | false |

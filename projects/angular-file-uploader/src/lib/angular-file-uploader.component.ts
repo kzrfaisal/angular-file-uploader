@@ -17,6 +17,7 @@ export class AngularFileUploaderComponent implements OnInit, OnChanges {
   hideProgressBar: boolean;
   maxSize: number;
   uploadAPI: string;
+  method: string;
   formatsAllowed: string;
   multiple: boolean;
   headers: any;
@@ -57,6 +58,7 @@ export class AngularFileUploaderComponent implements OnInit, OnChanges {
       this.hideSelectBtn = this.config["hideSelectBtn"] || false;
       this.maxSize = this.config["maxSize"] || 20;
       this.uploadAPI = this.config["uploadAPI"]["url"];
+      this.method = this.config["uploadAPI"]["method"] || "POST";
       this.formatsAllowed =
         this.config["formatsAllowed"] || ".jpg,.png,.pdf,.docx,.txt,.gif,.jpeg";
       this.multiple = this.config["multiple"] || false;
@@ -266,7 +268,7 @@ export class AngularFileUploaderComponent implements OnInit, OnChanges {
       //console.log(evnt);
     };
 
-    xhr.open("POST", this.uploadAPI, true);
+    xhr.open(this.method, this.uploadAPI, true);
     for (const key of Object.keys(this.headers)) {
       // Object.keys will give an Array of keys
       xhr.setRequestHeader(key, this.headers[key]);
