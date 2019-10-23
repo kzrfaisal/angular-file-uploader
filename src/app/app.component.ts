@@ -55,11 +55,7 @@ export class AppComponent implements OnInit {
 
   }
 
-  DocUpload(env) {
+  docUpload(env) {
     console.log(env);
-  }
-
-  resetfu(id) {
-    this[`afuref${id}`].resetFileUpload();
   }
 }
