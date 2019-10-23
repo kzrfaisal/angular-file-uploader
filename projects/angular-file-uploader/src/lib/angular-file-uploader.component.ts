@@ -13,6 +13,9 @@ export class AngularFileUploaderComponent implements OnInit, OnChanges {
   @Output()
   ApiResponse = new EventEmitter();
 
+  @Output()
+  everythingDone = new EventEmitter();
+
   theme: string;
   id: number;
   hideProgressBar: boolean;
@@ -24,6 +27,7 @@ export class AngularFileUploaderComponent implements OnInit, OnChanges {
   headers: any;
   hideResetBtn: boolean;
   hideSelectBtn: boolean;
+  oneFilePerRequest: boolean;
 
   idDate: number = +new Date();
   reg: RegExp = /(?:\.([^.]+))?$/;
@@ -40,6 +44,8 @@ export class AngularFileUploaderComponent implements OnInit, OnChanges {
   uploadMsgClass: string;
   percentComplete: number;
   replaceTexts;
+
+  currentUploads = [];
 
   constructor() {
     //console.log("id: ",this.id);
@@ -64,6 +70,7 @@ export class AngularFileUploaderComponent implements OnInit, OnChanges {
         this.config["formatsAllowed"] || ".jpg,.png,.pdf,.docx,.txt,.gif,.jpeg";
       this.multiple = this.config["multiple"] || false;
       this.headers = this.config["uploadAPI"]["headers"] || {};
+      this.oneFilePerRequest = !!this.config['oneFilePerRequest'];
       let defaultReplaceTextsValues: ReplaceTexts =  {
         selectFileBtn: this.multiple ? 'Select Files' : 'Select File',
         resetBtn: 'Reset',
@@ -201,80 +208,96 @@ export class AngularFileUploaderComponent implements OnInit, OnChanges {
     this.notAllowedList = [];
     let isError = false;
 
-    let xhr = new XMLHttpRequest();
-    let formData = new FormData();
+    this.singleFile = this.selectedFiles.length <= 1;
 
-    for (i = 0; i < this.selectedFiles.length; i++) {
-      if (this.Caption[i] == undefined)
-        this.Caption[i] = "file" + i;
-      //Add DATA TO BE SENT
-      formData.append(
-        this.Caption[i],
-        this.selectedFiles[i] /*, this.selectedFiles[i].name*/
-      );
-      //console.log(this.selectedFiles[i]+"{"+this.Caption[i]+" (Caption)}");
-    }
+    this.currentUploads = [];
 
-    if (i > 1) {
-      this.singleFile = false;
+    if (this.oneFilePerRequest && !this.singleFile) {
+      this.selectedFiles.forEach((selectedFile, inx) => {
+        const xhr = new XMLHttpRequest();
+        const formData = new FormData();
+
+        // Add data to be sent in this request
+        formData.append(
+          this.Caption[inx] || 'file' + inx,
+          this.selectedFiles[inx],
+        );
+
+        this.currentUploads.push({xhr: xhr, formData: formData, inxs: [inx]});
+      });
     } else {
-      this.singleFile = true;
+      const xhr = new XMLHttpRequest();
+      const formData = new FormData();
+
+      // Add data to be sent in this request
+      this.selectedFiles.forEach((selectedFile, inx) => {
+        formData.append(
+          this.Caption[inx] || 'file' + inx,
+          this.selectedFiles[inx],
+        );
+      });
+
+      this.currentUploads.push({xhr: xhr, formData: formData, inxs: this.selectedFiles.map((selectedFile, inx) => inx), response: null});
     }
 
-    xhr.onreadystatechange = evnt => {
-      //console.log("onready");
-      if (xhr.readyState === 4) {
-        if (xhr.status !== 200 && xhr.status !== 201) {
-          isError = true;
-          this.progressBarShow = false;
-          this.uploadBtn = false;
-          this.uploadMsg = true;
-          this.afterUpload = true;
-          this.uploadMsgText = this.replaceTexts.afterUploadMsg_error;
-          this.uploadMsgClass = "text-danger lead";
-          //console.log(this.uploadMsgText);
-          //console.log(evnt);
+    const totalUploads = this.currentUploads.length;
+
+    this.currentUploads.forEach((upload, uploadInx) => {
+      const xhr = upload.xhr;
+
+      xhr.onreadystatechange = evnt => {
+        if (xhr.readyState === 4) {
+          if (xhr.status !== 200 && xhr.status !== 201) {
+            isError = true;
+            this.progressBarShow = false;
+            this.uploadBtn = false;
+            this.uploadMsg = true;
+            this.afterUpload = true;
+            this.uploadMsgText = this.replaceTexts.afterUploadMsg_error;
+            this.uploadMsgClass = 'text-danger lead';
+          }
+          this.ApiResponse.emit(xhr);
+          if (uploadInx + 1 === totalUploads) {
+            this.everythingDone.emit(this.currentUploads);
+          }
         }
-        this.ApiResponse.emit(xhr);
+      };
+
+      xhr.upload.onprogress = evnt => {
+        this.uploadBtn = false; // button should be disabled by process uploading
+        if (evnt.lengthComputable) {
+          const currentDone = (evnt.loaded / evnt.total);
+          this.percentComplete = Math.round((uploadInx + currentDone) * 100 / totalUploads);
+        }
+      };
+
+      xhr.onload = evnt => {
+        this.progressBarShow = false;
+        this.uploadBtn = false;
+        this.uploadMsg = true;
+        this.afterUpload = true;
+        if (!isError) {
+          if (uploadInx + 1 === totalUploads) {
+            this.uploadMsgText = this.replaceTexts.afterUploadMsg_success;
+            this.uploadMsgClass = 'text-success lead';
+          } else {
+            const nextUpload = this.currentUploads[uploadInx + 1];
+            nextUpload.xhr.send(nextUpload.formData);
+          }
+          this.percentComplete = Math.round((uploadInx + 1) * 100 / totalUploads);
+        }
+      };
+
+      xhr.open(this.method, this.uploadAPI, true);
+      for (const key of Object.keys(this.headers)) {
+        // Object.keys will give an Array of keys
+        xhr.setRequestHeader(key, this.headers[key]);
       }
-    };
+    });
 
-    xhr.upload.onprogress = evnt => {
-      this.uploadBtn = false; // button should be disabled by process uploading
-      if (evnt.lengthComputable) {
-        this.percentComplete = Math.round((evnt.loaded / evnt.total) * 100);
-      }
-      //console.log("Progress..."/*+this.percentComplete+" %"*/);
-    };
 
-    xhr.onload = evnt => {
-      //console.log("onload");
-      //console.log(evnt);
-      this.progressBarShow = false;
-      this.uploadBtn = false;
-      this.uploadMsg = true;
-      this.afterUpload = true;
-      if (!isError) {
-        this.uploadMsgText = this.replaceTexts.afterUploadMsg_success;
-        this.uploadMsgClass = "text-success lead";
-        //console.log(this.uploadMsgText + " " + this.selectedFiles.length + " file");
-      }
-    };
-
-    xhr.onerror = evnt => {
-      //console.log("onerror");
-      //console.log(evnt);
-    };
-
-    xhr.open(this.method, this.uploadAPI, true);
-    for (const key of Object.keys(this.headers)) {
-      // Object.keys will give an Array of keys
-      xhr.setRequestHeader(key, this.headers[key]);
-    }
-    //let token = sessionStorage.getItem("token");
-    //xhr.setRequestHeader("Content-Type", "text/plain;charset=UTF-8");
-    //xhr.setRequestHeader('Authorization', `Bearer ${token}`);
-    xhr.send(formData);
+    const firstUpload = this.currentUploads[0];
+    firstUpload.xhr.send(firstUpload.formData);
   }
 
   removeFile(i: any, sf_na: any) {
