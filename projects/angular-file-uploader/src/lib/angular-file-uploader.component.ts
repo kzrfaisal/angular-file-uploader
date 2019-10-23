@@ -1,14 +1,15 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges, Inject, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+
 @Component({
-  selector: "angular-file-uploader",
-  templateUrl:"./angular-file-uploader.component.html" ,
-  styleUrls: ["./angular-file-uploader.component.css"]
+  selector: 'angular-file-uploader',
+  templateUrl: './angular-file-uploader.component.html',
+  styleUrls: ['./angular-file-uploader.component.css'],
 })
 export class AngularFileUploaderComponent implements OnInit, OnChanges {
   @Input()
   config: any = {};
   @Input()
-  resetUpload: boolean = this.config["resetUpload"];
+  resetUpload: boolean = this.config['resetUpload'];
   @Output()
   ApiResponse = new EventEmitter();
 
@@ -195,9 +196,6 @@ export class AngularFileUploaderComponent implements OnInit, OnChanges {
   }
 
   uploadFiles() {
-    //console.log(this.selectedFiles);
-
-    let i: any;
     this.progressBarShow = true;
     this.uploadClick = false;
     this.notAllowedList = [];
@@ -296,8 +294,8 @@ export class AngularFileUploaderComponent implements OnInit, OnChanges {
   convertSize(fileSize: number) {
     //console.log(fileSize + " - "+ str);
     return fileSize < 1024000
-      ? (fileSize / 1024).toFixed(2) + " KB"
-      : (fileSize / 1024000).toFixed(2) + " MB";
+      ? (fileSize / 1024).toFixed(2) + ' KB'
+      : (fileSize / 1024000).toFixed(2) + ' MB';
   }
 
   attachpinOnclick() {
