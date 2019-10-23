@@ -1,5 +1,36 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 
+export interface ReplaceTexts {
+  selectFileBtn: string;
+  resetBtn: string;
+  uploadBtn: string;
+  dragNDropBox: string;
+  attachPinBtn: string;
+  afterUploadMsg_success: string;
+  afterUploadMsg_error: string;
+}
+
+export interface AngularFileUploaderConfig {
+  uploadAPI: { url: string; method?: string; headers?: { [id: string]: string }; };
+
+  theme?: string;
+  id?: number;
+  hideProgressBar?: boolean;
+  hideResetBtn?: boolean;
+  hideSelectBtn?: boolean;
+  maxSize?: number;
+  formatsAllowed?: string;
+  multiple?: boolean;
+  oneFilePerRequest?: boolean;
+  replaceTexts?: ReplaceTexts;
+}
+
+export interface UploadInfo {
+  xhr: XMLHttpRequest;
+  formData: FormData;
+  inxs: number[];
+}
+
 @Component({
   selector: 'angular-file-uploader',
   templateUrl: './angular-file-uploader.component.html',
@@ -7,14 +38,16 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange
 })
 export class AngularFileUploaderComponent implements OnInit, OnChanges {
   @Input()
-  config: any = {};
+  config: AngularFileUploaderConfig;
+
   @Input()
-  resetUpload: boolean = this.config['resetUpload'];
+  resetUpload = false;
+
   @Output()
   ApiResponse = new EventEmitter();
 
   @Output()
-  everythingDone = new EventEmitter();
+  everythingDone: EventEmitter<UploadInfo[]> = new EventEmitter<UploadInfo[]>();
 
   theme: string;
   id: number;
@@ -23,17 +56,16 @@ export class AngularFileUploaderComponent implements OnInit, OnChanges {
   uploadAPI: string;
   method: string;
   formatsAllowed: string;
+  formatsAllowedList: string[] = null;
   multiple: boolean;
-  headers: any;
+  headers: { [id: string]: string };
   hideResetBtn: boolean;
   hideSelectBtn: boolean;
   oneFilePerRequest: boolean;
-
-  idDate: number = +new Date();
   reg: RegExp = /(?:\.([^.]+))?$/;
-  selectedFiles: Array<any> = [];
-  notAllowedList: Array<Object> = [];
-  Caption: Array<string> = [];
+  selectedFiles: File[] = [];
+  notAllowedList: { fileName: string; fileSize: string; errorMsg: string; }[] = [];
+  Caption: string[] = [];
   singleFile = true;
   progressBarShow = false;
   uploadBtn = false;
@@ -44,66 +76,60 @@ export class AngularFileUploaderComponent implements OnInit, OnChanges {
   uploadMsgClass: string;
   percentComplete: number;
   replaceTexts;
+  currentUploads: UploadInfo[] = [];
 
-  currentUploads = [];
+  private idDate: number = +new Date();
 
   constructor() {
-    //console.log("id: ",this.id);
-    //console.log("idDate: ",this.idDate);
-    //console.log(Math.random());
   }
 
-  ngOnChanges(rst: SimpleChanges) {
-    if (rst["config"]) {
-      this.theme = this.config["theme"] || "";
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.config && this.config) {
+      this.theme = this.config.theme || '';
       this.id =
-        this.config["id"] ||
-        parseInt((this.idDate / 10000).toString().split(".")[1]) +
-          Math.floor(Math.random() * 20) * 10000;
-      this.hideProgressBar = this.config["hideProgressBar"] || false;
-      this.hideResetBtn = this.config["hideResetBtn"] || false;
-      this.hideSelectBtn = this.config["hideSelectBtn"] || false;
-      this.maxSize = this.config["maxSize"] || 20;
-      this.uploadAPI = this.config["uploadAPI"]["url"];
-      this.method = this.config["uploadAPI"]["method"] || "POST";
+        this.config.id ||
+        parseInt((this.idDate / 10000).toString().split('.')[1], 10) +
+        Math.floor(Math.random() * 20) * 10000;
+      this.hideProgressBar = this.config.hideProgressBar || false;
+      this.hideResetBtn = this.config.hideResetBtn || false;
+      this.hideSelectBtn = this.config.hideSelectBtn || false;
+      this.maxSize = this.config.maxSize || 20;
+      this.uploadAPI = this.config.uploadAPI.url;
+      this.method = this.config.uploadAPI.method || 'POST';
       this.formatsAllowed =
-        this.config["formatsAllowed"] || ".jpg,.png,.pdf,.docx,.txt,.gif,.jpeg";
-      this.multiple = this.config["multiple"] || false;
-      this.headers = this.config["uploadAPI"]["headers"] || {};
-      this.oneFilePerRequest = !!this.config['oneFilePerRequest'];
-      let defaultReplaceTextsValues: ReplaceTexts =  {
+        this.config.formatsAllowed || '.jpg,.png,.pdf,.docx,.txt,.gif,.jpeg';
+      this.formatsAllowedList = null;
+      this.multiple = this.config.multiple || false;
+      this.headers = this.config.uploadAPI.headers || {};
+      this.oneFilePerRequest = !!this.config.oneFilePerRequest;
+      const defaultReplaceTextsValues: ReplaceTexts = {
         selectFileBtn: this.multiple ? 'Select Files' : 'Select File',
         resetBtn: 'Reset',
         uploadBtn: 'Upload',
         dragNDropBox: 'Drag N Drop',
         attachPinBtn: this.multiple ? 'Attach Files...' : 'Attach File...',
         afterUploadMsg_success: 'Successfully Uploaded !',
-        afterUploadMsg_error: 'Upload Failed !'
+        afterUploadMsg_error: 'Upload Failed !',
       };
-      this.replaceTexts = {...defaultReplaceTextsValues};
-      if(this.config["replaceTexts"]) {
+      if (this.config.replaceTexts) {
         this.replaceTexts = {
           ...defaultReplaceTextsValues,
-          ...this.config['replaceTexts']
-        }
+          ...this.config.replaceTexts,
+        };
+      } else {
+        this.replaceTexts = {...defaultReplaceTextsValues};
       }
-
-      //console.log("config: ", this.config);
-      //console.log(this.config["maxSize"]);
-      //console.log(this.headers);
-      //console.log("rst: ", rst);
     }
 
-    if (rst["resetUpload"]) {
-      if (rst["resetUpload"].currentValue === true) {
+    if (changes.resetUpload) {
+      if (changes.resetUpload.currentValue === true) {
         this.resetFileUpload();
       }
     }
   }
 
   ngOnInit() {
-    //console.log("Id: ", this.id);
-    this.resetUpload = false;
+
   }
 
   resetFileUpload() {
@@ -115,84 +141,52 @@ export class AngularFileUploaderComponent implements OnInit, OnChanges {
   }
 
   onChange(event: any) {
-    //console.log(this.maxSize + this.formatsAllowed + this.multiple);
     this.notAllowedList = [];
-    //console.log("onchange hit");
     if (this.afterUpload || !this.multiple) {
       this.selectedFiles = [];
       this.Caption = [];
       this.afterUpload = false;
     }
-    //FORMATS ALLOWED LIST
-    //console.log("FORMATS ALLOWED LIST= "+this.formatsAllowed);
-    //NO OF FORMATS ALLOWED
-    let formatsCount: any;
-    formatsCount = this.formatsAllowed.match(new RegExp("\\.", "g"));
-    formatsCount = formatsCount.length;
-    //console.log("NO OF FORMATS ALLOWED= "+formatsCount);
-    //console.log("-------------------------------");
 
-    //ITERATE SELECTED FILES
-    let file: FileList;
-    if (event.type == "drop") {
-      file = event.dataTransfer.files;
-      //console.log("type: drop");
-    } else {
-      file = event.target.files || event.srcElement.files;
-      //console.log("type: change");
+    if (this.formatsAllowedList === null) {
+      this.formatsAllowedList = this.formatsAllowed.split('.').map(x => x.split(',')[0].trim().toLowerCase());
     }
-    //console.log(file);
-    let currentFileExt: any;
-    let ext: any;
-    let frmtAllowed: boolean;
-    for (let i = 0; i < file.length; i++) {
-      //CHECK FORMAT
-      //CURRENT FILE EXTENSION
-      currentFileExt = this.reg.exec(file[i].name);
-      currentFileExt = currentFileExt[1];
-      //console.log(file[i].name);
-      frmtAllowed = false;
-      //FORMAT ALLOWED LIST ITERATE
-      for (let j = formatsCount; j > 0; j--) {
-        ext = this.formatsAllowed.split(".")[j];
-        //console.log("FORMAT LIST ("+j+")= "+ext.split(",")[0]);
-        if (j == formatsCount) {
-          ext = this.formatsAllowed.split(".")[j] + ",";
-        } //check format
-        if (currentFileExt.toLowerCase() == ext.split(",")[0]) {
-          frmtAllowed = true;
-        }
-      }
+
+    let fileList: FileList;
+    if (event.type === 'drop') {
+      fileList = event.dataTransfer.files;
+    } else {
+      fileList = event.target.files || event.srcElement.files;
+    }
+    for (let i = 0; i < fileList.length; i++) {
+      const currentFileExt = this.reg.exec(fileList[i].name)[1];
+      const currentFileExtLower = currentFileExt.toLowerCase();
+      const frmtAllowed = this.formatsAllowedList.some(x => x === currentFileExtLower);
 
       if (frmtAllowed) {
-        //console.log("FORMAT ALLOWED");
-        //CHECK SIZE
-        if (file[i].size > this.maxSize * 1024000) {
-          //console.log("SIZE NOT ALLOWED ("+file[i].size+")");
+        if (fileList[i].size > this.maxSize * 1024000) {
           this.notAllowedList.push({
-            fileName: file[i].name,
-            fileSize: this.convertSize(file[i].size),
-            errorMsg: "Invalid size"
+            fileName: fileList[i].name,
+            fileSize: this.convertSize(fileList[i].size),
+            errorMsg: 'Invalid size',
           });
-          continue;
         } else {
-          //format allowed and size allowed then add file to selectedFile array
-          this.selectedFiles.push(file[i]);
+          this.selectedFiles.push(fileList[i]);
         }
       } else {
-        //console.log("FORMAT NOT ALLOWED");
         this.notAllowedList.push({
-          fileName: file[i].name,
-          fileSize: this.convertSize(file[i].size),
-          errorMsg: "Invalid format"
+          fileName: fileList[i].name,
+          fileSize: this.convertSize(fileList[i].size),
+          errorMsg: 'Invalid format',
         });
-        continue;
       }
     }
 
     if (this.selectedFiles.length !== 0) {
       this.uploadBtn = true;
-      if (this.theme == "attachPin") this.uploadFiles();
+      if (this.theme === 'attachPin') {
+        this.uploadFiles();
+      }
     } else {
       this.uploadBtn = false;
     }
@@ -237,12 +231,12 @@ export class AngularFileUploaderComponent implements OnInit, OnChanges {
         );
       });
 
-      this.currentUploads.push({xhr: xhr, formData: formData, inxs: this.selectedFiles.map((selectedFile, inx) => inx), response: null});
+      this.currentUploads.push({xhr: xhr, formData: formData, inxs: this.selectedFiles.map((selectedFile, inx) => inx)});
     }
 
     const totalUploads = this.currentUploads.length;
 
-    this.currentUploads.forEach((upload, uploadInx) => {
+    this.currentUploads.forEach((upload: UploadInfo, uploadInx) => {
       const xhr = upload.xhr;
 
       xhr.onreadystatechange = evnt => {
@@ -301,65 +295,40 @@ export class AngularFileUploaderComponent implements OnInit, OnChanges {
   }
 
   removeFile(i: any, sf_na: any) {
-    //console.log("remove file clicked " + i)
-    if (sf_na == "sf") {
+    if (sf_na === 'sf') {
       this.selectedFiles.splice(i, 1);
       this.Caption.splice(i, 1);
     } else {
       this.notAllowedList.splice(i, 1);
     }
 
-    if (this.selectedFiles.length == 0) {
+    if (this.selectedFiles.length === 0) {
       this.uploadBtn = false;
     }
   }
 
-  convertSize(fileSize: number) {
-    //console.log(fileSize + " - "+ str);
+  convertSize(fileSize: number): string {
     return fileSize < 1024000
       ? (fileSize / 1024).toFixed(2) + ' KB'
       : (fileSize / 1024000).toFixed(2) + ' MB';
   }
 
   attachpinOnclick() {
-    //console.log("ID: ", this.id);
-    document.getElementById("sel" + this.id)!.click();
-    //$("#"+"sel"+this.id).click();
+    const element = document.getElementById('sel' + this.id);
+    if (element !== null) {
+      element.click();
+    }
   }
 
   drop(event: any) {
     event.stopPropagation();
     event.preventDefault();
-    //console.log("drop: ", event);
-    //console.log("drop: ", event.dataTransfer.files);
     this.onChange(event);
   }
+
   allowDrop(event: any) {
     event.stopPropagation();
     event.preventDefault();
-    event.dataTransfer.dropEffect = "copy";
-    //console.log("allowDrop: ",event)
+    event.dataTransfer.dropEffect = 'copy';
   }
 }
-
-/* interface CONFIG {
-  uploadAPI: string;
-  multiple?: boolean;
-  formatsAllowed?: string;
-  maxSize?: number;
-  id?: number;
-  resetUpload?: boolean;
-  theme?: string;
-  hideProgressBar?: boolean;
- }
- */
-
- interface ReplaceTexts {
-  selectFileBtn: string,
-  resetBtn: string,
-  uploadBtn: string,
-  dragNDropBox: string,
-  attachPinBtn: string,
-  afterUploadMsg_success: string,
-  afterUploadMsg_error: string,
-};
