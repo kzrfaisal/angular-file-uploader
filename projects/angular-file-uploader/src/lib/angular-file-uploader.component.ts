@@ -212,10 +212,17 @@ export class AngularFileUploaderComponent implements OnInit, OnChanges {
         const formData = new FormData();
 
         // Add data to be sent in this request
-        formData.append(
+        if(this.config.formKey){
+          formData.append(
+          this.config.formKey,
+          this.selectedFiles[inx],
+        ); 
+        }else{
+          formData.append(
           this.Caption[inx] || 'file' + inx,
           this.selectedFiles[inx],
-        );
+        ); 
+        }
 
         this.currentUploads.push({xhr: xhr, formData: formData, inxs: [inx]});
       });
@@ -225,10 +232,17 @@ export class AngularFileUploaderComponent implements OnInit, OnChanges {
 
       // Add data to be sent in this request
       this.selectedFiles.forEach((selectedFile, inx) => {
-        formData.append(
+        if(this.config.formKey){
+          formData.append(
+          this.config.formKey,
+          this.selectedFiles[inx],
+        ); 
+        }else{
+          formData.append(
           this.Caption[inx] || 'file' + inx,
           this.selectedFiles[inx],
-        );
+        ); 
+        }
       });
 
       this.currentUploads.push({xhr: xhr, formData: formData, inxs: this.selectedFiles.map((selectedFile, inx) => inx)});
