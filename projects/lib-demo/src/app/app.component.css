@@ -1,0 +1,31 @@
+@import url('https://fonts.googleapis.com/css?family=Lato');
+
+
+.afu-container{
+    background-color: #BABABA;
+    margin-top: 3vh;
+    border: 4px solid rgb(139, 136, 136);
+    border-radius: 6px;
+}
+.title{
+    text-align: center;
+    font-family: 'Lato', sans-serif;
+}
+.border{
+    border: 2px solid rgb(140, 145, 142);
+    border-radius: 6px;
+    padding: 10px;
+    margin: 10px;
+}
+.resetBtn{
+    padding: 10px;
+    margin: 10px;
+}
+.ffLato {
+    font-family: 'Lato', sans-serif;
+}
+.bottom-info p {
+    font-size: 1.5rem;
+}
+/* @font-face { font-family: supermercado;
+             src: url('https://fonts.googleapis.com/css?family=Supermercado+One'); } */

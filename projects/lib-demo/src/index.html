@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>angular-file-uploader</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- <link rel="icon" type="image/x-icon" href="favicon.ico"> -->
+  <link rel="icon" type="image/x-icon" sizes="32x32" href="afu-icon1.png">
+  <style>
+    body {
+      background-color: #333 !important;
+    }
+
+    .loadingText {
+      color: white;
+      font-size: 2rem;
+      width: fit-content;
+      text-align: center;
+      /* coz in firefox fit-content does'nt work */
+      margin-left: auto;
+      margin-right: auto;
+      opacity: 0;
+      animation-name: lt;
+      animation-duration: 0.6s;
+      animation-fill-mode: forwards;
+      animation-delay: 1.5s;
+    }
+
+    .loader {
+      font-size: 3rem;
+      position: relative;
+      top: 40vh;
+      width: fit-content;
+      text-align: center;
+      /* coz in firefox fit-content does'nt work */
+      margin-right: auto;
+      margin-left: auto;
+      animation-name: lt;
+      animation-duration: 2.5s;
+      animation-delay: 0.5s;
+      animation-fill-mode: forwards;
+      opacity: 0;
+    }
+
+    .loader>.a {
+      color: #E54D26;
+    }
+
+    .loader>.f {
+      color: #1C6DE3;
+    }
+
+    .loader>.u {
+      color: #A0C238;
+    }
+
+    .loader>.d {
+      color: white;
+    }
+
+    /* @keyframes a-anim {
+    from { left: 0vw;}
+    to { left: 38vw;}
+} */
+
+    @media (max-width:345px) {
+      .loader {
+        font-size: 2rem;
+      }
+    }
+
+    @keyframes lt {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+  </style>
+ <!--  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+    (adsbygoogle = window.adsbygoogle || []).push({
+      google_ad_client: "ca-pub-9459137962223170",
+      enable_page_level_ads: true
+    });
+  </script> -->
+</head>
+
+<body>
+  <ld-root>
+    <div class="loadingText">
+      loading...
+    </div>
+    <div class="loader">
+      <span class="a">angular</span>
+      <span class="d">-</span>
+      <span class="f">file</span>
+      <span class="d">-</span>
+      <span class="u">uploader</span>
+    </div>
+  </ld-root>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+</body>
+
+</html>

@@ -1,0 +1,70 @@
+.constraints-info {
+  margin-top: 10px;
+  font-style: italic;
+}
+.padMarg {
+  padding: 0px;
+  margin-bottom: 0px;
+}
+.caption {
+  margin-right: 5px;
+}
+.textOverflow {
+  white-space: nowrap;
+  padding-right: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.up_btn {
+  color: black;
+  background-color: transparent;
+  border: 2px solid rgb(92, 91, 91);
+  border-radius: 22px;
+}
+.delFileIcon {
+  text-decoration: none;
+  color: #ce0909;
+}
+/*--------------------- DRAG N DROP ----------------------*/
+.dragNDrop .div1 {
+  display: border-box;
+  border: 2px dashed rgb(92, 91, 91);
+  height: 6rem;
+  width: 20rem;
+}
+.dragNDrop .div1 > p {
+  text-align: center;
+  font-weight: bold;
+  color: rgb(92, 91, 91);
+  margin-top: 1.4em;
+}
+
+.dragNDropBtmPad {
+  padding-bottom: 2rem;
+}
+/* .afu-upload-status {
+  padding: 0;
+  margin: 0;
+} */
+/*--------------------- X-X-X-X ----------------------*/
+@media screen and (max-width: 620px) {
+  .caption {
+    padding: 0;
+  }
+}
+@media screen and (max-width: 510px) {
+  .sizeC {
+    width: 25%;
+  }
+}
+@media screen and (max-width: 260px) {
+  .sizeC {
+    font-size: 10px;
+  }
+  .caption {
+    font-size: 10px;
+  }
+}
+.resetBtn {
+  margin-left: 3px;
+}
