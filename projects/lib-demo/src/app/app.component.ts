@@ -6,33 +6,11 @@ import { AngularFileUploaderConfig } from 'angular-file-uploader';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent implements OnInit {
-  resetUpload11: boolean;
-  resetUpload12: boolean;
-
-
+export class AppComponent  {
   resetUpload1: boolean;
   resetUpload2: boolean;
   resetUpload3: boolean;
 
-
-  token = 'lkdjlfjld';
-
-  afuConfig11: AngularFileUploaderConfig = {
-    multiple: true,
-    uploadAPI: {
-      url: 'https://slack.com/api/files.upload',
-      method: 'post'
-    },
-  };
-
-  afuConfig12: AngularFileUploaderConfig = {
-    multiple: true,
-    uploadAPI: {
-      url: 'https://slack.com/api/files.upload',
-    },
-    oneFilePerRequest: true
-  };
 
   afuConfig1: AngularFileUploaderConfig = {
     multiple: true,
@@ -55,6 +33,7 @@ export class AppComponent implements OnInit {
     formatsAllowed: '.jpg,.png',
     multiple: true,
   };
+
   afuConfig3: AngularFileUploaderConfig = {
     theme: 'dragNDrop',
     hideProgressBar: true,
@@ -69,10 +48,6 @@ export class AppComponent implements OnInit {
   };
 
   constructor() {
-  }
-
-  ngOnInit() {
-
   }
 
   docUpload(env) {

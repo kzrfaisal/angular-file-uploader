@@ -9,7 +9,7 @@ export interface ReplaceTexts {
 }
 
 export interface AngularFileUploaderConfig {
-  uploadAPI: { url: string; method?: string; headers?: { [id: string]: string }; };
+  uploadAPI: { url: string; method?: 'post' | 'put' | 'patch'; headers?: { [id: string]: string }; };
 
   theme?: string;
   id?: number;
