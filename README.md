@@ -66,6 +66,7 @@ npm i angular-file-uploader
       hideResetBtn: true,
       hideSelectBtn: true,
       hideSelectBtn: true,
+      fileNameIndex: true
       replaceTexts: {
         selectFileBtn: 'Select Files',
         resetBtn: 'Reset',
