@@ -1,6 +1,6 @@
 {
   "name": "library-ws",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "scripts": {
     "ng": "ng",
     "start": "ng build angular-file-uploader && ng serve lib-demo",
