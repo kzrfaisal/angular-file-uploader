@@ -16,7 +16,8 @@ export class AppComponent  {
     multiple: true,
     uploadAPI: {
       url: 'https://slack.com/api/files.upload',
-    }
+    },
+    fileNameIndex: false
   };
 
   afuConfig2: AngularFileUploaderConfig = {

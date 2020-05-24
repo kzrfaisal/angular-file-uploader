@@ -65,7 +65,7 @@ export class AngularFileUploaderComponent implements OnChanges {
   uploadPercent: number;
   replaceTexts: ReplaceTexts;
   currentUploads: any[] = [];
-  oneFilePerRequest: boolean;
+  fileNameIndex = true;
 
   private idDate: number = +new Date();
 
@@ -90,7 +90,7 @@ export class AngularFileUploaderComponent implements OnChanges {
         this.config.formatsAllowed || '.jpg,.png,.pdf,.docx,.txt,.gif,.jpeg';
       this.multiple = this.config.multiple || false;
       this.headers = this.config.uploadAPI.headers || {};
-      this.oneFilePerRequest = !!this.config.oneFilePerRequest;
+      this.fileNameIndex = this.config.fileNameIndex || false;
       this.replaceTexts = {
         selectFileBtn: this.multiple ? 'Select Files' : 'Select File',
         resetBtn: 'Reset',
@@ -194,7 +194,7 @@ export class AngularFileUploaderComponent implements OnChanges {
 
     // Add data to be sent in this request
     this.allowedFiles.forEach((file, i) => {
-      formData.append(this.Caption[i] || 'file' + i, this.allowedFiles[i]);
+      formData.append(this.Caption[i] || 'file' + (this.fileNameIndex ?  i : ''), this.allowedFiles[i]);
     });
 
     // Contruct Headers

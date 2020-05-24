@@ -64,6 +64,7 @@ npm i angular-file-uploader
       hideProgressBar: true,
       hideResetBtn: true,
       hideSelectBtn: true,
+      fileNameIndex: true,
       replaceTexts: {
         selectFileBtn: 'Select Files',
         resetBtn: 'Reset',
@@ -96,6 +97,7 @@ npm i angular-file-uploader
 | hideProgressBar:boolean    | Set it as " true " to hide the Progress bar. | false |
 | hideResetBtn:boolean       | Set it as " true " to hide the 'Reset' Button. | false |
 | hideSelectBtn:boolean      | Set it as " true " to hide the 'Select File' Button. | false |
+| fileNameIndex:boolean      | Set it as " false " to get the same file name as 'file' instead of 'file1', 'file2'.... in formdata object. | true |
 | replaceTexts:object       | Replace default texts with your own custom texts. | refer to example-2|
 
 ---

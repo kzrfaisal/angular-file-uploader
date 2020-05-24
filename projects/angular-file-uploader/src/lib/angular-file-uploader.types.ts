@@ -20,7 +20,7 @@ export interface AngularFileUploaderConfig {
   maxSize?: number;
   formatsAllowed?: string;
   multiple?: boolean;
-  oneFilePerRequest?: boolean;
+  fileNameIndex?: boolean;
   replaceTexts?: ReplaceTexts;
 }
 
