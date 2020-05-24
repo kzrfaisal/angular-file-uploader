@@ -7,7 +7,8 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "publish": "ng build angular-file-uploader --prod && cd dist/angular-file-uploader && npm publish"
   },
   "private": true,
   "dependencies": {

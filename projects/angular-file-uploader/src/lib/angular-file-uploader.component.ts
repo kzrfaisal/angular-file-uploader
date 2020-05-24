@@ -12,7 +12,7 @@ import {
   AngularFileUploaderConfig,
   UploadInfo,
 } from './angular-file-uploader.types';
-import { HttpClient, HttpHeaders, HttpEventType } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams, HttpEventType } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 
 @Component({
@@ -45,6 +45,7 @@ export class AngularFileUploaderComponent implements OnChanges {
   formatsAllowed: string;
   multiple: boolean;
   headers: { [id: string]: string };
+  params: { [id: string]: string };
   hideResetBtn: boolean;
   hideSelectBtn: boolean;
   allowedFiles: File[] = [];
@@ -90,6 +91,7 @@ export class AngularFileUploaderComponent implements OnChanges {
         this.config.formatsAllowed || '.jpg,.png,.pdf,.docx,.txt,.gif,.jpeg';
       this.multiple = this.config.multiple || false;
       this.headers = this.config.uploadAPI.headers || {};
+      this.params = this.config.uploadAPI.params || {};
       this.fileNameIndex = this.config.fileNameIndex || false;
       this.replaceTexts = {
         selectFileBtn: this.multiple ? 'Select Files' : 'Select File',
@@ -203,10 +205,17 @@ export class AngularFileUploaderComponent implements OnChanges {
       headers.append(key, this.headers[key]);
     }
 
+    // Contruct Params
+    const params = new HttpParams()
+    for (const key of Object.keys(this.params)) {
+      params.append(key, this.params[key]);
+    }
+
     this.http
       .request(this.method.toUpperCase(), this.uploadAPI, {
         body: formData,
-        headers: headers,
+        headers,
+        params,
         reportProgress: true,
         observe: 'events',
       })

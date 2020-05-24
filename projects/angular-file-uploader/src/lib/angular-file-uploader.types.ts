@@ -9,8 +9,15 @@ export interface ReplaceTexts {
   sizeLimit?: string;
 }
 
+export interface UploadApi {
+  url: string;
+  method?: 'POST' | 'PUT' | 'PATCH';
+  headers?: { [id: string]: string };
+  params?: { [id: string]: string };
+}
+
 export interface AngularFileUploaderConfig {
-  uploadAPI: { url: string; method?: 'POST' | 'PUT' | 'PATCH'; headers?: { [id: string]: string }; };
+  uploadAPI: UploadApi;
 
   theme?: string;
   id?: number;

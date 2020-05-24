@@ -59,6 +59,9 @@ npm i angular-file-uploader
         headers: {
        "Content-Type" : "text/plain;charset=UTF-8",
        "Authorization" : `Bearer ${token}`
+        },
+        params: {
+          'page': '1'
         }
       },
       theme: "dragNDrop",
