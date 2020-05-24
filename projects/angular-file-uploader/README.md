@@ -61,7 +61,8 @@ npm i angular-file-uploader
         },
         params: {
           'page': '1'
-        }
+        },
+        responseType: 'blob',
       },
       theme: "dragNDrop",
       hideProgressBar: true,

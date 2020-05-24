@@ -28,8 +28,7 @@ export class AppComponent  {
       url: 'https://slack.com/api/files.upload',
       headers: {
         'Content-Type': 'multipart/form-data',
-      },
-      responseType: 'json'
+      }
     },
     formatsAllowed: '.jpg,.png',
     multiple: true,
