@@ -6,6 +6,10 @@ Angular file uploader supports angular versions 2.x - 9.x and comes with Real-Ti
 ```
 npm i angular-file-uploader
 ```
+
+### Raising funds
+Support this package if it really helped you, send your support at [Patreon](https://www.patreon.com/kzrfaisal).
+
 ### Usage
 - Bootstrap.min.css is required.
   Include 
