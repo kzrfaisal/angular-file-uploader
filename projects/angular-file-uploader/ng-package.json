@@ -3,6 +3,6 @@
   "dest": "../../dist/angular-file-uploader",
   "deleteDestPath": false,
   "lib": {
-    "entryFile": "src/public_api.ts"
+    "entryFile": "src/public-api.ts"
   }
 }
