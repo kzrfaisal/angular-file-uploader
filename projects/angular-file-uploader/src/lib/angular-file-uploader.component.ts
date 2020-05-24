@@ -1,54 +1,41 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-
-export interface ReplaceTexts {
-  selectFileBtn: string;
-  resetBtn: string;
-  uploadBtn: string;
-  dragNDropBox: string;
-  attachPinBtn: string;
-  afterUploadMsg_success: string;
-  afterUploadMsg_error: string;
-}
-
-export interface AngularFileUploaderConfig {
-  uploadAPI: { url: string; method?: string; headers?: { [id: string]: string }; };
-
-  theme?: string;
-  id?: number;
-  hideProgressBar?: boolean;
-  hideResetBtn?: boolean;
-  hideSelectBtn?: boolean;
-  maxSize?: number;
-  formatsAllowed?: string;
-  multiple?: boolean;
-  oneFilePerRequest?: boolean;
-  replaceTexts?: ReplaceTexts;
-}
-
-export interface UploadInfo {
-  xhr: XMLHttpRequest;
-  formData: FormData;
-  inxs: number[];
-}
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
+import {
+  ReplaceTexts,
+  AngularFileUploaderConfig,
+  UploadInfo,
+} from './angular-file-uploader.types';
+import { HttpClient, HttpHeaders, HttpEventType } from '@angular/common/http';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'angular-file-uploader',
   templateUrl: './angular-file-uploader.component.html',
   styleUrls: ['./angular-file-uploader.component.css'],
 })
-export class AngularFileUploaderComponent implements OnInit, OnChanges {
+export class AngularFileUploaderComponent implements OnChanges {
+  // Inputs
   @Input()
   config: AngularFileUploaderConfig;
 
   @Input()
   resetUpload = false;
 
+  // Outputs
   @Output()
   ApiResponse = new EventEmitter();
 
   @Output()
   everythingDone: EventEmitter<UploadInfo[]> = new EventEmitter<UploadInfo[]>();
 
+  // Properties
   theme: string;
   id: number;
   hideProgressBar: boolean;
@@ -56,53 +43,55 @@ export class AngularFileUploaderComponent implements OnInit, OnChanges {
   uploadAPI: string;
   method: string;
   formatsAllowed: string;
-  formatsAllowedList: string[] = null;
   multiple: boolean;
   headers: { [id: string]: string };
   hideResetBtn: boolean;
   hideSelectBtn: boolean;
-  oneFilePerRequest: boolean;
-  reg: RegExp = /(?:\.([^.]+))?$/;
-  selectedFiles: File[] = [];
-  notAllowedList: { fileName: string; fileSize: string; errorMsg: string; }[] = [];
+  allowedFiles: File[] = [];
+  notAllowedFiles: {
+    fileName: string;
+    fileSize: string;
+    errorMsg: string;
+  }[] = [];
   Caption: string[] = [];
-  singleFile = true;
+  isAllowedFileSingle = true;
   progressBarShow = false;
-  uploadBtn = false;
+  enableUploadBtn = false;
   uploadMsg = false;
   afterUpload = false;
-  uploadClick = true;
+  uploadStarted = false;
   uploadMsgText: string;
   uploadMsgClass: string;
-  percentComplete: number;
-  replaceTexts;
-  currentUploads: UploadInfo[] = [];
+  uploadPercent: number;
+  replaceTexts: ReplaceTexts;
+  currentUploads: any[] = [];
+  oneFilePerRequest: boolean;
 
   private idDate: number = +new Date();
 
-  constructor() {
-  }
+  constructor(private http: HttpClient) {}
 
   ngOnChanges(changes: SimpleChanges) {
+    // Track changes in Configuration and see if user has even provided Configuration.
     if (changes.config && this.config) {
+      // Assign User Configurations to Library Properties.
       this.theme = this.config.theme || '';
       this.id =
         this.config.id ||
         parseInt((this.idDate / 10000).toString().split('.')[1], 10) +
-        Math.floor(Math.random() * 20) * 10000;
+          Math.floor(Math.random() * 20) * 10000;
       this.hideProgressBar = this.config.hideProgressBar || false;
       this.hideResetBtn = this.config.hideResetBtn || false;
       this.hideSelectBtn = this.config.hideSelectBtn || false;
-      this.maxSize = this.config.maxSize || 20;
+      this.maxSize = (this.config.maxSize || 20)  * 1024000; // mb to bytes.
       this.uploadAPI = this.config.uploadAPI.url;
       this.method = this.config.uploadAPI.method || 'POST';
       this.formatsAllowed =
         this.config.formatsAllowed || '.jpg,.png,.pdf,.docx,.txt,.gif,.jpeg';
-      this.formatsAllowedList = null;
       this.multiple = this.config.multiple || false;
       this.headers = this.config.uploadAPI.headers || {};
       this.oneFilePerRequest = !!this.config.oneFilePerRequest;
-      const defaultReplaceTextsValues: ReplaceTexts = {
+      this.replaceTexts = {
         selectFileBtn: this.multiple ? 'Select Files' : 'Select File',
         resetBtn: 'Reset',
         uploadBtn: 'Upload',
@@ -110,17 +99,18 @@ export class AngularFileUploaderComponent implements OnInit, OnChanges {
         attachPinBtn: this.multiple ? 'Attach Files...' : 'Attach File...',
         afterUploadMsg_success: 'Successfully Uploaded !',
         afterUploadMsg_error: 'Upload Failed !',
-      };
+        sizeLimit: 'Size Limit'
+      }; // default replaceText.
       if (this.config.replaceTexts) {
+        // updated replaceText if user has provided any.
         this.replaceTexts = {
-          ...defaultReplaceTextsValues,
+          ...this.replaceTexts,
           ...this.config.replaceTexts,
         };
-      } else {
-        this.replaceTexts = {...defaultReplaceTextsValues};
       }
     }
 
+    // Reset when resetUpload value changes from false to true.
     if (changes.resetUpload) {
       if (changes.resetUpload.currentValue === true) {
         this.resetFileUpload();
@@ -128,182 +118,155 @@ export class AngularFileUploaderComponent implements OnInit, OnChanges {
     }
   }
 
-  ngOnInit() {
-
-  }
-
+  // Reset following properties.
   resetFileUpload() {
-    this.selectedFiles = [];
+    this.allowedFiles = [];
     this.Caption = [];
-    this.notAllowedList = [];
+    this.notAllowedFiles = [];
     this.uploadMsg = false;
-    this.uploadBtn = false;
+    this.enableUploadBtn = false;
   }
 
+  // When user selects files.
   onChange(event: any) {
-    this.notAllowedList = [];
+    this.notAllowedFiles = [];
+    const fileExtRegExp: RegExp = /(?:\.([^.]+))?$/;
+    let fileList: FileList;
+
     if (this.afterUpload || !this.multiple) {
-      this.selectedFiles = [];
+      this.allowedFiles = [];
       this.Caption = [];
       this.afterUpload = false;
     }
 
-    if (this.formatsAllowedList === null) {
-      this.formatsAllowedList = this.formatsAllowed.split('.').map(x => x.split(',')[0].trim().toLowerCase());
-    }
-
-    let fileList: FileList;
     if (event.type === 'drop') {
       fileList = event.dataTransfer.files;
     } else {
       fileList = event.target.files || event.srcElement.files;
     }
-    for (let i = 0; i < fileList.length; i++) {
-      const currentFileExt = this.reg.exec(fileList[i].name)[1];
-      const currentFileExtLower = currentFileExt.toLowerCase();
-      const frmtAllowed = this.formatsAllowedList.some(x => x === currentFileExtLower);
 
-      if (frmtAllowed) {
-        if (fileList[i].size > this.maxSize * 1024000) {
-          this.notAllowedList.push({
-            fileName: fileList[i].name,
-            fileSize: this.convertSize(fileList[i].size),
-            errorMsg: 'Invalid size',
-          });
-        } else {
-          this.selectedFiles.push(fileList[i]);
-        }
+    // 'forEach' does not exist on 'filelist' that's why this good old 'for' is used.
+    for (let i = 0; i < fileList.length; i++) {
+      const currentFileExt = fileExtRegExp
+        .exec(fileList[i].name)[1]
+        .toLowerCase(); // Get file extension.
+      const isFormatValid = this.formatsAllowed.includes(currentFileExt);
+
+      const isSizeValid = fileList[i].size <= this.maxSize;
+
+      // Check whether current file format and size is correct as specified in the configurations.
+      if (isFormatValid && isSizeValid) {
+        this.allowedFiles.push(fileList[i]);
       } else {
-        this.notAllowedList.push({
+        this.notAllowedFiles.push({
           fileName: fileList[i].name,
           fileSize: this.convertSize(fileList[i].size),
-          errorMsg: 'Invalid format',
+          errorMsg: !isFormatValid ? 'Invalid format' : 'Invalid size',
         });
       }
     }
 
-    if (this.selectedFiles.length !== 0) {
-      this.uploadBtn = true;
+    // If there's any allowedFiles.
+    if (this.allowedFiles.length > 0) {
+      this.enableUploadBtn = true;
+      // Upload the files directly if theme is attach pin (as upload btn is not there for this theme).
       if (this.theme === 'attachPin') {
         this.uploadFiles();
       }
     } else {
-      this.uploadBtn = false;
+      this.enableUploadBtn = false;
     }
+
     this.uploadMsg = false;
-    this.uploadClick = true;
-    this.percentComplete = 0;
+    this.uploadStarted = false;
+    this.uploadPercent = 0;
     event.target.value = null;
   }
 
   uploadFiles() {
+
     this.progressBarShow = true;
-    this.uploadClick = false;
-    this.notAllowedList = [];
+    this.uploadStarted = true;
+    this.notAllowedFiles = [];
     let isError = false;
+    this.isAllowedFileSingle = this.allowedFiles.length <= 1;
+    const formData = new FormData();
 
-    this.singleFile = this.selectedFiles.length <= 1;
-
-    this.currentUploads = [];
-
-    if (this.oneFilePerRequest && !this.singleFile) {
-      this.selectedFiles.forEach((selectedFile, inx) => {
-        const xhr = new XMLHttpRequest();
-        const formData = new FormData();
-
-        // Add data to be sent in this request
-        formData.append(
-          this.Caption[inx] || 'file' + inx,
-          this.selectedFiles[inx],
-        );
-
-        this.currentUploads.push({xhr: xhr, formData: formData, inxs: [inx]});
-      });
-    } else {
-      const xhr = new XMLHttpRequest();
-      const formData = new FormData();
-
-      // Add data to be sent in this request
-      this.selectedFiles.forEach((selectedFile, inx) => {
-        formData.append(
-          this.Caption[inx] || 'file' + inx,
-          this.selectedFiles[inx],
-        );
-      });
-
-      this.currentUploads.push({xhr: xhr, formData: formData, inxs: this.selectedFiles.map((selectedFile, inx) => inx)});
-    }
-
-    const totalUploads = this.currentUploads.length;
-
-    this.currentUploads.forEach((upload: UploadInfo, uploadInx) => {
-      const xhr = upload.xhr;
-
-      xhr.onreadystatechange = evnt => {
-        if (xhr.readyState === 4) {
-          if (xhr.status !== 200 && xhr.status !== 201) {
-            isError = true;
-            this.progressBarShow = false;
-            this.uploadBtn = false;
-            this.uploadMsg = true;
-            this.afterUpload = true;
-            this.uploadMsgText = this.replaceTexts.afterUploadMsg_error;
-            this.uploadMsgClass = 'text-danger lead';
-          }
-          this.ApiResponse.emit(xhr);
-          if (uploadInx + 1 === totalUploads) {
-            this.everythingDone.emit(this.currentUploads);
-          }
-        }
-      };
-
-      xhr.upload.onprogress = evnt => {
-        this.uploadBtn = false; // button should be disabled by process uploading
-        if (evnt.lengthComputable) {
-          const currentDone = (evnt.loaded / evnt.total);
-          this.percentComplete = Math.round((uploadInx + currentDone) * 100 / totalUploads);
-        }
-      };
-
-      xhr.onload = evnt => {
-        this.progressBarShow = false;
-        this.uploadBtn = false;
-        this.uploadMsg = true;
-        this.afterUpload = true;
-        if (!isError) {
-          if (uploadInx + 1 === totalUploads) {
-            this.uploadMsgText = this.replaceTexts.afterUploadMsg_success;
-            this.uploadMsgClass = 'text-success lead';
-          } else {
-            const nextUpload = this.currentUploads[uploadInx + 1];
-            nextUpload.xhr.send(nextUpload.formData);
-          }
-          this.percentComplete = Math.round((uploadInx + 1) * 100 / totalUploads);
-        }
-      };
-
-      xhr.open(this.method, this.uploadAPI, true);
-      for (const key of Object.keys(this.headers)) {
-        // Object.keys will give an Array of keys
-        xhr.setRequestHeader(key, this.headers[key]);
-      }
+    // Add data to be sent in this request
+    this.allowedFiles.forEach((file, i) => {
+      formData.append(this.Caption[i] || 'file' + i, this.allowedFiles[i]);
     });
 
+    // Contruct Headers
+    const headers = new HttpHeaders();
+    for (const key of Object.keys(this.headers)) {
+      headers.append(key, this.headers[key]);
+    }
 
-    const firstUpload = this.currentUploads[0];
-    firstUpload.xhr.send(firstUpload.formData);
+    this.http
+      .request(this.method.toUpperCase(), this.uploadAPI, {
+        body: formData,
+        headers: headers,
+        reportProgress: true,
+        observe: 'events',
+      })
+      .subscribe(
+        (event) => {
+          // Upload Progress
+          if (event.type === HttpEventType.UploadProgress) {
+            this.enableUploadBtn = false; // button should be disabled if process uploading
+            const currentDone = event.loaded / event.total;
+            this.uploadPercent = Math.round((event.loaded / event.total) * 100);
+          } else if (event.type === HttpEventType.Response) {
+            if (event.status === 200 || event.status === 201) {
+              // Success
+              this.progressBarShow = false;
+              this.enableUploadBtn = false;
+              this.uploadMsg = true;
+              this.afterUpload = true;
+              if (!isError) {
+                this.uploadMsgText = this.replaceTexts.afterUploadMsg_success;
+                this.uploadMsgClass = 'text-success lead';
+              }
+            } else {
+              // Failure
+              isError = true;
+              this.handleErrors();
+            }
+
+            this.ApiResponse.emit(event);
+          } else {
+            //console.log('Event Other: ', event);
+          }
+        },
+        (error) => {
+          // Failure
+          isError = true;
+          this.handleErrors();
+          this.ApiResponse.emit(error);
+        }
+      );
+  }
+
+  handleErrors() {
+    this.progressBarShow = false;
+    this.enableUploadBtn = false;
+    this.uploadMsg = true;
+    this.afterUpload = true;
+    this.uploadMsgText = this.replaceTexts.afterUploadMsg_error;
+    this.uploadMsgClass = 'text-danger lead';
   }
 
   removeFile(i: any, sf_na: any) {
     if (sf_na === 'sf') {
-      this.selectedFiles.splice(i, 1);
+      this.allowedFiles.splice(i, 1);
       this.Caption.splice(i, 1);
     } else {
-      this.notAllowedList.splice(i, 1);
+      this.notAllowedFiles.splice(i, 1);
     }
 
-    if (this.selectedFiles.length === 0) {
-      this.uploadBtn = false;
+    if (this.allowedFiles.length === 0) {
+      this.enableUploadBtn = false;
     }
   }
 

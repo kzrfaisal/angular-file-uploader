@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { AngularFileUploaderModule } from "angular-file-uploader";
 // To use angular-file-uploader from node-modules remove paths from tsconfig.json in root.
 /*
@@ -23,6 +23,7 @@ import { AppComponent } from './app.component';
     AngularFileUploaderModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule { }

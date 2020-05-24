@@ -3,10 +3,11 @@
   "version": "5.0.1",
   "license": "MIT",
   "peerDependencies": {
-    "@angular/common": "^6.0.0-rc.0 || ^6.0.0",
-    "@angular/core": "^6.0.0-rc.0 || ^6.0.0"
+    "@angular/common": "^9.1.1",
+    "@angular/core": "^9.1.1",
+    "tslib": "^1.10.0"
   },
-  "description": "Angular file uploader is an Angular 2/4/5/6 file uploader module with Real-Time Progress Bar, Angular Universal Compatibility and multiple themes which includes Drag and Drop and much more.",
+  "description": "Angular file uploader supports angular versions 2.x - 9.x and comes with Real-Time Progress Bar, Responsive design, Angular Universal Compatibility and multiple themes which includes Drag and Drop and much more.",
   "deprecated": false,
   "readme": "README.md",
   "keywords": [
@@ -20,10 +21,14 @@
     "angular 4",
     "angular 5",
     "angular 6",
+    "angular 7",
+    "angular 9",
     "universal",
     "img",
+    "image",
     "image upload",
-    "formdata"
+    "formdata",
+    "bootstrap"
   ],
   "author": {
     "name": "Mohd Faisal Ansari",

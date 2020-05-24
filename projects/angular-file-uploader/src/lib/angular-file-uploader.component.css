@@ -1,13 +1,13 @@
 .constraints-info {
-    margin-top: 10px;
-    font-style: italic;
+  margin-top: 10px;
+  font-style: italic;
 }
 .padMarg {
-    padding: 0px;
-    margin-bottom: 0px;
+  padding: 0px;
+  margin-bottom: 0px;
 }
 .caption {
-    margin-right: 5px;
+  margin-right: 5px;
 }
 .textOverflow {
   white-space: nowrap;
@@ -49,8 +49,8 @@
 /*--------------------- X-X-X-X ----------------------*/
 @media screen and (max-width: 620px) {
   .caption {
-      padding: 0;
-      }
+    padding: 0;
+  }
 }
 @media screen and (max-width: 510px) {
   .sizeC {
@@ -64,7 +64,7 @@
   .caption {
     font-size: 10px;
   }
-  }
+}
 .resetBtn {
   margin-left: 3px;
 }
