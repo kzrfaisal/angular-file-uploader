@@ -1,3 +1,5 @@
+import { HttpHeaders, HttpParams } from '@angular/common/http';
+
 export interface ReplaceTexts {
   selectFileBtn?: string;
   resetBtn?: string;
@@ -12,8 +14,9 @@ export interface ReplaceTexts {
 export interface UploadApi {
   url: string;
   method?: 'POST' | 'PUT' | 'PATCH';
-  headers?: { [id: string]: string };
-  params?: { [id: string]: string };
+  headers?: HttpHeaders | { [header: string]: string | string[] };
+  params?: HttpParams | { [param: string]: string | string[]; };
+  responseType?: string;
 }
 
 export interface AngularFileUploaderConfig {

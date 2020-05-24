@@ -11,8 +11,14 @@ import {
   ReplaceTexts,
   AngularFileUploaderConfig,
   UploadInfo,
+  UploadApi,
 } from './angular-file-uploader.types';
-import { HttpClient, HttpHeaders, HttpParams, HttpEventType } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpHeaders,
+  HttpParams,
+  HttpEventType,
+} from '@angular/common/http';
 import { map } from 'rxjs/operators';
 
 @Component({
@@ -44,8 +50,9 @@ export class AngularFileUploaderComponent implements OnChanges {
   method: string;
   formatsAllowed: string;
   multiple: boolean;
-  headers: { [id: string]: string };
-  params: { [id: string]: string };
+  headers: HttpHeaders | { [header: string]: string | string[] };
+  params: HttpParams | { [param: string]: string | string[] };
+  responseType: string;
   hideResetBtn: boolean;
   hideSelectBtn: boolean;
   allowedFiles: File[] = [];
@@ -84,7 +91,7 @@ export class AngularFileUploaderComponent implements OnChanges {
       this.hideProgressBar = this.config.hideProgressBar || false;
       this.hideResetBtn = this.config.hideResetBtn || false;
       this.hideSelectBtn = this.config.hideSelectBtn || false;
-      this.maxSize = (this.config.maxSize || 20)  * 1024000; // mb to bytes.
+      this.maxSize = (this.config.maxSize || 20) * 1024000; // mb to bytes.
       this.uploadAPI = this.config.uploadAPI.url;
       this.method = this.config.uploadAPI.method || 'POST';
       this.formatsAllowed =
@@ -92,7 +99,8 @@ export class AngularFileUploaderComponent implements OnChanges {
       this.multiple = this.config.multiple || false;
       this.headers = this.config.uploadAPI.headers || {};
       this.params = this.config.uploadAPI.params || {};
-      this.fileNameIndex = this.config.fileNameIndex || false;
+      this.responseType = this.config.uploadAPI.responseType || null;
+      this.fileNameIndex = this.config.fileNameIndex === false ? false : true;
       this.replaceTexts = {
         selectFileBtn: this.multiple ? 'Select Files' : 'Select File',
         resetBtn: 'Reset',
@@ -101,7 +109,7 @@ export class AngularFileUploaderComponent implements OnChanges {
         attachPinBtn: this.multiple ? 'Attach Files...' : 'Attach File...',
         afterUploadMsg_success: 'Successfully Uploaded !',
         afterUploadMsg_error: 'Upload Failed !',
-        sizeLimit: 'Size Limit'
+        sizeLimit: 'Size Limit',
       }; // default replaceText.
       if (this.config.replaceTexts) {
         // updated replaceText if user has provided any.
@@ -186,7 +194,6 @@ export class AngularFileUploaderComponent implements OnChanges {
   }
 
   uploadFiles() {
-
     this.progressBarShow = true;
     this.uploadStarted = true;
     this.notAllowedFiles = [];
@@ -196,7 +203,10 @@ export class AngularFileUploaderComponent implements OnChanges {
 
     // Add data to be sent in this request
     this.allowedFiles.forEach((file, i) => {
-      formData.append(this.Caption[i] || 'file' + (this.fileNameIndex ?  i : ''), this.allowedFiles[i]);
+      formData.append(
+        this.Caption[i] || 'file' + (this.fileNameIndex ? i : ''),
+        this.allowedFiles[i]
+      );
     });
 
     // Contruct Headers
@@ -206,18 +216,24 @@ export class AngularFileUploaderComponent implements OnChanges {
     }
 
     // Contruct Params
-    const params = new HttpParams()
+    const params = new HttpParams();
     for (const key of Object.keys(this.params)) {
       params.append(key, this.params[key]);
     }
 
+    const options = {
+      headers,
+      params,
+    };
+
+    if (this.responseType) (options as any).responseType = this.responseType;
+
     this.http
       .request(this.method.toUpperCase(), this.uploadAPI, {
         body: formData,
-        headers,
-        params,
         reportProgress: true,
         observe: 'events',
+        ...options,
       })
       .subscribe(
         (event) => {

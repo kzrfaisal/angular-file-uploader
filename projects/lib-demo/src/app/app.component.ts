@@ -29,6 +29,7 @@ export class AppComponent  {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
+      responseType: 'json'
     },
     formatsAllowed: '.jpg,.png',
     multiple: true,
