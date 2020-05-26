@@ -14,7 +14,7 @@
     "lib": [
       "es2018",
       "dom"
-    ],
+    ],/*
     "paths": {
       "angular-file-uploader": [
         "dist/angular-file-uploader"
@@ -22,7 +22,7 @@
       "angular-file-uploader/*": [
         "dist/angular-file-uploader/*"
       ]
-    }
+    } */
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,
