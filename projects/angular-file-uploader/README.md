@@ -1,4 +1,4 @@
-Angular file uploader supports angular versions 2.x - 9.x and comes with Real-Time Progress Bar, Responsive design, Angular Universal Compatibility and multiple themes which includes Drag and Drop and much more.
+Angular file uploader is an Angular 2/4/5/6/7/8/9 file uploader module with Real-Time Progress Bar, Responsive design, Angular Universal Compatibility and multiple themes which includes Drag and Drop and much more.
 
 ### Demo
 <https://kzrfaisal.github.io/#/afu>
