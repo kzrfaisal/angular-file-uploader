@@ -1,16 +1,18 @@
 {
   "name": "angular-file-uploader",
-  "version": "6.2.0",
+  "version": "6.2.6",
   "license": "MIT",
   "peerDependencies": {
     "@angular/common": "^9.1.1",
     "@angular/core": "^9.1.1",
     "tslib": "^1.10.0"
   },
-  "description": "Angular file uploader supports angular versions 2.x - 9.x and comes with Real-Time Progress Bar, Responsive design, Angular Universal Compatibility and multiple themes which includes Drag and Drop and much more.",
+  "description": "Angular file uploader is an Angular 2/4/5/6/7/8/9 file uploader module with Real-Time Progress Bar, Responsive design, Angular Universal Compatibility and multiple themes which includes Drag and Drop and much more.",
   "deprecated": false,
   "readme": "README.md",
   "keywords": [
+    "angular file uploader",
+    "angular file upload",
     "angular",
     "file upload",
     "drag and drop",
@@ -22,6 +24,7 @@
     "angular 5",
     "angular 6",
     "angular 7",
+    "angular 8",
     "angular 9",
     "universal",
     "img",
@@ -41,5 +44,9 @@
   "homepage": "https://kzrfaisal.github.io/#/afu",
   "bugs": {
     "url": "https://github.com/kzrfaisal/angular-file-uploader/issues"
+  },
+  "funding": {
+    "type": "patreon",
+    "url": "https://www.patreon.com/kzrfaisal"
   }
 }
