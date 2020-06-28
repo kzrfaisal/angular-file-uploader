@@ -85,6 +85,53 @@ Support this package if it really helped you, send your support at [Patreon](htt
       }
   };
   ``` 
+##### Example-3 ( Dynamic target URL )
+  ```html
+  <angular-file-uploader 
+        [config]="afuConfig"
+        [resetUpload]="resetVar"
+        (ApiResponse)="UploadDone($event)">
+  </angular-file-uploader>
+  ``` 
+  ```javascript
+  afuConfig = {
+      multiple: false,
+      formatsAllowed: ".jpg,.png",
+      maxSize: "1",
+      uploadAPI:  {
+        url: () => function() {
+            // Can be promise or not, but anyway: We'll await for it
+            return new Promise(function(resolve) {
+                resolve("https://example-file-upload-api");
+            });
+        },
+        method:"POST",
+        headers: {
+       "Content-Type" : "text/plain;charset=UTF-8",
+       "Authorization" : `Bearer ${token}`
+        },
+        params: {
+          'page': '1'
+        },
+        responseType: 'blob',
+      },
+      theme: "dragNDrop",
+      hideProgressBar: true,
+      hideResetBtn: true,
+      hideSelectBtn: true,
+      fileNameIndex: true,
+      replaceTexts: {
+        selectFileBtn: 'Select Files',
+        resetBtn: 'Reset',
+        uploadBtn: 'Upload',
+        dragNDropBox: 'Drag N Drop',
+        attachPinBtn: 'Attach Files...',
+        afterUploadMsg_success: 'Successfully Uploaded !',
+        afterUploadMsg_error: 'Upload Failed !',
+        sizeLimit: 'Size Limit'
+      }
+  };
+  ``` 
 
 | **Properties**             | **Description**                                                                                                                                                                       | **Default Value**                          |
 |----------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------|
