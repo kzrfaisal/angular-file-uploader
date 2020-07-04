@@ -17,13 +17,6 @@ export class AppComponent  {
     multiple: true,
     uploadAPI: {
       url: 'https://slack.com/api/files.upload',
-      headers: {
-        'Content-Type': 'multipart/form-data',
-        'Authorization': 'Bearer justatesttoken'
-      },
-      params: {
-        'page': '1'
-      },
     }
   };
 
