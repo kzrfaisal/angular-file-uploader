@@ -126,6 +126,7 @@ export class AngularFileUploaderComponent implements OnChanges {
         this.resetFileUpload();
       }
     }
+
   }
 
   // Reset following properties.
@@ -139,6 +140,7 @@ export class AngularFileUploaderComponent implements OnChanges {
 
   // When user selects files.
   onChange(event: any) {
+
     this.notAllowedFiles = [];
     const fileExtRegExp: RegExp = /(?:\.([^.]+))?$/;
     let fileList: FileList;
@@ -209,6 +211,8 @@ export class AngularFileUploaderComponent implements OnChanges {
       );
     });
 
+    /*
+    Not Working, Headers null
     // Contruct Headers
     const headers = new HttpHeaders();
     for (const key of Object.keys(this.headers)) {
@@ -219,11 +223,11 @@ export class AngularFileUploaderComponent implements OnChanges {
     const params = new HttpParams();
     for (const key of Object.keys(this.params)) {
       params.append(key, this.params[key]);
-    }
+    } */
 
     const options = {
-      headers,
-      params,
+      headers: this.headers,
+      params: this.params,
     };
 
     if (this.responseType) (options as any).responseType = this.responseType;

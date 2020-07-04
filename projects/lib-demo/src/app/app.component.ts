@@ -13,9 +13,17 @@ export class AppComponent  {
 
 
   afuConfig1: AngularFileUploaderConfig = {
+    id: 112233,
     multiple: true,
     uploadAPI: {
       url: 'https://slack.com/api/files.upload',
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        'Authorization': 'Bearer justatesttoken'
+      },
+      params: {
+        'page': '1'
+      },
     }
   };
 
@@ -26,9 +34,6 @@ export class AppComponent  {
     maxSize: 1,
     uploadAPI: {
       url: 'https://slack.com/api/files.upload',
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      }
     },
     formatsAllowed: '.jpg,.png',
     multiple: true,
