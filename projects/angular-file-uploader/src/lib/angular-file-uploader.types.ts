@@ -12,7 +12,7 @@ export interface ReplaceTexts {
 }
 
 export interface UploadApi {
-  url: string;
+  url: string|((p: any, formData: FormData, options: { headers: any; params: any }) => Promise<string>|string);
   method?: 'POST' | 'PUT' | 'PATCH';
   headers?: HttpHeaders | { [header: string]: string | string[] };
   params?: HttpParams | { [param: string]: string | string[]; };

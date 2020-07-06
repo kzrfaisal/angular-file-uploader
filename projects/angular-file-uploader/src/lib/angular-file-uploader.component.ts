@@ -3,15 +3,13 @@ import {
   EventEmitter,
   Input,
   OnChanges,
-  OnInit,
   Output,
   SimpleChanges,
 } from '@angular/core';
 import {
   ReplaceTexts,
   AngularFileUploaderConfig,
-  UploadInfo,
-  UploadApi,
+  UploadInfo
 } from './angular-file-uploader.types';
 import {
   HttpClient,
@@ -19,7 +17,6 @@ import {
   HttpParams,
   HttpEventType,
 } from '@angular/common/http';
-import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'angular-file-uploader',
@@ -46,7 +43,7 @@ export class AngularFileUploaderComponent implements OnChanges {
   id: number;
   hideProgressBar: boolean;
   maxSize: number;
-  uploadAPI: string;
+  uploadAPI: string|((p: this, formData: FormData, options: { headers: any; params: any }) => Promise<string>|string);
   method: string;
   formatsAllowed: string;
   multiple: boolean;
@@ -195,7 +192,7 @@ export class AngularFileUploaderComponent implements OnChanges {
     event.target.value = null;
   }
 
-  uploadFiles() {
+  async uploadFiles() {
     this.progressBarShow = true;
     this.uploadStarted = true;
     this.notAllowedFiles = [];
@@ -233,12 +230,16 @@ export class AngularFileUploaderComponent implements OnChanges {
     if (this.responseType) (options as any).responseType = this.responseType;
 
     this.http
-      .request(this.method.toUpperCase(), this.uploadAPI, {
-        body: formData,
-        reportProgress: true,
-        observe: 'events',
-        ...options,
-      })
+      .request(
+        this.method.toUpperCase(),
+        typeof this.uploadAPI === 'function' ? await this.uploadAPI(this, formData, options) : this.uploadAPI,
+        {
+          body: formData,
+          reportProgress: true,
+          observe: 'events',
+          ...options,
+        }
+      )
       .subscribe(
         (event) => {
           // Upload Progress
