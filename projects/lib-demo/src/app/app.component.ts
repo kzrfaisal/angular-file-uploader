@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFileUploaderConfig } from 'angular-file-uploader';
 
 @Component({
-  selector: 'ld-root',
+  selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
