@@ -16,10 +16,10 @@
       "dom"
     ],
     "paths": {
-      "angular-file-uploader": [
+      /* "angular-file-uploader": [
         "dist/angular-file-uploader/angular-file-uploader",
         "dist/angular-file-uploader"
-      ]
+      ] */
     }
   }
 }

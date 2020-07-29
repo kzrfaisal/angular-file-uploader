@@ -12,7 +12,7 @@
   </div>
   <!-- Drag n Drop theme Ends -->
   <label for="sel{{id}}" class="btn btn-primary btn-sm afu-select-btn"
-    *ngIf="!hideSelectBtn">{{replaceTexts?.selectFileBtn}} CHECKKKKKK</label>
+    *ngIf="!hideSelectBtn">{{replaceTexts?.selectFileBtn}}</label>
   <input type="file" id="sel{{id}}" style="display: none" *ngIf="!hideSelectBtn" (change)="onChange($event)"
     title="Select file" name="files[]" [accept]=formatsAllowed [attr.multiple]="multiple ? '' : null" />
   <button class="btn btn-info btn-sm resetBtn afu-reset-btn" (click)="resetFileUpload()"
