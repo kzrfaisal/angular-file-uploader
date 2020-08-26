@@ -49,8 +49,9 @@
         <br>
         <br>
       </div>
-      <button class="btn btn-success afu-upload-btn" type="button" (click)="uploadFiles()"
+      <button *ngIf="!uploadStarted" class="btn btn-success afu-upload-btn" type="button" (click)="uploadFiles()"
         [disabled]=!enableUploadBtn>{{replaceTexts?.uploadBtn}}</button>
+      <div *ngIf="uploadStarted" class="uploading-message" >{{replaceTexts?.pleaseWaitMessage}}</div>
       <br>
 </div>
 

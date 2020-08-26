@@ -106,6 +106,7 @@ export class AngularFileUploaderComponent implements OnChanges {
         resetBtn: 'Reset',
         uploadBtn: 'Upload',
         dragNDropBox: 'Drag N Drop',
+        pleaseWaitMessage: 'Please wait until file is uploaded',
         attachPinBtn: this.multiple ? 'Attach Files...' : 'Attach File...',
         afterUploadMsg_success: 'Successfully Uploaded !',
         afterUploadMsg_error: 'Upload Failed !',
