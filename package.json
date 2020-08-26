@@ -1,15 +1,15 @@
 {
-  "name": "afu-lib-ws",
-  "version": "0.0.0",
+  "name": "ngx-file-uploader",
+  "version": "1.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng build angular-file-uploader --prod && ng serve lib-demo",
+    "start": "ng build ngx-file-uploader --prod && ng serve lib-demo",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "rm-dist": "rm -rf ./dist",
-    "publish": "ng build angular-file-uploader --prod && cd dist/angular-file-uploader && npm publish"
+    "publish": "ng build ngx-file-uploader --prod && cd dist/ngx-file-uploader && npm publish"
   },
   "private": true,
   "dependencies": {
@@ -21,7 +21,6 @@
     "@angular/platform-browser": "~10.0.5",
     "@angular/platform-browser-dynamic": "~10.0.5",
     "@angular/router": "~10.0.5",
-    "angular-file-uploader": "^7.0.1",
     "rxjs": "~6.5.5",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.3"

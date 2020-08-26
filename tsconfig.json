@@ -8,7 +8,7 @@
   "files": [],
   "references": [
     {
-      "path": "./projects/angular-file-uploader/tsconfig.lib.json"
+      "path": "./projects/ngx-file-uploader/tsconfig.lib.json"
     },
     {
       "path": "./projects/lib-demo/tsconfig.app.json"

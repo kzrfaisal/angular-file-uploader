@@ -3,38 +3,38 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "angular-file-uploader": {
+    "ngx-file-uploader": {
       "projectType": "library",
-      "root": "projects/angular-file-uploader",
-      "sourceRoot": "projects/angular-file-uploader/src",
+      "root": "projects/ngx-file-uploader",
+      "sourceRoot": "projects/ngx-file-uploader/src",
       "prefix": "lib",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",
           "options": {
-            "tsConfig": "projects/angular-file-uploader/tsconfig.lib.json",
-            "project": "projects/angular-file-uploader/ng-package.json"
+            "tsConfig": "projects/ngx-file-uploader/tsconfig.lib.json",
+            "project": "projects/ngx-file-uploader/ng-package.json"
           },
           "configurations": {
             "production": {
-              "tsConfig": "projects/angular-file-uploader/tsconfig.lib.prod.json"
+              "tsConfig": "projects/ngx-file-uploader/tsconfig.lib.prod.json"
             }
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "projects/angular-file-uploader/src/test.ts",
-            "tsConfig": "projects/angular-file-uploader/tsconfig.spec.json",
-            "karmaConfig": "projects/angular-file-uploader/karma.conf.js"
+            "main": "projects/ngx-file-uploader/src/test.ts",
+            "tsConfig": "projects/ngx-file-uploader/tsconfig.spec.json",
+            "karmaConfig": "projects/ngx-file-uploader/karma.conf.js"
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "projects/angular-file-uploader/tsconfig.lib.json",
-              "projects/angular-file-uploader/tsconfig.spec.json"
+              "projects/ngx-file-uploader/tsconfig.lib.json",
+              "projects/ngx-file-uploader/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**"
@@ -185,5 +185,5 @@
         }
       }
     }},
-  "defaultProject": "angular-file-uploader"
+  "defaultProject": "ngx-file-uploader"
 }

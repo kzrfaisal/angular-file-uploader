@@ -5,7 +5,7 @@ Angular file uploader is an Angular 2/4/5/6/7/8/9/10 + file uploader module with
 <https://kzrfaisal.github.io/#/afu>
 ### Install
 ```
-npm i angular-file-uploader
+npm i ngx-file-uploader
 ```
 
 ### Raising funds
@@ -18,24 +18,24 @@ Support this package if it really helped you, send your support at [Patreon](htt
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   ```
   in your index.html.
-- Import AngularFileUploaderModule inside your app.module.ts 
+- Import NgxFileUploaderModule inside your app.module.ts 
   ```javascript
-  import { AngularFileUploaderModule } from "angular-file-uploader";
+  import { NgxFileUploaderModule } from "ngx-file-uploader";
   ```
   ```javascript
   @NgModule({
     imports: [
         ...,
-        AngularFileUploaderModule,
+        NgxFileUploaderModule,
         ...
     ]
   })
   ```
 ##### Example-1 ( with minimal configuration )
   ```html
-  <angular-file-uploader
+  <ngx-file-uploader
         [config]="afuConfig">
-  </angular-file-uploader>
+  </ngx-file-uploader>
   ```  
   ```javascript
   afuConfig = {
@@ -46,11 +46,11 @@ Support this package if it really helped you, send your support at [Patreon](htt
   ```
 ##### Example-2 ( with all available configuration )
   ```html
-  <angular-file-uploader 
+  <ngx-file-uploader 
         [config]="afuConfig"
         [resetUpload]=resetVar
         (ApiResponse)="DocUpload($event)">
-  </angular-file-uploader>
+  </ngx-file-uploader>
   ``` 
   ```javascript
   afuConfig = {
@@ -116,11 +116,11 @@ You have seen that by using 'resetUpload' property, you can reset the module eas
 
 ###### Example-3
   ```html
-  <angular-file-uploader #fileUpload1
+  <ngx-file-uploader #fileUpload1
         [config]="afuConfig"
         [resetUpload]=resetVar
         (ApiResponse)="DocUpload($event)">
-  </angular-file-uploader>
+  </ngx-file-uploader>
   ```
   - Assign one local reference variable (here 'fileUpload1') to the component.
   - Now use this local reference variable in your xyz.component.ts file.
@@ -131,7 +131,7 @@ You have seen that by using 'resetUpload' property, you can reset the module eas
     - Remember to import ViewChild and AngularFileUploaderComponent properly in your component.
       ```javascript
         import { ViewChild } from '@angular/core';
-        import { AngularFileUploaderComponent } from "angular-file-uploader";
+        import { AngularFileUploaderComponent } from "ngx-file-uploader";
       ```
   - That's it.....all done, now just use
     ```javascript
@@ -162,15 +162,15 @@ You have seen that by using 'resetUpload' property, you can reset the module eas
 - More themes.
 - More customization options.
 ---
-#### For Versions < 6.x : [Click Here !](https://github.com/kzrfaisal/angular-file-uploader#for-versions--6x-) 
+#### For Versions < 6.x : [Click Here !](https://github.com/kzrfaisal/ngx-file-uploader#for-versions--6x-) 
 ---
 ---
-#### For Versions < 5.x : [Click Here !](https://github.com/kzrfaisal/angular-file-uploader#for-versions--5x-) 
+#### For Versions < 5.x : [Click Here !](https://github.com/kzrfaisal/ngx-file-uploader#for-versions--5x-) 
 ---
 #### For Versions =< 4.0.12 :
-- Replace AngularFileUploaderModule and AngularFileUploaderComponent with   FileUploadModule and FileUploadComponent respectively.
+- Replace NgxFileUploaderModule and AngularFileUploaderComponent with   FileUploadModule and FileUploadComponent respectively.
 ---
-#### For Versions < 2.x : [Click Here !](https://github.com/kzrfaisal/angular-file-uploader#for-versions--2x-) 
+#### For Versions < 2.x : [Click Here !](https://github.com/kzrfaisal/ngx-file-uploader#for-versions--2x-) 
 ---
 ---
 #### For Versions < 6.x :
@@ -180,7 +180,7 @@ Angular file uploader is an Angular 2/4/5/6 file uploader module with Real-Time 
 <https://kzrfaisal.github.io/#/afu>
 ### Install
 ```
-npm i angular-file-uploader
+npm i ngx-file-uploader
 ```
 ### Usage
 - Bootstrap.min.css is required.
@@ -189,24 +189,24 @@ npm i angular-file-uploader
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   ```
   in your index.html.
-- Import AngularFileUploaderModule inside your app.module.ts 
+- Import NgxFileUploaderModule inside your app.module.ts 
   ```javascript
-  import { AngularFileUploaderModule } from "angular-file-uploader";
+  import { NgxFileUploaderModule } from "ngx-file-uploader";
   ```
   ```javascript
   @NgModule({
     imports: [
         ...,
-        AngularFileUploaderModule,
+        NgxFileUploaderModule,
         ...
     ]
   })
   ```
 ##### Example-1 ( with minimal configuration )
   ```html
-  <angular-file-uploader
+  <ngx-file-uploader
         [config]="afuConfig">
-  </angular-file-uploader>
+  </ngx-file-uploader>
   ```  
   ```javascript
   afuConfig = {
@@ -217,11 +217,11 @@ npm i angular-file-uploader
   ```
 ##### Example-2 ( with all available configuration )
   ```html
-  <angular-file-uploader 
+  <ngx-file-uploader 
         [config]="afuConfig"
         [resetUpload]=resetVar
         (ApiResponse)="DocUpload($event)">
-  </angular-file-uploader>
+  </ngx-file-uploader>
   ``` 
   ```javascript
   afuConfig = {
@@ -279,11 +279,11 @@ You have seen that by using 'resetUpload' property, you can reset the module eas
 
 ###### Example-3
   ```html
-  <angular-file-uploader #fileUpload1
+  <ngx-file-uploader #fileUpload1
         [config]="afuConfig"
         [resetUpload]=resetVar
         (ApiResponse)="DocUpload($event)">
-  </angular-file-uploader>
+  </ngx-file-uploader>
   ```
   - Assign one local reference variable (here 'fileUpload1') to the component.
   - Now use this local reference variable in your xyz.component.ts file.
@@ -294,7 +294,7 @@ You have seen that by using 'resetUpload' property, you can reset the module eas
     - Remember to import ViewChild and AngularFileUploaderComponent properly in your component.
       ```javascript
         import { ViewChild } from '@angular/core';
-        import { AngularFileUploaderComponent } from "angular-file-uploader";
+        import { AngularFileUploaderComponent } from "ngx-file-uploader";
       ```
   - That's it.....all done, now just use
     ```javascript
@@ -333,7 +333,7 @@ Angular file uploader is an Angular 2/4/5/6 file uploader module with Real-Time 
 <https://kzrfaisal.github.io/#/afu>
 ### Install
 ```
-npm i angular-file-uploader
+npm i ngx-file-uploader
 ```
 ### Usage
 - Bootstrap.min.css is required.
@@ -342,24 +342,24 @@ npm i angular-file-uploader
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   ```
   in your index.html.
-- Import AngularFileUploaderModule inside your app.module.ts 
+- Import NgxFileUploaderModule inside your app.module.ts 
   ```javascript
-  import { AngularFileUploaderModule } from "angular-file-uploader";
+  import { NgxFileUploaderModule } from "ngx-file-uploader";
   ```
   ```javascript
   @NgModule({
     imports: [
         ...,
-        AngularFileUploaderModule,
+        NgxFileUploaderModule,
         ...
     ]
   })
   ```
 ##### Example-1 ( with minimal configuration )
   ```html
-  <angular-file-uploader
+  <ngx-file-uploader
         [config]="afuConfig">
-  </angular-file-uploader>
+  </ngx-file-uploader>
   ```  
   ```javascript
   afuConfig = {
@@ -370,11 +370,11 @@ npm i angular-file-uploader
   ```
 ##### Example-2 ( with all available configuration )
   ```html
-  <angular-file-uploader 
+  <ngx-file-uploader 
         [config]="afuConfig"
         [resetUpload]=resetVar
         (ApiResponse)="DocUpload($event)">
-  </angular-file-uploader>
+  </ngx-file-uploader>
   ``` 
   ```javascript
   afuConfig = {
@@ -423,11 +423,11 @@ You have seen that by using 'resetUpload' property, you can reset the module eas
 
 ###### Example-3
   ```html
-  <angular-file-uploader #fileUpload1
+  <ngx-file-uploader #fileUpload1
         [config]="afuConfig"
         [resetUpload]=resetVar
         (ApiResponse)="DocUpload($event)">
-  </angular-file-uploader>
+  </ngx-file-uploader>
   ```
   - Assign one local reference variable (here 'fileUpload1') to the component.
   - Now use this local reference variable in your xyz.component.ts file.
@@ -438,7 +438,7 @@ You have seen that by using 'resetUpload' property, you can reset the module eas
     - Remember to import ViewChild and AngularFileUploaderComponent properly in your component.
       ```javascript
         import { ViewChild } from '@angular/core';
-        import { AngularFileUploaderComponent } from "angular-file-uploader";
+        import { AngularFileUploaderComponent } from "ngx-file-uploader";
       ```
   - That's it.....all done, now just use
     ```javascript
@@ -474,13 +474,13 @@ You have seen that by using 'resetUpload' property, you can reset the module eas
 #### For Versions < 2.x :
 ##### Example-1
   ```html
-  <angular-file-uploader
+  <ngx-file-uploader
       [uploadAPI]="'https://example-file-upload-api'">
-  </angular-file-uploader>
+  </ngx-file-uploader>
   ```  
 ##### Example-2
   ```html
-  <angular-file-uploader 
+  <ngx-file-uploader 
       [multiple]="true" 
       [formatsAllowed]="'.jpg,.png'" 
       [maxSize]="5" 
@@ -488,7 +488,7 @@ You have seen that by using 'resetUpload' property, you can reset the module eas
       [resetUpload]=resetVar
       (ApiResponse)="DocUpload($event)"
       [hideProgressBar]="false">
-  </angular-file-uploader>
+  </ngx-file-uploader>
   ```  
 
 | **Properties**             | **Description**                                                                                                                                                                       | **Default Value**                          |
@@ -505,7 +505,7 @@ You have seen that by using 'resetUpload' property, you can reset the module eas
 
 ##### Example-3
   ```html
-  <angular-file-uploader #fileUpload1
+  <ngx-file-uploader #fileUpload1
       [multiple]="true" 
       [formatsAllowed]="'.jpg,.png'" 
       [maxSize]="5" 
@@ -513,7 +513,7 @@ You have seen that by using 'resetUpload' property, you can reset the module eas
       [resetUpload]=resetVar
       (ApiResponse)="DocUpload($event)"
       [hideProgressBar]="false">
-  </angular-file-uploader>
+  </ngx-file-uploader>
   ```
   - Assign one local reference variable (here 'fileUpload1') to the component.
   - Now use this local reference variable in your xyz.component.ts file.
@@ -524,7 +524,7 @@ You have seen that by using 'resetUpload' property, you can reset the module eas
     - Remember to import ViewChild and FileUploadComponent properly in your component.
       ```javascript
         import { ViewChild } from '@angular/core';
-        import { FileUploadComponent } from "angular-file-uploader";
+        import { FileUploadComponent } from "ngx-file-uploader";
       ```
   - That's it.....all done, now just use
     ```javascript
