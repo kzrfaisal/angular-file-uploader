@@ -252,6 +252,7 @@ export class AngularFileUploaderComponent implements OnChanges {
               // Success
               this.progressBarShow = false;
               this.enableUploadBtn = false;
+              this.uploadStarted = false;
               this.uploadMsg = true;
               this.afterUpload = true;
               if (!isError) {
