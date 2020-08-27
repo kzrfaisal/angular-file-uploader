@@ -3,7 +3,6 @@ import {
   EventEmitter,
   Input,
   OnChanges,
-  OnInit,
   Output,
   SimpleChanges,
 } from '@angular/core';
@@ -12,7 +11,7 @@ import {
   AngularFileUploaderConfig,
   UploadInfo,
   UploadApi,
-} from './angular-file-uploader.types';
+} from './ngx-file-uploader.types';
 import {
   HttpClient,
   HttpHeaders,
@@ -22,11 +21,11 @@ import {
 import { map } from 'rxjs/operators';
 
 @Component({
-  selector: 'angular-file-uploader',
-  templateUrl: './angular-file-uploader.component.html',
-  styleUrls: ['./angular-file-uploader.component.css'],
+  selector: 'ngx-file-uploader',
+  templateUrl: './ngx-file-uploader.component.html',
+  styleUrls: ['./ngx-file-uploader.component.css'],
 })
-export class AngularFileUploaderComponent implements OnChanges {
+export class NgxFileUploaderComponent implements OnChanges {
   // Inputs
   @Input()
   config: AngularFileUploaderConfig;
@@ -106,6 +105,7 @@ export class AngularFileUploaderComponent implements OnChanges {
         resetBtn: 'Reset',
         uploadBtn: 'Upload',
         dragNDropBox: 'Drag N Drop',
+        pleaseWaitMessage: 'Please wait until file is uploaded',
         attachPinBtn: this.multiple ? 'Attach Files...' : 'Attach File...',
         afterUploadMsg_success: 'Successfully Uploaded !',
         afterUploadMsg_error: 'Upload Failed !',
@@ -251,6 +251,7 @@ export class AngularFileUploaderComponent implements OnChanges {
               // Success
               this.progressBarShow = false;
               this.enableUploadBtn = false;
+              this.uploadStarted = false;
               this.uploadMsg = true;
               this.afterUpload = true;
               if (!isError) {

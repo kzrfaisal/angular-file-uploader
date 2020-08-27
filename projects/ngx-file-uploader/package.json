@@ -1,0 +1,47 @@
+{
+  "name": "ngxc-file-uploader",
+  "version": "1.0.0",
+  "license": "MIT",
+  "peerDependencies": {
+    "@angular/common": "^10.0.5",
+    "@angular/core": "^10.0.5"
+  },
+  "dependencies": {
+    "tslib": "^2.0.0"
+  },
+  "description": "Ngx file uploader is an Angular 9/10 + file uploader",
+  "deprecated": false,
+  "readme": "README.md",
+  "keywords": [
+    "ngx file uploader",
+    "ngx file upload",
+    "angular",
+    "file upload",
+    "drag and drop",
+    "upload",
+    "uploader",
+    "ng",
+    "angular 2",
+    "angular 4",
+    "angular 5",
+    "angular 6",
+    "angular 7",
+    "angular 8",
+    "angular 9",
+    "angular 10",
+    "universal",
+    "img",
+    "image",
+    "image upload",
+    "formdata",
+    "bootstrap"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/BruneXX/ngx-file-uploader.git"
+  },
+  "homepage": "https://BruneXX.github.io/#/ngx-file-uploader",
+  "bugs": {
+    "url": "https://github.com/BruneXX/ngx-file-uploader/issues"
+  }
+}

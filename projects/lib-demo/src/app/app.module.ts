@@ -1,14 +1,14 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { AngularFileUploaderModule } from "angular-file-uploader";
-// To use angular-file-uploader from node-modules remove paths from tsconfig.json in root.
+import { NgxFileUploaderModule } from "ngx-file-uploader";
+// To use ngx-file-uploader from node-modules remove paths from tsconfig.json in root.
 /*
 "paths": {
-      "angular-file-uploader": [
-        "dist/angular-file-uploader"
+      "ngx-file-uploader": [
+        "dist/ngx-file-uploader"
       ],
-      "angular-file-uploader/*": [
-        "dist/angular-file-uploader/*"
+      "ngx-file-uploader/*": [
+        "dist/ngx-file-uploader/*"
       ]
     }
 */
@@ -20,7 +20,7 @@ import { AppComponent } from './app.component';
   ],
   imports: [
     BrowserModule,
-    AngularFileUploaderModule
+    NgxFileUploaderModule
   ],
   providers: [],
   bootstrap: [AppComponent],

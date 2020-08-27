@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AngularFileUploaderComponent } from './angular-file-uploader.component';
+import { NgxFileUploaderComponent } from './ngx-file-uploader.component';
 import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
@@ -8,7 +8,7 @@ import { HttpClientModule } from '@angular/common/http';
     CommonModule,
     HttpClientModule,
   ],
-  declarations: [AngularFileUploaderComponent],
-  exports: [AngularFileUploaderComponent]
+  declarations: [NgxFileUploaderComponent],
+  exports: [NgxFileUploaderComponent]
 })
-export class AngularFileUploaderModule { }
+export class NgxFileUploaderModule { }

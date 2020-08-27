@@ -16,9 +16,9 @@
       "dom"
     ],
     "paths": {
-      /* "angular-file-uploader": [
-        "dist/angular-file-uploader/angular-file-uploader",
-        "dist/angular-file-uploader"
+      /* "ngx-file-uploader": [
+        "dist/ngx-file-uploader/ngx-file-uploader",
+        "dist/ngx-file-uploader"
       ] */
     }
   }

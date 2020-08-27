@@ -4,6 +4,7 @@ export interface ReplaceTexts {
   selectFileBtn?: string;
   resetBtn?: string;
   uploadBtn?: string;
+  pleaseWaitMessage: string;
   dragNDropBox?: string;
   attachPinBtn?: string;
   afterUploadMsg_success?: string;
