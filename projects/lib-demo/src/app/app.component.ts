@@ -48,7 +48,7 @@ export class AppComponent  {
   constructor() {
   }
 
-  docUpload(env) {
-    console.log(env);
+  docUpload(event) {
+    console.log('ApiResponse -> docUpload -> Event: ',event);
   }
 }

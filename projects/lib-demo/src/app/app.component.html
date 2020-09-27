@@ -4,7 +4,7 @@
 
   <div class="border">
     <h4>Example-1 (Default Theme)</h4>
-    <angular-file-uploader [resetUpload]=resetUpload1 [config]="afuConfig1" class="afuc">
+    <angular-file-uploader [resetUpload]=resetUpload1 [config]="afuConfig1" class="afuc" (ApiResponse)="docUpload($event)">
     </angular-file-uploader>
   </div>
   <br>
