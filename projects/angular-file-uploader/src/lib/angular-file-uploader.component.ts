@@ -6,6 +6,7 @@ import {
   OnInit,
   Output,
   SimpleChanges,
+  SkipSelf,
 } from '@angular/core';
 import {
   ReplaceTexts,
@@ -77,7 +78,7 @@ export class AngularFileUploaderComponent implements OnChanges {
 
   private idDate: number = +new Date();
 
-  constructor(private http: HttpClient) {}
+  constructor(@SkipSelf() private http: HttpClient) {}
 
   ngOnChanges(changes: SimpleChanges) {
     // Track changes in Configuration and see if user has even provided Configuration.

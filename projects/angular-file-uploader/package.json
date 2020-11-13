@@ -1,6 +1,6 @@
 {
   "name": "angular-file-uploader",
-  "version": "7.0.1",
+  "version": "7.0.2",
   "license": "MIT",
   "peerDependencies": {
     "@angular/common": "^10.0.5",
