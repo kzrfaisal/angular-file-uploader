@@ -25,6 +25,13 @@
   text-decoration: none;
   color: #ce0909;
 }
+
+.selectBtnDisabled {
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  color: #666666;
+  cursor: no-drop;
+}
 /*--------------------- DRAG N DROP ----------------------*/
 .dragNDrop .div1 {
   display: border-box;

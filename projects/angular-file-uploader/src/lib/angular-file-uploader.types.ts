@@ -15,8 +15,9 @@ export interface UploadApi {
   url: string;
   method?: 'POST' | 'PUT' | 'PATCH';
   headers?: HttpHeaders | { [header: string]: string | string[] };
-  params?: HttpParams | { [param: string]: string | string[]; };
-  responseType?: string;
+  params?: HttpParams | { [param: string]: string | string[] };
+  responseType?: 'json' | 'arraybuffer' | 'blob' | 'text';
+  withCredentials?: boolean;
 }
 
 export interface AngularFileUploaderConfig {
@@ -32,6 +33,7 @@ export interface AngularFileUploaderConfig {
   multiple?: boolean;
   fileNameIndex?: boolean;
   replaceTexts?: ReplaceTexts;
+  autoUpload?: boolean;
 }
 
 export interface UploadInfo {

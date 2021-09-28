@@ -11,15 +11,12 @@
     "importHelpers": true,
     "target": "es2015",
     "module": "es2020",
-    "lib": [
-      "es2018",
-      "dom"
-    ],
+    "lib": ["es2018", "dom"],
     "paths": {
-      /* "angular-file-uploader": [
+      "angular-file-uploader": [
         "dist/angular-file-uploader/angular-file-uploader",
         "dist/angular-file-uploader"
-      ] */
+      ]
     }
   }
 }

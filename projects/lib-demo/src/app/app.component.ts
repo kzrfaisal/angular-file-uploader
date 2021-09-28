@@ -6,18 +6,19 @@ import { AngularFileUploaderConfig } from 'angular-file-uploader';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent  {
+export class AppComponent {
   resetUpload1: boolean;
   resetUpload2: boolean;
   resetUpload3: boolean;
 
-
   afuConfig1: AngularFileUploaderConfig = {
     id: 112233,
     multiple: true,
+    formatsAllowed: 'image/*',
+    autoUpload: true,
     uploadAPI: {
       url: 'https://slack.com/api/files.upload',
-    }
+    },
   };
 
   afuConfig2: AngularFileUploaderConfig = {
@@ -34,10 +35,11 @@ export class AppComponent  {
 
   afuConfig3: AngularFileUploaderConfig = {
     theme: 'dragNDrop',
-    hideProgressBar: true,
+    // hideProgressBar: true,
     hideResetBtn: true,
-    hideSelectBtn: true,
-    maxSize: 1,
+    // hideSelectBtn: true,
+    // autoUpload: true,
+    maxSize: 20,
     uploadAPI: {
       url: 'https://slack.com/api/files.upload',
     },
@@ -45,10 +47,9 @@ export class AppComponent  {
     multiple: true,
   };
 
-  constructor() {
-  }
+  constructor() {}
 
   docUpload(event) {
-    console.log('ApiResponse -> docUpload -> Event: ',event);
+    console.log('ApiResponse -> docUpload -> Event: ', event);
   }
 }

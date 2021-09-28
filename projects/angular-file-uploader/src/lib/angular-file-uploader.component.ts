@@ -40,7 +40,7 @@ export class AngularFileUploaderComponent implements OnChanges {
   ApiResponse = new EventEmitter();
 
   @Output()
-  everythingDone: EventEmitter<UploadInfo[]> = new EventEmitter<UploadInfo[]>();
+  fileSelected: EventEmitter<UploadInfo[]> = new EventEmitter<UploadInfo[]>();
 
   // Properties
   theme: string;
@@ -50,10 +50,11 @@ export class AngularFileUploaderComponent implements OnChanges {
   uploadAPI: string;
   method: string;
   formatsAllowed: string;
+  formatsAllowedText: string;
   multiple: boolean;
   headers: HttpHeaders | { [header: string]: string | string[] };
   params: HttpParams | { [param: string]: string | string[] };
-  responseType: string;
+  responseType: 'json' | 'arraybuffer' | 'blob' | 'text';
   hideResetBtn: boolean;
   hideSelectBtn: boolean;
   allowedFiles: File[] = [];
@@ -75,6 +76,8 @@ export class AngularFileUploaderComponent implements OnChanges {
   replaceTexts: ReplaceTexts;
   currentUploads: any[] = [];
   fileNameIndex = true;
+  withCredentials = false;
+  autoUpload = false;
 
   private idDate: number = +new Date();
 
@@ -95,13 +98,17 @@ export class AngularFileUploaderComponent implements OnChanges {
       this.maxSize = (this.config.maxSize || 20) * 1024000; // mb to bytes.
       this.uploadAPI = this.config.uploadAPI.url;
       this.method = this.config.uploadAPI.method || 'POST';
-      this.formatsAllowed =
-        this.config.formatsAllowed || '.jpg,.png,.pdf,.docx,.txt,.gif,.jpeg';
+      this.formatsAllowed = this.config.formatsAllowed || '*';
+      this.formatsAllowedText =
+        this.formatsAllowed === '*' ? '' : '(' + this.formatsAllowed + ')';
       this.multiple = this.config.multiple || false;
       this.headers = this.config.uploadAPI.headers || {};
       this.params = this.config.uploadAPI.params || {};
-      this.responseType = this.config.uploadAPI.responseType || null;
+      this.responseType = this.config.uploadAPI.responseType || 'json';
+      this.withCredentials = this.config.uploadAPI.withCredentials || false;
       this.fileNameIndex = this.config.fileNameIndex === false ? false : true;
+      this.autoUpload = this.config.autoUpload || false;
+
       this.replaceTexts = {
         selectFileBtn: this.multiple ? 'Select Files' : 'Select File',
         resetBtn: 'Reset',
@@ -127,7 +134,6 @@ export class AngularFileUploaderComponent implements OnChanges {
         this.resetFileUpload();
       }
     }
-
   }
 
   // Reset following properties.
@@ -141,7 +147,7 @@ export class AngularFileUploaderComponent implements OnChanges {
 
   // When user selects files.
   onChange(event: any) {
-
+    this.fileSelected.emit(event);
     this.notAllowedFiles = [];
     const fileExtRegExp: RegExp = /(?:\.([^.]+))?$/;
     let fileList: FileList;
@@ -163,7 +169,9 @@ export class AngularFileUploaderComponent implements OnChanges {
       const currentFileExt = fileExtRegExp
         .exec(fileList[i].name)[1]
         .toLowerCase(); // Get file extension.
-      const isFormatValid = this.formatsAllowed.includes(currentFileExt);
+      const isFormatValid = this.formatsAllowed.includes('*')
+        ? true
+        : this.formatsAllowed.includes(currentFileExt);
 
       const isSizeValid = fileList[i].size <= this.maxSize;
 
@@ -182,8 +190,8 @@ export class AngularFileUploaderComponent implements OnChanges {
     // If there's any allowedFiles.
     if (this.allowedFiles.length > 0) {
       this.enableUploadBtn = true;
-      // Upload the files directly if theme is attach pin (as upload btn is not there for this theme).
-      if (this.theme === 'attachPin') {
+      // Upload the files directly if theme is attach pin (as upload btn is not there for this theme) or autoUpload is true.
+      if (this.theme === 'attachPin' || this.autoUpload) {
         this.uploadFiles();
       }
     } else {
@@ -226,19 +234,15 @@ export class AngularFileUploaderComponent implements OnChanges {
       params.append(key, this.params[key]);
     } */
 
-    const options = {
-      headers: this.headers,
-      params: this.params,
-    };
-
-    if (this.responseType) (options as any).responseType = this.responseType;
-
     this.http
       .request(this.method.toUpperCase(), this.uploadAPI, {
         body: formData,
         reportProgress: true,
         observe: 'events',
-        ...options,
+        headers: this.headers,
+        params: this.params,
+        responseType: this.responseType,
+        withCredentials: this.withCredentials,
       })
       .subscribe(
         (event) => {
