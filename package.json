@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng build angular-file-uploader --prod && ng serve lib-demo",
+    "start-demo": "ng build angular-file-uploader --prod && ng serve lib-demo",
+    "build-lib-watch": "ng build angular-file-uploader --watch",
+    "watch": "ng build --watch --configuration development",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
