@@ -53,6 +53,34 @@
   padding: 0;
   margin: 0;
 } */
+
+/** Attach Pin Styling **/
+div#attachPin {}
+div#attachPin div.label {
+  background: #f3f3f3;
+  padding: 0 0 0 5px;
+  display: inline-flex;
+  flex-flow: row wrap;
+  margin: 5px 8px 5px 0;
+  align-items: center;
+}
+
+.remove-file {
+  background: #3dba8d;
+  color: #fff;
+  font-family: Roboto,sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  position: relative;
+  display: flex;
+  text-decoration: none;
+  height: 100%;
+  align-items: center;
+  padding: 8px;
+  margin-left: 5px;
+}
+
+
 /*--------------------- X-X-X-X ----------------------*/
 @media screen and (max-width: 620px) {
   .caption {

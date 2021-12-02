@@ -72,6 +72,8 @@
       <br>
     </a>
     &nbsp;
-    <span class='label label-info' id="upload-file-info{{id}}">{{allowedFiles[0]?.name}}</span>
+    <div *ngFor="let file of allowedFiles; let i=index;" class='label label-info' id="upload-file-info{{id}}">{{file.name}}
+      <a class="remove-file" role="button" (click)="removeFile(i,'attachPin')" *ngIf="!uploadStarted">x</a>
+    </div>
   </div>
 </div>

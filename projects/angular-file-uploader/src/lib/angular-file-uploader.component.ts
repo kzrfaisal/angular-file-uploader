@@ -202,6 +202,7 @@ export class AngularFileUploaderComponent implements OnChanges {
     this.uploadStarted = false;
     this.uploadPercent = 0;
     event.target.value = null;
+    this.ApiResponse.emit({allowedFiles: this.allowedFiles});
   }
 
   uploadFiles() {
@@ -295,6 +296,11 @@ export class AngularFileUploaderComponent implements OnChanges {
     if (sf_na === 'sf') {
       this.allowedFiles.splice(i, 1);
       this.Caption.splice(i, 1);
+    } else if (sf_na === 'attachPin') {
+      const removedFile = this.allowedFiles[i];
+      this.allowedFiles.splice(i, 1);
+      this.Caption.splice(i, 1);
+      this.ApiResponse.emit({removed: removedFile});
     } else {
       this.notAllowedFiles.splice(i, 1);
     }
