@@ -292,7 +292,7 @@ afuConfig = {
 ```javascript
 afuConfig = {
     multiple: false,
-    formatsAllowed: ".jpg,.png",
+    formatsAllowed: [".jpg",".png"],
     maxSize: "1",
     uploadAPI:  {
       url:"https://example-file-upload-api",
@@ -327,7 +327,7 @@ afuConfig = {
 | **[config]**              | **Description**                                                                                       | **Default Value**                                                            |
 | ------------------------- | ----------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
 | multiple : boolean        | Set it as " true " for uploading multiple files at a time and as " false " for single file at a time. | false                                                                        |
-| formatsAllowed : string   | Specify the formats of file you want to upload.                                                       | '.jpg,.png,.pdf,.docx, .txt,.gif,.jpeg'                                      |
+| formatsAllowed : string   | Specify the formats of file you want to upload.                                                       | ['.jpg', '.png, '.pdf, '.docx, '.txt, '.gif, '.jpeg']                        |
 | maxSize : number          | Maximum size limit for files in MB.                                                                   | 20 MB                                                                        |
 | uploadAPI.url : string    | Complete api url to which you want to upload.                                                         | undefined                                                                    |
 | uploadAPI.method : string | HTTP method to use for upload.                                                                        | POST                                                                         |
@@ -473,7 +473,7 @@ afuConfig = {
 ```javascript
 afuConfig = {
   multiple: false,
-  formatsAllowed: ".jpg,.png",
+  formatsAllowed: [".jpg", ".png"],
   maxSize: "1",
   uploadAPI: {
     url: "https://example-file-upload-api",
@@ -499,7 +499,7 @@ afuConfig = {
 | **[config]**              | **Description**                                                                                       | **Default Value**                                                            |
 | ------------------------- | ----------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
 | multiple : boolean        | Set it as " true " for uploading multiple files at a time and as " false " for single file at a time. | false                                                                        |
-| formatsAllowed : string   | Specify the formats of file you want to upload.                                                       | '.jpg,.png,.pdf,.docx, .txt,.gif,.jpeg'                                      |
+| formatsAllowed : string   | Specify the formats of file you want to upload.                                                       | ['.jpg', '.png', '.pdf', '.docx', '.txt', '.gif', '.jpeg']                   |
 | maxSize : number          | Maximum size limit for files in MB.                                                                   | 20 MB                                                                        |
 | uploadAPI.url : string    | Complete api url to which you want to upload.                                                         | undefined                                                                    |
 | uploadAPI.method : string | HTTP method to use for upload.                                                                        | POST                                                                         |
@@ -592,7 +592,7 @@ You have seen that by using 'resetUpload' property, you can reset the module eas
 ```html
 <angular-file-uploader
   [multiple]="true"
-  [formatsAllowed]="'.jpg,.png'"
+  [formatsAllowed]="['.jpg', '.png']"
   [maxSize]="5"
   [uploadAPI]="'https://example-file-upload-api'"
   [resetUpload]="resetVar"
@@ -602,15 +602,15 @@ You have seen that by using 'resetUpload' property, you can reset the module eas
 </angular-file-uploader>
 ```
 
-| **Properties**            | **Description**                                                                                                                                                                                                                                                               | **Default Value**                       |
-| ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------- |
-| multiple : boolean        | Set it as " true " for uploading multiple files at a time and as " false " for single file at a time.                                                                                                                                                                         | false                                   |
-| formatsAllowed : string   | Specify the formats of file you want to upload.                                                                                                                                                                                                                               | '.jpg,.png,.pdf,.docx, .txt,.gif,.jpeg' |
-| maxSize : number          | Maximum size limit for files in MB.                                                                                                                                                                                                                                           | 20 MB                                   |
-| uploadAPI : string        | Complete api url to which you want to upload.                                                                                                                                                                                                                                 | undefined                               |
-| ApiResponse:EventEmitter  | It will return the response it gets back from the uploadAPI. Assign one custom function ,for example " docUpload($event) " here, where " $event " will contain the response from the api.                                                                                     |                                         |
-| resetUpload : boolean     | Give it's value as " true " whenever you want to clear the list of uploads being displayed. It's better to assign one boolean variable ('resetVar' here)to it and then change that variable's value. Remember to change 'resetVar' value 'true' to 'false' after every reset. | false                                   |
-| hideProgressBar : boolean | Set it as " true " to hide the Progress bar.                                                                                                                                                                                                                                  | false                                   |
+| **Properties**            | **Description**                                                                                                                                                                                                                                                               | **Default Value**                                          |
+| ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
+| multiple : boolean        | Set it as " true " for uploading multiple files at a time and as " false " for single file at a time.                                                                                                                                                                         | false                                                      |
+| formatsAllowed : string   | Specify the formats of file you want to upload.                                                                                                                                                                                                                               | ['.jpg', '.png', '.pdf', '.docx', '.txt', '.gif', '.jpeg'] |
+| maxSize : number          | Maximum size limit for files in MB.                                                                                                                                                                                                                                           | 20 MB                                                      |
+| uploadAPI : string        | Complete api url to which you want to upload.                                                                                                                                                                                                                                 | undefined                                                  |
+| ApiResponse:EventEmitter  | It will return the response it gets back from the uploadAPI. Assign one custom function ,for example " docUpload($event) " here, where " $event " will contain the response from the api.                                                                                     |                                                            |
+| resetUpload : boolean     | Give it's value as " true " whenever you want to clear the list of uploads being displayed. It's better to assign one boolean variable ('resetVar' here)to it and then change that variable's value. Remember to change 'resetVar' value 'true' to 'false' after every reset. | false                                                      |
+| hideProgressBar : boolean | Set it as " true " to hide the Progress bar.                                                                                                                                                                                                                                  | false                                                      |
 
 You have seen that by using 'resetUpload' property, you can reset the module easily, however if you need to reset more than one time, there's a better way of doing that( bcoz in 'resetUpload' property, you have to make it as false in order to use it again):-
 
@@ -620,7 +620,7 @@ You have seen that by using 'resetUpload' property, you can reset the module eas
 <angular-file-uploader
   #fileUpload1
   [multiple]="true"
-  [formatsAllowed]="'.jpg,.png'"
+  [formatsAllowed]="['.jpg', '.png']"
   [maxSize]="5"
   [uploadAPI]="'https://example-file-upload-api'"
   [resetUpload]="resetVar"
