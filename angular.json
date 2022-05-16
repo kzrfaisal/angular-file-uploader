@@ -10,7 +10,7 @@
       "prefix": "lib",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
+          "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
             "tsConfig": "projects/angular-file-uploader/tsconfig.lib.json",
             "project": "projects/angular-file-uploader/ng-package.json"
@@ -36,9 +36,7 @@
               "projects/angular-file-uploader/tsconfig.lib.json",
               "projects/angular-file-uploader/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -89,9 +87,12 @@
               "projects/lib-demo/src/assets"
             ],
             "styles": [
+              "./node_modules/@fortawesome/fontawesome-free/css/all.min.css",
               "projects/lib-demo/src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/@fortawesome/fontawesome-free/js/all.min.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -152,9 +153,7 @@
               "projects/lib-demo/src/favicon.ico",
               "projects/lib-demo/src/assets"
             ],
-            "styles": [
-              "projects/lib-demo/src/styles.css"
-            ],
+            "styles": ["projects/lib-demo/src/styles.css"],
             "scripts": []
           }
         },
@@ -166,9 +165,7 @@
               "projects/lib-demo/tsconfig.spec.json",
               "projects/lib-demo/e2e/tsconfig.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         },
         "e2e": {
@@ -184,6 +181,7 @@
           }
         }
       }
-    }},
+    }
+  },
   "defaultProject": "angular-file-uploader"
 }

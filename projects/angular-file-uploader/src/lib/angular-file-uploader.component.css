@@ -33,17 +33,16 @@
   cursor: no-drop;
 }
 /*--------------------- DRAG N DROP ----------------------*/
-.dragNDrop .div1 {
+.dragNDrop .dragNDropDiv {
   display: border-box;
   border: 2px dashed rgb(92, 91, 91);
   height: 6rem;
-  width: 20rem;
 }
-.dragNDrop .div1 > p {
+.dragNDrop .dragNDropDiv > p {
   text-align: center;
   font-weight: bold;
   color: rgb(92, 91, 91);
-  margin-top: 1.4em;
+  margin-top: 2em;
 }
 
 .dragNDropBtmPad {

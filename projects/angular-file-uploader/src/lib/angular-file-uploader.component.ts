@@ -20,7 +20,6 @@ import {
   HttpParams,
   HttpEventType,
 } from '@angular/common/http';
-import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'angular-file-uploader',
@@ -49,7 +48,7 @@ export class AngularFileUploaderComponent implements OnChanges {
   maxSize: number;
   uploadAPI: string;
   method: string;
-  formatsAllowed: string;
+  formatsAllowed: string[];
   formatsAllowedText: string;
   multiple: boolean;
   headers: HttpHeaders | { [header: string]: string | string[] };
@@ -98,9 +97,11 @@ export class AngularFileUploaderComponent implements OnChanges {
       this.maxSize = (this.config.maxSize || 20) * 1024000; // mb to bytes.
       this.uploadAPI = this.config.uploadAPI.url;
       this.method = this.config.uploadAPI.method || 'POST';
-      this.formatsAllowed = this.config.formatsAllowed || '*';
+      this.formatsAllowed = this.config.formatsAllowed || ['*'];
       this.formatsAllowedText =
-        this.formatsAllowed === '*' ? '' : '(' + this.formatsAllowed + ')';
+        this.formatsAllowed === ['*']
+          ? ''
+          : '(' + this.formatsAllowed.toString() + ')';
       this.multiple = this.config.multiple || false;
       this.headers = this.config.uploadAPI.headers || {};
       this.params = this.config.uploadAPI.params || {};
@@ -165,23 +166,24 @@ export class AngularFileUploaderComponent implements OnChanges {
     }
 
     // 'forEach' does not exist on 'filelist' that's why this good old 'for' is used.
-    for (let i = 0; i < fileList.length; i++) {
-      const currentFileExt = fileExtRegExp
-        .exec(fileList[i].name)[1]
-        .toLowerCase(); // Get file extension.
-      const isFormatValid = this.formatsAllowed.includes('*')
-        ? true
-        : this.formatsAllowed.includes(currentFileExt);
+    let total = fileList.length;
+    for (let i = 0; i < total; i++) {
+      const file = fileList[i];
 
-      const isSizeValid = fileList[i].size <= this.maxSize;
+      const isFormatValid =
+        this.formatsAllowed === ['*']
+          ? true
+          : this.isFileFormatAllowed(file.type);
+
+      const isSizeValid = file.size <= this.maxSize;
 
       // Check whether current file format and size is correct as specified in the configurations.
       if (isFormatValid && isSizeValid) {
-        this.allowedFiles.push(fileList[i]);
+        this.allowedFiles.push(file);
       } else {
         this.notAllowedFiles.push({
-          fileName: fileList[i].name,
-          fileSize: this.convertSize(fileList[i].size),
+          fileName: file.name,
+          fileSize: this.convertSize(file.size),
           errorMsg: !isFormatValid ? 'Invalid format' : 'Invalid size',
         });
       }
@@ -202,6 +204,18 @@ export class AngularFileUploaderComponent implements OnChanges {
     this.uploadStarted = false;
     this.uploadPercent = 0;
     event.target.value = null;
+  }
+
+  isFileFormatAllowed(fileFormat: string): boolean {
+    const totalFormatsAllowed = this.formatsAllowed.length;
+
+    for (let i = 0; i < totalFormatsAllowed; i++) {
+      if (fileFormat.match(this.formatsAllowed[i])) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   uploadFiles() {
