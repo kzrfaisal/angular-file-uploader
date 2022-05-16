@@ -14,7 +14,7 @@ export class AppComponent {
   afuConfig1: AngularFileUploaderConfig = {
     id: 112233,
     multiple: true,
-    formatsAllowed: 'image/*',
+    formatsAllowed: ['image/*'],
     autoUpload: true,
     uploadAPI: {
       url: 'https://slack.com/api/files.upload',
@@ -29,7 +29,7 @@ export class AppComponent {
     uploadAPI: {
       url: 'https://slack.com/api/files.upload',
     },
-    formatsAllowed: '.jpg,.png',
+    formatsAllowed: ['.jpg', '.png'],
     multiple: true,
   };
 
@@ -43,7 +43,7 @@ export class AppComponent {
     uploadAPI: {
       url: 'https://slack.com/api/files.upload',
     },
-    formatsAllowed: '.jpg,.jpeg,.png',
+    formatsAllowed: ['.jpg', '.jpeg', '.png'],
     multiple: true,
   };
 

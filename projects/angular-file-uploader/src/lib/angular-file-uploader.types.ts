@@ -29,7 +29,7 @@ export interface AngularFileUploaderConfig {
   hideResetBtn?: boolean;
   hideSelectBtn?: boolean;
   maxSize?: number;
-  formatsAllowed?: string;
+  formatsAllowed?: string[];
   multiple?: boolean;
   fileNameIndex?: boolean;
   replaceTexts?: ReplaceTexts;

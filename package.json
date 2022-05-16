@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start-demo": "ng build angular-file-uploader --configuration production && ng serve lib-demo",
+    "start-demo": "ng build angular-file-uploader --watch --configuration production && ng serve lib-demo",
     "build-lib-watch": "ng build angular-file-uploader --watch",
     "watch": "ng build --watch --configuration development",
     "build": "ng build",
@@ -23,6 +23,7 @@
     "@angular/platform-browser": "~13.3.8",
     "@angular/platform-browser-dynamic": "~13.3.8",
     "@angular/router": "~13.3.8",
+    "@fortawesome/fontawesome-free": "^6.1.1",
     "rxjs": "~6.5.5",
     "tslib": "^2.0.0",
     "zone.js": "~0.11.5"

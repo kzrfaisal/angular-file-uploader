@@ -86,8 +86,13 @@
               "projects/lib-demo/src/favicon.ico",
               "projects/lib-demo/src/assets"
             ],
-            "styles": ["projects/lib-demo/src/styles.css"],
-            "scripts": []
+            "styles": [
+              "./node_modules/@fortawesome/fontawesome-free/css/all.min.css",
+              "projects/lib-demo/src/styles.css"
+            ],
+            "scripts": [
+              "node_modules/@fortawesome/fontawesome-free/js/all.min.js"
+            ]
           },
           "configurations": {
             "production": {
