@@ -169,8 +169,6 @@ export class AngularFileUploaderComponent implements OnChanges {
     let total = fileList.length;
     for (let i = 0; i < total; i++) {
       const file = fileList[i];
-      console.log(file);
-      const currentFileExt = fileExtRegExp.exec(file.name)[1].toLowerCase(); // Get file extension.
 
       const isFormatValid =
         this.formatsAllowed === ['*']
