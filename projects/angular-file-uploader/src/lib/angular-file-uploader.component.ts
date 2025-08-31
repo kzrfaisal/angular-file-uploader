@@ -3,7 +3,6 @@ import {
   EventEmitter,
   Input,
   OnChanges,
-  OnInit,
   Output,
   SimpleChanges,
   SkipSelf,
@@ -12,25 +11,22 @@ import {
   ReplaceTexts,
   AngularFileUploaderConfig,
   UploadInfo,
-  UploadApi,
+  ThemeType,
 } from './angular-file-uploader.types';
-import {
-  HttpClient,
-  HttpHeaders,
-  HttpParams,
-  HttpEventType,
-} from '@angular/common/http';
-import { map } from 'rxjs/operators';
+import { DISPLAYTEXTS, UPLOAD_MSG_CLASSES } from './angular-file-uploader.constants';
+import { HttpClient, HttpHeaders, HttpParams, HttpEventType } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'angular-file-uploader',
   templateUrl: './angular-file-uploader.component.html',
   styleUrls: ['./angular-file-uploader.component.css'],
+  imports: [CommonModule],
 })
 export class AngularFileUploaderComponent implements OnChanges {
   // Inputs
   @Input()
-  config: AngularFileUploaderConfig;
+  config!: AngularFileUploaderConfig;
 
   @Input()
   resetUpload = false;
@@ -43,20 +39,20 @@ export class AngularFileUploaderComponent implements OnChanges {
   fileSelected: EventEmitter<UploadInfo[]> = new EventEmitter<UploadInfo[]>();
 
   // Properties
-  theme: string;
-  id: number;
-  hideProgressBar: boolean;
-  maxSize: number;
-  uploadAPI: string;
-  method: string;
-  formatsAllowed: string;
-  formatsAllowedText: string;
-  multiple: boolean;
-  headers: HttpHeaders | { [header: string]: string | string[] };
-  params: HttpParams | { [param: string]: string | string[] };
-  responseType: 'json' | 'arraybuffer' | 'blob' | 'text';
-  hideResetBtn: boolean;
-  hideSelectBtn: boolean;
+  theme!: string;
+  id!: number;
+  hideProgressBar!: boolean;
+  maxSize!: number;
+  uploadAPI!: string;
+  method!: string;
+  formatsAllowed!: string;
+  formatsAllowedText!: string;
+  multiple!: boolean;
+  headers!: HttpHeaders | { [header: string]: string | string[] };
+  params!: HttpParams | { [param: string]: string | string[] };
+  responseType!: 'json' | 'arraybuffer' | 'blob' | 'text';
+  hideResetBtn!: boolean;
+  hideSelectBtn!: boolean;
   allowedFiles: File[] = [];
   notAllowedFiles: {
     fileName: string;
@@ -70,14 +66,24 @@ export class AngularFileUploaderComponent implements OnChanges {
   uploadMsg = false;
   afterUpload = false;
   uploadStarted = false;
-  uploadMsgText: string;
-  uploadMsgClass: string;
-  uploadPercent: number;
-  replaceTexts: ReplaceTexts;
+  uploadMsgText: string = '';
+  uploadMsgClass: string = '';
+  uploadPercent: number = 0;
+  replaceTexts: ReplaceTexts = {
+    selectFileBtn: DISPLAYTEXTS.selectFile,
+    resetBtn: DISPLAYTEXTS.resetBtn,
+    uploadBtn: DISPLAYTEXTS.uploadBtn,
+    dragNDropBox: DISPLAYTEXTS.dragNDropBox,
+    attachPinBtn: DISPLAYTEXTS.attachFile,
+    afterUploadMsg_success: DISPLAYTEXTS.afterUploadMsgSuccess,
+    afterUploadMsg_error: DISPLAYTEXTS.afterUploadMsgError,
+    sizeLimit: DISPLAYTEXTS.sizeLimit,
+  };
   currentUploads: any[] = [];
   fileNameIndex = true;
   withCredentials = false;
   autoUpload = false;
+  ThemeType = ThemeType;
 
   private idDate: number = +new Date();
 
@@ -85,7 +91,7 @@ export class AngularFileUploaderComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     // Track changes in Configuration and see if user has even provided Configuration.
-    if (changes.config && this.config) {
+    if (changes['config'] && this.config) {
       // Assign User Configurations to Library Properties.
       this.theme = this.config.theme || '';
       this.id =
@@ -99,8 +105,7 @@ export class AngularFileUploaderComponent implements OnChanges {
       this.uploadAPI = this.config.uploadAPI.url;
       this.method = this.config.uploadAPI.method || 'POST';
       this.formatsAllowed = this.config.formatsAllowed || '*';
-      this.formatsAllowedText =
-        this.formatsAllowed === '*' ? '' : '(' + this.formatsAllowed + ')';
+      this.formatsAllowedText = this.formatsAllowed === '*' ? '' : '(' + this.formatsAllowed + ')';
       this.multiple = this.config.multiple || false;
       this.headers = this.config.uploadAPI.headers || {};
       this.params = this.config.uploadAPI.params || {};
@@ -109,16 +114,10 @@ export class AngularFileUploaderComponent implements OnChanges {
       this.fileNameIndex = this.config.fileNameIndex === false ? false : true;
       this.autoUpload = this.config.autoUpload || false;
 
-      this.replaceTexts = {
-        selectFileBtn: this.multiple ? 'Select Files' : 'Select File',
-        resetBtn: 'Reset',
-        uploadBtn: 'Upload',
-        dragNDropBox: 'Drag N Drop',
-        attachPinBtn: this.multiple ? 'Attach Files...' : 'Attach File...',
-        afterUploadMsg_success: 'Successfully Uploaded !',
-        afterUploadMsg_error: 'Upload Failed !',
-        sizeLimit: 'Size Limit',
-      }; // default replaceText.
+      if (this.multiple) {
+        this.replaceTexts.selectFileBtn = DISPLAYTEXTS.selectFiles;
+        this.replaceTexts.attachPinBtn = DISPLAYTEXTS.attachFiles;
+      }
       if (this.config.replaceTexts) {
         // updated replaceText if user has provided any.
         this.replaceTexts = {
@@ -129,8 +128,8 @@ export class AngularFileUploaderComponent implements OnChanges {
     }
 
     // Reset when resetUpload value changes from false to true.
-    if (changes.resetUpload) {
-      if (changes.resetUpload.currentValue === true) {
+    if (changes['resetUpload']) {
+      if (changes['resetUpload'].currentValue === true) {
         this.resetFileUpload();
       }
     }
@@ -166,9 +165,8 @@ export class AngularFileUploaderComponent implements OnChanges {
 
     // 'forEach' does not exist on 'filelist' that's why this good old 'for' is used.
     for (let i = 0; i < fileList.length; i++) {
-      const currentFileExt = fileExtRegExp
-        .exec(fileList[i].name)[1]
-        .toLowerCase(); // Get file extension.
+      const execResult = fileExtRegExp.exec(fileList[i].name);
+      const currentFileExt = execResult && execResult[1] ? execResult[1].toLowerCase() : '';
       const isFormatValid = this.formatsAllowed.includes('*')
         ? true
         : this.formatsAllowed.includes(currentFileExt);
@@ -182,7 +180,7 @@ export class AngularFileUploaderComponent implements OnChanges {
         this.notAllowedFiles.push({
           fileName: fileList[i].name,
           fileSize: this.convertSize(fileList[i].size),
-          errorMsg: !isFormatValid ? 'Invalid format' : 'Invalid size',
+          errorMsg: !isFormatValid ? DISPLAYTEXTS.invalidFormat : DISPLAYTEXTS.invalidSize,
         });
       }
     }
@@ -191,7 +189,7 @@ export class AngularFileUploaderComponent implements OnChanges {
     if (this.allowedFiles.length > 0) {
       this.enableUploadBtn = true;
       // Upload the files directly if theme is attach pin (as upload btn is not there for this theme) or autoUpload is true.
-      if (this.theme === 'attachPin' || this.autoUpload) {
+      if (this.theme === this.ThemeType.attachPin || this.autoUpload) {
         this.uploadFiles();
       }
     } else {
@@ -259,8 +257,9 @@ export class AngularFileUploaderComponent implements OnChanges {
               this.uploadMsg = true;
               this.afterUpload = true;
               if (!isError) {
-                this.uploadMsgText = this.replaceTexts.afterUploadMsg_success;
-                this.uploadMsgClass = 'text-success lead';
+                this.uploadMsgText =
+                  this.replaceTexts.afterUploadMsg_success ?? DISPLAYTEXTS.afterUploadMsgSuccess;
+                this.uploadMsgClass = UPLOAD_MSG_CLASSES.success;
               }
             } else {
               // Failure
@@ -287,8 +286,8 @@ export class AngularFileUploaderComponent implements OnChanges {
     this.enableUploadBtn = false;
     this.uploadMsg = true;
     this.afterUpload = true;
-    this.uploadMsgText = this.replaceTexts.afterUploadMsg_error;
-    this.uploadMsgClass = 'text-danger lead';
+    this.uploadMsgText = this.replaceTexts.afterUploadMsg_error ?? DISPLAYTEXTS.afterUploadMsgError;
+    this.uploadMsgClass = UPLOAD_MSG_CLASSES.error;
   }
 
   removeFile(i: any, sf_na: any) {
@@ -306,8 +305,8 @@ export class AngularFileUploaderComponent implements OnChanges {
 
   convertSize(fileSize: number): string {
     return fileSize < 1024000
-      ? (fileSize / 1024).toFixed(2) + ' KB'
-      : (fileSize / 1024000).toFixed(2) + ' MB';
+      ? (fileSize / 1024).toFixed(2) + DISPLAYTEXTS.kb
+      : (fileSize / 1024000).toFixed(2) + DISPLAYTEXTS.mb;
   }
 
   attachpinOnclick() {

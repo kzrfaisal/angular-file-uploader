@@ -1,15 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFileUploaderConfig } from 'angular-file-uploader';
+import { AngularFileUploaderComponent, AngularFileUploaderConfig } from 'angular-file-uploader';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
+  imports: [AngularFileUploaderComponent],
 })
 export class AppComponent {
-  resetUpload1: boolean;
-  resetUpload2: boolean;
-  resetUpload3: boolean;
+  resetUpload1: boolean = false;
+  resetUpload2: boolean = false;
+  resetUpload3: boolean = false;
 
   afuConfig1: AngularFileUploaderConfig = {
     id: 112233,
@@ -49,7 +50,7 @@ export class AppComponent {
 
   constructor() {}
 
-  docUpload(event) {
+  docUpload(event: any) {
     console.log('ApiResponse -> docUpload -> Event: ', event);
   }
 }

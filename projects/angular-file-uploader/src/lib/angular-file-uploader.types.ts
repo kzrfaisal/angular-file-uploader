@@ -23,7 +23,7 @@ export interface UploadApi {
 export interface AngularFileUploaderConfig {
   uploadAPI: UploadApi;
 
-  theme?: string;
+  theme?: 'dragNDrop' | 'attachPin' | 'basic';
   id?: number;
   hideProgressBar?: boolean;
   hideResetBtn?: boolean;
@@ -40,4 +40,10 @@ export interface UploadInfo {
   xhr: XMLHttpRequest;
   formData: FormData;
   indexes: number[];
+}
+
+export enum ThemeType {
+  dragNDrop = 'dragNDrop',
+  attachPin = 'attachPin',
+  basic = 'basic',
 }

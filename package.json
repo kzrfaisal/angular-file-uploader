@@ -1,9 +1,9 @@
 {
-  "name": "afu-lib-ws",
+  "name": "angular-file-uploader-ws",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start-demo": "ng build angular-file-uploader --prod && ng serve lib-demo",
+    "start-demo": "ng build angular-file-uploader --prod && ng serve demo-app",
     "build-lib-watch": "ng build angular-file-uploader --watch",
     "watch": "ng build --watch --configuration development",
     "build": "ng build",
@@ -13,40 +13,42 @@
     "rm-dist": "rm -rf ./dist",
     "publish": "ng build angular-file-uploader --prod && cd dist/angular-file-uploader && npm publish"
   },
+  "prettier": {
+    "printWidth": 100,
+    "singleQuote": true,
+    "overrides": [
+      {
+        "files": "*.html",
+        "options": {
+          "parser": "angular"
+        }
+      }
+    ]
+  },
   "private": true,
   "dependencies": {
-    "@angular/animations": "~10.0.5",
-    "@angular/common": "~10.0.5",
-    "@angular/compiler": "~10.0.5",
-    "@angular/core": "~10.0.5",
-    "@angular/forms": "~10.0.5",
-    "@angular/platform-browser": "~10.0.5",
-    "@angular/platform-browser-dynamic": "~10.0.5",
-    "@angular/router": "~10.0.5",
-    "rxjs": "~6.5.5",
-    "tslib": "^2.0.0",
-    "zone.js": "~0.10.3"
+    "@angular/common": "^20.2.0",
+    "@angular/compiler": "^20.2.0",
+    "@angular/core": "^20.2.0",
+    "@angular/forms": "^20.2.0",
+    "@angular/platform-browser": "^20.2.0",
+    "@angular/router": "^20.2.0",
+    "rxjs": "~7.8.0",
+    "tslib": "^2.3.0",
+    "zone.js": "~0.15.0"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~0.1000.4",
-    "@angular-devkit/build-ng-packagr": "~0.1000.4",
-    "@angular/cli": "~10.0.4",
-    "@angular/compiler-cli": "~10.0.5",
-    "@types/node": "^12.11.1",
-    "@types/jasmine": "~3.5.0",
-    "@types/jasminewd2": "~2.0.3",
-    "codelyzer": "^6.0.0",
-    "jasmine-core": "~3.5.0",
-    "jasmine-spec-reporter": "~5.0.0",
-    "karma": "~5.0.0",
-    "karma-chrome-launcher": "~3.1.0",
-    "karma-coverage-istanbul-reporter": "~3.0.2",
-    "karma-jasmine": "~3.3.0",
-    "karma-jasmine-html-reporter": "^1.5.0",
-    "ng-packagr": "^10.0.0",
-    "protractor": "~7.0.0",
-    "ts-node": "~8.3.0",
-    "tslint": "~6.1.0",
-    "typescript": "~3.9.5"
+    "@angular/build": "^20.2.1",
+    "@angular/cli": "^20.2.1",
+    "@angular/compiler-cli": "^20.2.0",
+    "@types/jasmine": "~5.1.0",
+    "jasmine-core": "~5.9.0",
+    "karma": "~6.4.0",
+    "karma-chrome-launcher": "~3.2.0",
+    "karma-coverage": "~2.2.0",
+    "karma-jasmine": "~5.1.0",
+    "karma-jasmine-html-reporter": "~2.1.0",
+    "ng-packagr": "^20.2.0",
+    "typescript": "~5.9.2"
   }
 }
